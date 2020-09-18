@@ -12,24 +12,39 @@ type ContainerConfig struct {
 	name  string
 	image string
 	env   map[string]string
+	command []string
 }
 
 // Set the container name, the image to use, and the environment to pass to the container.
-func NewContainerConfig(name, image string, env map[string]string) *ContainerConfig {
+func NewContainerConfig(name, image string, env map[string]string, opts ...ConfigOption) *ContainerConfig {
 	if env == nil {
 		env = map[string]string{}
 	}
 
-	return &ContainerConfig{
+	cfg := &ContainerConfig{
 		name:  name,
 		image: image,
 		env:   env,
 	}
+
+	for _, opt := range opts {
+		opt(cfg)
+	}
+
+	return cfg
 }
 
 // Sets the environment variable given by the key to val for the container.
 func (cfg *ContainerConfig) SetEnv(key, val string) {
 	cfg.env[key] = val
+}
+
+type ConfigOption func(config *ContainerConfig)
+
+func WithCommand(cmd ...string) ConfigOption {
+	return func(config *ContainerConfig) {
+		config.command = cmd
+	}
 }
 
 // A ContainerProvider offers basic control over a container lifecycle

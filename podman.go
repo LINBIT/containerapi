@@ -41,6 +41,7 @@ func (d PodmanProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 		Netns: &containers.LibpodCreateContainerParamsBodyNetns{
 			Nsmode: "host",
 		},
+		Command: cfg.command,
 		Env:    cfg.env,
 		Name:   cfg.name,
 		Remove: true,
@@ -94,6 +95,24 @@ func (d PodmanProvider) Wait(ctx context.Context, containerID string) (<-chan in
 	return statusChan, errChan
 }
 
+// Inserts a '\n' after every write operation
+type newlineInserter struct {
+	inner io.WriteCloser
+}
+
+func (i newlineInserter) Write(p []byte) (int, error) {
+	n, err := i.inner.Write(p)
+	if err != nil {
+		return n, err
+	}
+	_, err = i.inner.Write([]byte{'\n'})
+	return n, err
+}
+
+func (i newlineInserter) Close() error {
+	return i.inner.Close()
+}
+
 // Copies the output of podman's Logs() call into a stdout and stderr pipe
 func (d PodmanProvider) Logs(ctx context.Context, container string) (io.ReadCloser, io.ReadCloser, error) {
 	params := containers.NewLibpodLogsFromContainerParamsWithContext(ctx)
@@ -117,11 +136,18 @@ func (d PodmanProvider) Logs(ctx context.Context, container string) (io.ReadClos
 		return nil, nil, fmt.Errorf("failed to create http pipe: %w", err)
 	}
 
+	// Podman does not send any newline characters with each line. We have to insert them ourselves.
+	// This wrapper will add a '\n' on every .Write() call. The StdCopy() call will only ever call .Write()
+	// on a full line, so this inserts newlines at the correct location.
+	// See also: https://github.com/containers/podman/issues/6539
+	wrappedWriteOut := &newlineInserter{writeOut}
+	wrappedWriteErr := &newlineInserter{writeErr}
+
 	go func() {
-		defer writeOut.Close()
-		defer writeErr.Close()
+		defer wrappedWriteOut.Close()
+		defer wrappedWriteErr.Close()
 		defer readHttp.Close()
-		_, err := stdcopy.StdCopy(writeOut, writeErr, readHttp)
+		_, err := stdcopy.StdCopy(wrappedWriteOut, wrappedWriteErr, readHttp)
 		if err != nil {
 			log.WithField("err", err).Warn("failed to copy logs content to pipes")
 		}

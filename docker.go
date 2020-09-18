@@ -27,6 +27,7 @@ func (d DockerProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 	config := &container.Config{
 		Image: cfg.image,
 		Env:   dockerEnv,
+		Cmd: cfg.command,
 	}
 
 	hostConfig := &container.HostConfig{
