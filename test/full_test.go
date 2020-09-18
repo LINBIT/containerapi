@@ -92,6 +92,34 @@ func TestRunWithLogs(t *testing.T) {
 	})
 }
 
+func TestRunWithCancel(t *testing.T) {
+	runOnAllProviders(t, 30*time.Second, func(ctx context.Context, provider containerapi.ContainerProvider, t *testing.T) {
+		testConfig := containerapi.NewContainerConfig(containerName(t.Name()), "docker.io/busybox", nil, containerapi.WithCommand("sleep", "10"))
+		id, err := provider.Create(ctx, testConfig)
+		assert.NoError(t, err)
+		t.Cleanup(func() {
+			timeout := 1 * time.Second
+			err := provider.Stop(ctx, id, &timeout)
+			assert.NoError(t, err)
+		})
+
+		err = provider.Start(ctx, id)
+		assert.NoError(t, err)
+
+		waitCtx, cancel := context.WithCancel(ctx)
+		returnCodeChan, errChan := provider.Wait(waitCtx, id)
+
+		cancel()
+
+		select {
+		case r := <-returnCodeChan:
+			assert.FailNow(t, "got return code for cancelled Wait(): %d", r)
+		case err := <-errChan:
+			assert.Error(t, err)
+		}
+	})
+}
+
 // Tries to run the test function on any provider, skipping those that are not available
 // If no provider is available, the whole test will fail
 func runOnAllProviders(t *testing.T, timeout time.Duration, lambda func(context.Context, containerapi.ContainerProvider, *testing.T)) {

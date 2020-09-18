@@ -53,15 +53,23 @@ func (d DockerProvider) Stop(ctx context.Context, containerID string, timeout *t
 func (d DockerProvider) Wait(ctx context.Context, containerID string) (<-chan int64, <-chan error) {
 	msgChan := make(chan int64)
 	errChan := make(chan error)
+	message, err := d.client.ContainerWait(ctx, containerID, container.WaitConditionNextExit)
 
 	go func() {
 		defer close(msgChan)
 		defer close(errChan)
-		exit, err := d.client.ContainerWait(ctx, containerID)
-		if err != nil {
-			errChan <- err
+		select {
+		case <- ctx.Done():
+			errChan <- ctx.Err()
+		case e := <- err:
+			errChan <- e
+		case msg := <-message:
+			if msg.Error != nil {
+				errChan <- fmt.Errorf("error waiting on container end: %s", msg.Error.Message)
+				return
+			}
+			msgChan <- msg.StatusCode
 		}
-		msgChan <- exit
 	}()
 
 	return msgChan, errChan
@@ -104,7 +112,7 @@ func (d DockerProvider) Close() error {
 }
 
 func NewDockerProvider(ctx context.Context) (ContainerProvider, error) {
-	apiclient, err := client.NewEnvClient()
+	apiclient, err := client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
 	if err != nil {
 		return nil, fmt.Errorf("could not connect to Docker: %w", err)
 	}
