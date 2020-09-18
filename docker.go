@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"os/exec"
 	"time"
 
 	"github.com/docker/docker/api/types"
@@ -27,7 +28,7 @@ func (d DockerProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 	config := &container.Config{
 		Image: cfg.image,
 		Env:   dockerEnv,
-		Cmd: cfg.command,
+		Cmd:   cfg.command,
 	}
 
 	hostConfig := &container.HostConfig{
@@ -105,6 +106,26 @@ func (d DockerProvider) Logs(ctx context.Context, containerID string) (io.ReadCl
 	}()
 
 	return readOut, readErr, nil
+}
+
+func (d DockerProvider) CopyFrom(ctx context.Context, container, source, dest string) error {
+	readTar, _, err := d.client.CopyFromContainer(ctx, container, source)
+	if err != nil {
+		return fmt.Errorf("failed to copy localpkgs from container: %w", err)
+	}
+
+	tar := exec.CommandContext(ctx, "tar", "-x", "-C", dest, "-f", "-")
+
+	tar.Stdin = readTar
+
+	tar.Stdout = os.Stdout
+	tar.Stderr = os.Stderr
+
+	err = tar.Run()
+	if err != nil {
+		return fmt.Errorf("failed to extract tar archive: %w", err)
+	}
+	return nil
 }
 
 func (d DockerProvider) Close() error {

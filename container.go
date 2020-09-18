@@ -63,6 +63,8 @@ type ContainerProvider interface {
 	Wait(ctx context.Context, containerID string) (<-chan int64, <-chan error)
 	// Logs returns reads for stdout and stderr of a running container
 	Logs(ctx context.Context, containerID string) (io.ReadCloser, io.ReadCloser, error)
+	// CopyFrom copies files/folders from the container to the local filesystem
+	CopyFrom(ctx context.Context, container, sourcePath, destPath string) error
 	// Close should be called once this provider is no longer needed.
 	Close() error
 }

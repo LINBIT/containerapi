@@ -7,6 +7,7 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"os/exec"
 	"strconv"
 	"strings"
 	"time"
@@ -42,9 +43,9 @@ func (d PodmanProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 			Nsmode: "host",
 		},
 		Command: cfg.command,
-		Env:    cfg.env,
-		Name:   cfg.name,
-		Remove: true,
+		Env:     cfg.env,
+		Name:    cfg.name,
+		Remove:  true,
 	})
 	resp, err := d.client.Containers.LibpodCreateContainer(params)
 	if err != nil {
@@ -162,6 +163,25 @@ func (d PodmanProvider) Logs(ctx context.Context, container string) (io.ReadClos
 	}()
 
 	return readOut, readErr, err
+}
+
+// CopyFrom copies files/directories from a container to the host file system
+// NOTE: We can't use what `podman cp` uses here, because it is not yet
+// implemented in the API. See https://github.com/containers/podman/issues/6050.
+// Thus, we just cheap out and call `podman cp` from the code here.
+func (d PodmanProvider) CopyFrom(ctx context.Context, container, source, dest string) error {
+	cmd := exec.CommandContext(ctx, "podman", "cp", container+":"+source, dest)
+
+	_, err := cmd.Output()
+	if err != nil {
+		if e, ok := err.(*exec.ExitError); ok {
+			log.Warn("Execution of \"podman cp\" failed. Details:")
+			fmt.Fprint(log.StandardLogger().Out, string(e.Stderr))
+		}
+		return fmt.Errorf("failed to copy files from container: %w", err)
+	}
+
+	return nil
 }
 
 func NewPodmanProvider(ctx context.Context) (ContainerProvider, error) {
