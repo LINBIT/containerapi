@@ -92,6 +92,26 @@ func TestRunWithLogs(t *testing.T) {
 	})
 }
 
+func TestContainerLifecycle(t *testing.T) {
+	runOnAllProviders(t, 30*time.Second, func(ctx context.Context, provider containerapi.ContainerProvider, t *testing.T) {
+		testConfig := containerapi.NewContainerConfig(containerName(t.Name()), "docker.io/busybox", nil, containerapi.WithCommand("false"))
+		id, err := provider.Create(ctx, testConfig)
+		assert.NoError(t, err)
+
+		returnCodeChan, errChan := provider.Wait(ctx, id)
+
+		err = provider.Start(ctx, id)
+		assert.NoError(t, err)
+
+		select {
+		case r := <-returnCodeChan:
+			assert.Equal(t, int64(1), r)
+		case err := <-errChan:
+			assert.FailNow(t, err.Error())
+		}
+	})
+}
+
 func TestRunWithCancel(t *testing.T) {
 	runOnAllProviders(t, 30*time.Second, func(ctx context.Context, provider containerapi.ContainerProvider, t *testing.T) {
 		testConfig := containerapi.NewContainerConfig(containerName(t.Name()), "docker.io/busybox", nil, containerapi.WithCommand("sleep", "10"))
