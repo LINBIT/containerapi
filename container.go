@@ -48,16 +48,27 @@ func WithCommand(cmd ...string) ConfigOption {
 }
 
 // A ContainerProvider offers basic control over a container lifecycle
+//
+// For a standard container lifecycle, use the following pattern:
+// 1. call Create()
+// 2. defer Remove()
+// 3. call Wait()
+// 4. call Start()
+// 5. defer Stop()
+// 6. call Logs(), copy until EOF
+// 7. check the Wait() channels for the actual exit code
+// 8. call CopyFrom() if required
 type ContainerProvider interface {
 	// Create a new container with the given ContainerConfig, returns the ID of the container for later use.
 	//
 	// Note: Currently all containers are started with
-	// * Remove on exit ("--rm")
 	// * Host networking ("--net=host")
 	Create(ctx context.Context, cfg *ContainerConfig) (string, error)
+	// Remove a container that is not running.
+	Remove(ctx context.Context, containerId string) error
 	// Start a container that was created previously.
 	Start(ctx context.Context, containerID string) error
-	// Stop a container that was started previously.
+	// Stop a container. Calling this on a stopped container will return nil.
 	Stop(ctx context.Context, containerID string, timeout *time.Duration) error
 	// Wait can be used to receive the exit code once the container stops.
 	Wait(ctx context.Context, containerID string) (<-chan int64, <-chan error)

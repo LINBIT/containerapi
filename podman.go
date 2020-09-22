@@ -45,13 +45,19 @@ func (d PodmanProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 		Command: cfg.command,
 		Env:     cfg.env,
 		Name:    cfg.name,
-		Remove:  true,
 	})
 	resp, err := d.client.Containers.LibpodCreateContainer(params)
 	if err != nil {
 		return "", err
 	}
 	return resp.GetPayload().ID, nil
+}
+
+func (d PodmanProvider) Remove(ctx context.Context, containerID string) error {
+	params := containers.NewLibpodRemoveContainerParamsWithContext(ctx)
+	params.WithName(containerID)
+	_, err := d.client.Containers.LibpodRemoveContainer(params)
+	return err
 }
 
 func (d PodmanProvider) Start(ctx context.Context, containerID string) error {
@@ -67,6 +73,9 @@ func (d PodmanProvider) Stop(ctx context.Context, containerID string, timeout *t
 	seconds := int64(timeout.Seconds())
 	params.WithT(&seconds)
 	_, err := d.client.Containers.LibpodStopContainer(params)
+	if _, ok := err.(*containers.LibpodStopContainerNotModified); ok {
+		return nil
+	}
 	return err
 }
 
@@ -80,6 +89,7 @@ func (d PodmanProvider) Wait(ctx context.Context, containerID string) (<-chan in
 	go func() {
 		defer close(errChan)
 		defer close(statusChan)
+
 		resp, err := d.client.Containers.LibpodWaitContainer(params)
 		if err != nil {
 			errChan <- err

@@ -23,6 +23,10 @@ func TestRun(t *testing.T) {
 		testConfig := containerapi.NewContainerConfig(containerName(t.Name()), "docker.io/hello-world", nil)
 		id, err := provider.Create(ctx, testConfig)
 		assert.NoError(t, err)
+		t.Cleanup(func() {
+			err := provider.Remove(ctx, id)
+			assert.NoError(t, err)
+		})
 
 		err = provider.Start(ctx, id)
 		assert.NoError(t, err)
@@ -55,6 +59,12 @@ func TestRunWithLogs(t *testing.T) {
 		testConfig := containerapi.NewContainerConfig(containerName(t.Name()), "docker.io/busybox", nil, containerapi.WithCommand("sh", "-ec", logTestScript))
 		id, err := provider.Create(ctx, testConfig)
 		assert.NoError(t, err)
+		t.Cleanup(func() {
+			err := provider.Remove(ctx, id)
+			assert.NoError(t, err)
+		})
+
+		returnCodeChan, errChan := provider.Wait(ctx, id)
 
 		err = provider.Start(ctx, id)
 		assert.NoError(t, err)
@@ -62,28 +72,7 @@ func TestRunWithLogs(t *testing.T) {
 		stdout, stderr, err := provider.Logs(ctx, id)
 		assert.NoError(t, err)
 
-		returnCodeChan, errChan := provider.Wait(ctx, id)
-
-		stdoutBuff := bytes.Buffer{}
-		stderrBuff := bytes.Buffer{}
-
-		vg := sync.WaitGroup{}
-		vg.Add(2)
-		go func() {
-			defer vg.Done()
-			_, err := io.Copy(&stdoutBuff, stdout)
-			assert.NoError(t, err)
-		}()
-		go func() {
-			defer vg.Done()
-			_, err := io.Copy(&stderrBuff, stderr)
-			assert.NoError(t, err)
-		}()
-
-		vg.Wait()
-
-		assert.Equal(t, expectedLogStdout, stdoutBuff.String())
-		assert.Equal(t, expectedLogStderr, stderrBuff.String())
+		assertIOEquals(t, []byte(expectedLogStdout), stdout, []byte(expectedLogStderr), stderr)
 
 		select {
 		case r := <-returnCodeChan:
@@ -99,6 +88,10 @@ func TestContainerLifecycle(t *testing.T) {
 		testConfig := containerapi.NewContainerConfig(containerName(t.Name()), "docker.io/busybox", nil, containerapi.WithCommand("false"))
 		id, err := provider.Create(ctx, testConfig)
 		assert.NoError(t, err)
+		t.Cleanup(func() {
+			err := provider.Remove(ctx, id)
+			assert.NoError(t, err)
+		})
 
 		returnCodeChan, errChan := provider.Wait(ctx, id)
 
@@ -123,7 +116,24 @@ func TestCopyFrom(t *testing.T) {
 			assert.NoError(t, err)
 		})
 
-		testConfig := containerapi.NewContainerConfig(containerName(t.Name()), "docker.io/busybox", nil, containerapi.WithCommand("sleep", "10"))
+		testConfig := containerapi.NewContainerConfig(containerName(t.Name()), "docker.io/busybox", nil, containerapi.WithCommand("sleep", "1"))
+		id, err := provider.Create(ctx, testConfig)
+		assert.NoError(t, err)
+		t.Cleanup(func() {
+			err := provider.Remove(ctx, id)
+			assert.NoError(t, err)
+		})
+
+		err = provider.CopyFrom(ctx, id, "/bin/busybox", tmp)
+		assert.NoError(t, err)
+
+		assert.FileExists(t, tmp + "/busybox")
+	})
+}
+
+func TestLifecycle(t *testing.T) {
+	runOnAllProviders(t, 30*time.Second, func(ctx context.Context, provider containerapi.ContainerProvider, t *testing.T) {
+		testConfig := containerapi.NewContainerConfig(containerName(t.Name()), "docker.io/busybox", nil, containerapi.WithCommand("echo", "foobar"))
 		id, err := provider.Create(ctx, testConfig)
 		assert.NoError(t, err)
 
@@ -132,10 +142,13 @@ func TestCopyFrom(t *testing.T) {
 		err = provider.Start(ctx, id)
 		assert.NoError(t, err)
 
-		err = provider.CopyFrom(ctx, id, "/bin/busybox", tmp)
+		// Assert that the logs are accessible even after the container exits.
+		time.Sleep(1 * time.Second)
+
+		stdout, stderr, err := provider.Logs(ctx, id)
 		assert.NoError(t, err)
 
-		assert.FileExists(t, tmp + "/busybox")
+		assertIOEquals(t, []byte("foobar\n"), stdout, []byte{}, stderr)
 
 		select {
 		case r := <-returnCodeChan:
@@ -143,17 +156,38 @@ func TestCopyFrom(t *testing.T) {
 		case err := <-errChan:
 			assert.FailNow(t, err.Error())
 		}
+
+		// Assert we can still access logs after container completed
+		stdout, stderr, err = provider.Logs(ctx, id)
+		assert.NoError(t, err)
+
+		assertIOEquals(t, []byte("foobar\n"), stdout, []byte{}, stderr)
+
+		// Assert that calling stop on an already stopped container works without error
+		timeout := 1 * time.Second
+		err = provider.Stop(ctx, id, &timeout)
+		assert.NoError(t, err)
+
+		err = provider.Remove(ctx, id)
+		assert.NoError(t, err)
+
+		// Asserts that the container is unknown to the container runtime after Remove()
+		time.Sleep(1 * time.Second)
+		err = provider.Start(ctx, id)
+		assert.Error(t, err)
 	})
 }
 
 func TestRunWithCancel(t *testing.T) {
 	runOnAllProviders(t, 30*time.Second, func(ctx context.Context, provider containerapi.ContainerProvider, t *testing.T) {
-		testConfig := containerapi.NewContainerConfig(containerName(t.Name()), "docker.io/busybox", nil, containerapi.WithCommand("sleep", "10"))
+		testConfig := containerapi.NewContainerConfig(containerName(t.Name()), "docker.io/busybox", nil, containerapi.WithCommand("tail", "-f", "/dev/null"))
 		id, err := provider.Create(ctx, testConfig)
 		assert.NoError(t, err)
 		t.Cleanup(func() {
 			timeout := 1 * time.Second
 			err := provider.Stop(ctx, id, &timeout)
+			assert.NoError(t, err)
+			err = provider.Remove(ctx, id)
 			assert.NoError(t, err)
 		})
 
@@ -199,4 +233,28 @@ func runOnAllProviders(t *testing.T, timeout time.Duration, lambda func(context.
 	if !anySuccess {
 		t.Fatal("expected (at least) one test to succeed")
 	}
+}
+
+func assertIOEquals(t *testing.T, expectedStdout []byte, stdout io.ReadCloser, expectedStderr []byte, stderr io.ReadCloser) bool {
+	stdoutBuff := bytes.Buffer{}
+	stderrBuff := bytes.Buffer{}
+
+	vg := sync.WaitGroup{}
+	vg.Add(2)
+	go func() {
+		defer vg.Done()
+		_, err := io.Copy(&stdoutBuff, stdout)
+		assert.NoError(t, err)
+	}()
+	go func() {
+		defer vg.Done()
+		_, err := io.Copy(&stderrBuff, stderr)
+		assert.NoError(t, err)
+	}()
+
+	vg.Wait()
+
+	outEqual := assert.Equal(t, expectedStdout, stdoutBuff.Bytes())
+	errEqual := assert.Equal(t, expectedStderr, stderrBuff.Bytes())
+	return outEqual && errEqual
 }

@@ -32,7 +32,6 @@ func (d DockerProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 	}
 
 	hostConfig := &container.HostConfig{
-		AutoRemove:  true,
 		NetworkMode: "host",
 	}
 
@@ -41,6 +40,10 @@ func (d DockerProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 		return "", fmt.Errorf("failed to create docker container: %w", err)
 	}
 	return resp.ID, nil
+}
+
+func (d DockerProvider) Remove(ctx context.Context, containerID string) error {
+	return d.client.ContainerRemove(ctx, containerID, types.ContainerRemoveOptions{})
 }
 
 func (d DockerProvider) Start(ctx context.Context, containerID string) error {
@@ -59,6 +62,7 @@ func (d DockerProvider) Wait(ctx context.Context, containerID string) (<-chan in
 	go func() {
 		defer close(msgChan)
 		defer close(errChan)
+
 		select {
 		case <- ctx.Done():
 			errChan <- ctx.Err()
@@ -99,6 +103,8 @@ func (d DockerProvider) Logs(ctx context.Context, containerID string) (io.ReadCl
 	go func() {
 		defer writeOut.Close()
 		defer writeErr.Close()
+		defer combined.Close()
+
 		_, err := stdcopy.StdCopy(writeOut, writeErr, combined)
 		if err != nil {
 			log.WithField("err", err).Warn("failed to copy logs content to pipes")
