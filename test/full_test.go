@@ -6,6 +6,8 @@ import (
 	"github.com/LINBIT/containerapi"
 	"github.com/stretchr/testify/assert"
 	"io"
+	"io/ioutil"
+	"os"
 	"strings"
 	"sync"
 	"testing"
@@ -106,6 +108,38 @@ func TestContainerLifecycle(t *testing.T) {
 		select {
 		case r := <-returnCodeChan:
 			assert.Equal(t, int64(1), r)
+		case err := <-errChan:
+			assert.FailNow(t, err.Error())
+		}
+	})
+}
+
+func TestCopyFrom(t *testing.T) {
+	runOnAllProviders(t, 30*time.Second, func(ctx context.Context, provider containerapi.ContainerProvider, t *testing.T) {
+		tmp, err := ioutil.TempDir("", "*")
+		assert.NoError(t, err)
+		t.Cleanup(func() {
+			err := os.RemoveAll(tmp)
+			assert.NoError(t, err)
+		})
+
+		testConfig := containerapi.NewContainerConfig(containerName(t.Name()), "docker.io/busybox", nil, containerapi.WithCommand("sleep", "10"))
+		id, err := provider.Create(ctx, testConfig)
+		assert.NoError(t, err)
+
+		returnCodeChan, errChan := provider.Wait(ctx, id)
+
+		err = provider.Start(ctx, id)
+		assert.NoError(t, err)
+
+		err = provider.CopyFrom(ctx, id, "/bin/busybox", tmp)
+		assert.NoError(t, err)
+
+		assert.FileExists(t, tmp + "/busybox")
+
+		select {
+		case r := <-returnCodeChan:
+			assert.Equal(t, int64(0), r)
 		case err := <-errChan:
 			assert.FailNow(t, err.Error())
 		}
