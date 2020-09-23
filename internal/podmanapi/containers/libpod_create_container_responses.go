@@ -569,7 +569,7 @@ type LibpodCreateContainerBody struct {
 	// If 0 is used, stop signal will not be sent, and SIGKILL will be sent
 	// instead.
 	// Optional.
-	StopTimeout uint64 `json:"stop_timeout,omitempty"`
+	StopTimeout *uint64 `json:"stop_timeout,omitempty"`
 
 	// Sysctl sets kernel parameters for the container
 	Sysctl map[string]string `json:"sysctl,omitempty"`

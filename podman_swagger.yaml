@@ -372,6 +372,7 @@ definitions:
           Optional.
         format: uint64
         type: integer
+        x-nullable: true
         x-go-name: StopTimeout
       sysctl:
         additionalProperties:
@@ -6132,6 +6133,7 @@ definitions:
           Optional.
         format: uint64
         type: integer
+        x-nullable: true
         x-go-name: StopTimeout
       sysctl:
         additionalProperties:

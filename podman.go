@@ -37,6 +37,7 @@ func (d PodmanProvider) Close() error {
 
 func (d PodmanProvider) Create(ctx context.Context, cfg *ContainerConfig) (string, error) {
 	params := containers.NewLibpodCreateContainerParamsWithContext(ctx)
+	timeout := uint64(0)
 	params.WithCreate(containers.LibpodCreateContainerBody{
 		Image: cfg.image,
 		Netns: &containers.LibpodCreateContainerParamsBodyNetns{
@@ -45,6 +46,9 @@ func (d PodmanProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 		Command: cfg.command,
 		Env:     cfg.env,
 		Name:    cfg.name,
+		// In case we pass a 0 value to the /container/<name>/stop API, this timeout will be used.
+		// Setting this to 0 means: send SIGKILL immediately
+		StopTimeout: &timeout,
 	})
 	resp, err := d.client.Containers.LibpodCreateContainer(params)
 	if err != nil {
