@@ -38,6 +38,23 @@ func (d PodmanProvider) Close() error {
 func (d PodmanProvider) Create(ctx context.Context, cfg *ContainerConfig) (string, error) {
 	params := containers.NewLibpodCreateContainerParamsWithContext(ctx)
 	timeout := uint64(0)
+
+	mounts := make([]*containers.LibpodCreateContainerParamsBodyMountsItems0, len(cfg.mounts))
+	for i, b := range cfg.mounts {
+		// "Z" enables SELinux relabels so the content is accessible for the container
+		opts := []string{"Z"}
+		if b.ReadOnly {
+			opts = append(opts, "ro")
+		}
+
+		mounts[i] = &containers.LibpodCreateContainerParamsBodyMountsItems0{
+			Source:      b.HostPath,
+			Destination: b.ContainerPath,
+			Options:     opts,
+			Type:        "bind",
+		}
+	}
+
 	params.WithCreate(containers.LibpodCreateContainerBody{
 		Image: cfg.image,
 		Netns: &containers.LibpodCreateContainerParamsBodyNetns{
@@ -49,6 +66,7 @@ func (d PodmanProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 		// In case we pass a 0 value to the /container/<name>/stop API, this timeout will be used.
 		// Setting this to 0 means: send SIGKILL immediately
 		StopTimeout: &timeout,
+		Mounts:      mounts,
 	})
 	resp, err := d.client.Containers.LibpodCreateContainer(params)
 	if err != nil {

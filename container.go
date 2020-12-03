@@ -9,10 +9,18 @@ import (
 
 // Configuration passed to the ContainerProvider.Create method.
 type ContainerConfig struct {
-	name  string
-	image string
-	env   map[string]string
+	name    string
+	image   string
+	env     map[string]string
 	command []string
+	mounts  []Mount
+}
+
+// Represents a single host path to bind mount in the container
+type Mount struct {
+	HostPath      string
+	ContainerPath string
+	ReadOnly      bool
 }
 
 // Set the container name, the image to use, and the environment to pass to the container.
@@ -41,9 +49,17 @@ func (cfg *ContainerConfig) SetEnv(key, val string) {
 
 type ConfigOption func(config *ContainerConfig)
 
+// Sets the command to execute in the container
 func WithCommand(cmd ...string) ConfigOption {
 	return func(config *ContainerConfig) {
 		config.command = cmd
+	}
+}
+
+// Sets the host paths to bind mount in the container
+func WithMounts(mounts ...Mount) ConfigOption {
+	return func(config *ContainerConfig) {
+		config.mounts = mounts
 	}
 }
 

@@ -10,6 +10,7 @@ import (
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
+	"github.com/docker/docker/api/types/mount"
 	"github.com/docker/docker/client"
 	"github.com/docker/docker/pkg/stdcopy"
 	log "github.com/sirupsen/logrus"
@@ -25,6 +26,16 @@ func (d DockerProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 		dockerEnv = append(dockerEnv, fmt.Sprintf("%s=%s", k, v))
 	}
 
+	mounts := make([]mount.Mount, len(cfg.mounts))
+	for i, b := range cfg.mounts {
+		mounts[i] = mount.Mount{
+			Type:     mount.TypeBind,
+			Source:   b.HostPath,
+			Target:   b.ContainerPath,
+			ReadOnly: b.ReadOnly,
+		}
+	}
+
 	timeout := 0
 	config := &container.Config{
 		Image: cfg.image,
@@ -37,6 +48,7 @@ func (d DockerProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 
 	hostConfig := &container.HostConfig{
 		NetworkMode: "host",
+		Mounts:      mounts,
 	}
 
 	resp, err := d.client.ContainerCreate(ctx, config, hostConfig, nil, cfg.name)

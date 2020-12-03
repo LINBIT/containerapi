@@ -3,8 +3,6 @@ package test
 import (
 	"bytes"
 	"context"
-	"github.com/LINBIT/containerapi"
-	"github.com/stretchr/testify/assert"
 	"io"
 	"io/ioutil"
 	"os"
@@ -12,6 +10,9 @@ import (
 	"sync"
 	"testing"
 	"time"
+
+	"github.com/LINBIT/containerapi"
+	"github.com/stretchr/testify/assert"
 )
 
 func containerName(name string) string {
@@ -205,6 +206,87 @@ func TestRunWithCancel(t *testing.T) {
 		case err := <-errChan:
 			assert.Error(t, err)
 		}
+	})
+}
+
+const volumeTestScript = `
+cat /readonly/source > /readwrite/dest
+echo "newcontent" > /readonly/source || true
+touch /readonly/invalid || true
+`
+
+var testSourceContent = []byte("foobar")
+
+func TestRunWithVolumes(t *testing.T) {
+	runOnAllProviders(t, 30*time.Second, func(ctx context.Context, provider containerapi.ContainerProvider, t *testing.T) {
+		tempDir, err := ioutil.TempDir("", containerName(t.Name()) + "-*")
+		if !assert.NoError(t, err) {
+			t.Fatal("failed to create tempdir")
+		}
+		t.Cleanup(func() {
+			err := os.RemoveAll(tempDir)
+			assert.NoError(t, err)
+		})
+
+		roDir := tempDir + "/readonly"
+		rwDir := tempDir + "/readwrite"
+		source := roDir + "/source"
+		dest := rwDir + "/dest"
+
+		err = os.Mkdir(roDir, 0o755)
+		assert.NoError(t, err)
+
+		err = os.Mkdir(rwDir, 0o755)
+		assert.NoError(t, err)
+
+		err = ioutil.WriteFile(source, testSourceContent, 0o644)
+		assert.NoError(t, err)
+
+		roBind := containerapi.Mount{
+			HostPath:      roDir,
+			ContainerPath: "/readonly",
+			ReadOnly:      true,
+		}
+
+		rwBind := containerapi.Mount{
+			HostPath:      rwDir,
+			ContainerPath: "/readwrite",
+		}
+
+		testConfig := containerapi.NewContainerConfig(containerName(t.Name()), "docker.io/busybox", nil,
+			containerapi.WithCommand("sh", "-ec", volumeTestScript),
+			containerapi.WithMounts(roBind, rwBind),
+		)
+
+		id, err := provider.Create(ctx, testConfig)
+		assert.NoError(t, err)
+		t.Cleanup(func() {
+			err := provider.Remove(ctx, id)
+			assert.NoError(t, err)
+		})
+
+		err = provider.Start(ctx, id)
+		assert.NoError(t, err)
+
+		returnCodeChan, errChan := provider.Wait(ctx, id)
+
+		select {
+		case r := <-returnCodeChan:
+			assert.Equal(t, int64(0), r)
+		case err := <-errChan:
+			assert.FailNow(t, err.Error())
+		}
+
+		assert.FileExists(t, dest)
+		assert.NoFileExists(t, roDir+"/invalid")
+
+		actualSrc, err := ioutil.ReadFile(source)
+		assert.NoError(t, err)
+		assert.Equal(t, testSourceContent, actualSrc, "readonly data changed")
+
+		actualDest, err := ioutil.ReadFile(dest)
+		assert.NoError(t, err)
+		assert.Equal(t, testSourceContent, actualDest)
 	})
 }
 
