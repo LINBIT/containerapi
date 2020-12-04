@@ -47,6 +47,11 @@ func (cfg *ContainerConfig) SetEnv(key, val string) {
 	cfg.env[key] = val
 }
 
+// Adds the given host mount to the container config
+func (cfg *ContainerConfig) AddMount(mount Mount) {
+	cfg.mounts = append(cfg.mounts, mount)
+}
+
 type ConfigOption func(config *ContainerConfig)
 
 // Sets the command to execute in the container
