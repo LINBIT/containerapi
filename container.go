@@ -4,16 +4,19 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"net"
 	"time"
 )
 
 // Configuration passed to the ContainerProvider.Create method.
 type ContainerConfig struct {
-	name    string
-	image   string
-	env     map[string]string
-	command []string
-	mounts  []Mount
+	name             string
+	image            string
+	env              map[string]string
+	command          []string
+	mounts           []Mount
+	dnsServers       []net.IP
+	dnsSearchDomains []string
 }
 
 // Represents a single host path to bind mount in the container
@@ -52,6 +55,16 @@ func (cfg *ContainerConfig) AddMount(mount Mount) {
 	cfg.mounts = append(cfg.mounts, mount)
 }
 
+// Adds a DNS server to use.
+func (cfg *ContainerConfig) AddDNSServer(server net.IP) {
+	cfg.dnsServers = append(cfg.dnsServers, server)
+}
+
+// Sets DNS search domain to use.
+func (cfg *ContainerConfig) AddDNSSearchDomain(domain string) {
+	cfg.dnsSearchDomains = append(cfg.dnsSearchDomains, domain)
+}
+
 type ConfigOption func(config *ContainerConfig)
 
 // Sets the command to execute in the container
@@ -65,6 +78,20 @@ func WithCommand(cmd ...string) ConfigOption {
 func WithMounts(mounts ...Mount) ConfigOption {
 	return func(config *ContainerConfig) {
 		config.mounts = mounts
+	}
+}
+
+// Sets the DNS servers to use.
+func WithDNSServers(servers ...net.IP) ConfigOption {
+	return func (config *ContainerConfig) {
+		config.dnsServers = servers
+	}
+}
+
+// Sets the DNS search domains to use.
+func WithDNSSearchDomains(domains ...string) ConfigOption {
+	return func (config *ContainerConfig) {
+		config.dnsSearchDomains = domains
 	}
 }
 

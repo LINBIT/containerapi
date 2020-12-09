@@ -2055,15 +2055,11 @@ definitions:
       is a semantic property of the address, not just the
       length of the byte slice: a 16-byte slice can still
       be an IPv4 address.
-    items:
-      format: uint8
-      type: integer
     title: |-
       An IP is a single IP address, a slice of bytes.
       Functions in this package accept either 4-byte (IPv4)
       or 16-byte (IPv6) slices as input.
-    type: array
-    x-go-package: net
+    type: string
   IPAM:
     description: IPAM represents IP Address Management
     properties:

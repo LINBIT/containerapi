@@ -5,6 +5,7 @@ import (
 	"context"
 	"io"
 	"io/ioutil"
+	"net"
 	"os"
 	"strings"
 	"sync"
@@ -287,6 +288,43 @@ func TestRunWithVolumes(t *testing.T) {
 		actualDest, err := ioutil.ReadFile(dest)
 		assert.NoError(t, err)
 		assert.Equal(t, testSourceContent, actualDest)
+	})
+}
+
+func TestRunWithDnsSettings(t *testing.T) {
+	runOnAllProviders(t, 30*time.Second, func(ctx context.Context, provider containerapi.ContainerProvider, t *testing.T) {
+		testipv4 := net.ParseIP("1.1.1.1")
+		testipv6 := net.ParseIP("2606:4700:4700::64")
+
+		testConfig := containerapi.NewContainerConfig(containerName(t.Name()), "docker.io/busybox", nil,
+			containerapi.WithCommand("cat", "/etc/resolv.conf"),
+			containerapi.WithDNSServers(testipv4, testipv6),
+			containerapi.WithDNSSearchDomains("test", "containerapi.test"),
+		)
+		id, err := provider.Create(ctx, testConfig)
+		assert.NoError(t, err)
+		t.Cleanup(func() {
+			err := provider.Remove(ctx, id)
+			assert.NoError(t, err)
+		})
+
+		returnCodeChan, errChan := provider.Wait(ctx, id)
+
+		err = provider.Start(ctx, id)
+		assert.NoError(t, err)
+
+		stdout, stderr, err := provider.Logs(ctx, id)
+		assert.NoError(t, err)
+
+		const expectedOut = "search test containerapi.test\nnameserver 1.1.1.1\nnameserver 2606:4700:4700::64\n"
+		assertIOEquals(t, []byte(expectedOut), stdout, []byte(""), stderr)
+
+		select {
+		case r := <-returnCodeChan:
+			assert.Equal(t, int64(0), r)
+		case err := <-errChan:
+			assert.FailNow(t, err.Error())
+		}
 	})
 }
 

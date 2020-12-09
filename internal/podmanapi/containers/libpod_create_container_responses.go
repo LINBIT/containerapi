@@ -349,7 +349,7 @@ type LibpodCreateContainerBody struct {
 	// used by default.
 	// Conflicts with UseImageResolvConf.
 	// Optional.
-	DNSServers [][]uint8 `json:"dns_server"`
+	DNSServers []string `json:"dns_server"`
 
 	// Entrypoint is the container's entrypoint.
 	// If not given and Image is specified, this will be populated by the
@@ -685,7 +685,7 @@ type LibpodCreateContainerBody struct {
 	// is a semantic property of the address, not just the
 	// length of the byte slice: a 16-byte slice can still
 	// be an IPv4 address.
-	StaticIP []uint8 `json:"static_ip"`
+	StaticIP string `json:"static_ip,omitempty"`
 
 	// An IP is a single IP address, a slice of bytes.
 	// Functions in this package accept either 4-byte (IPv4)
@@ -696,7 +696,7 @@ type LibpodCreateContainerBody struct {
 	// is a semantic property of the address, not just the
 	// length of the byte slice: a 16-byte slice can still
 	// be an IPv4 address.
-	StaticIPV6 []uint8 `json:"static_ipv6"`
+	StaticIPV6 string `json:"static_ipv6,omitempty"`
 
 	// A HardwareAddr represents a physical hardware address.
 	StaticMac []uint8 `json:"static_mac"`

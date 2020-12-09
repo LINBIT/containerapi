@@ -55,14 +55,21 @@ func (d PodmanProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 		}
 	}
 
+	servers := make([]string, len(cfg.dnsServers))
+	for i, server := range cfg.dnsServers {
+		servers[i] = server.String()
+	}
+
 	params.WithCreate(containers.LibpodCreateContainerBody{
 		Image: cfg.image,
 		Netns: &containers.LibpodCreateContainerParamsBodyNetns{
 			Nsmode: "host",
 		},
-		Command: cfg.command,
-		Env:     cfg.env,
-		Name:    cfg.name,
+		DNSServers: servers,
+		DNSSearch:  cfg.dnsSearchDomains,
+		Command:    cfg.command,
+		Env:        cfg.env,
+		Name:       cfg.name,
 		// In case we pass a 0 value to the /container/<name>/stop API, this timeout will be used.
 		// Setting this to 0 means: send SIGKILL immediately
 		StopTimeout: &timeout,

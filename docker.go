@@ -46,9 +46,16 @@ func (d DockerProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 		StopTimeout: &timeout,
 	}
 
+	servers := make([]string, len(cfg.dnsServers))
+	for i, server := range cfg.dnsServers {
+		servers[i] = server.String()
+	}
+
 	hostConfig := &container.HostConfig{
 		NetworkMode: "host",
 		Mounts:      mounts,
+		DNS:         servers,
+		DNSSearch:   cfg.dnsSearchDomains,
 	}
 
 	resp, err := d.client.ContainerCreate(ctx, config, hostConfig, nil, cfg.name)
