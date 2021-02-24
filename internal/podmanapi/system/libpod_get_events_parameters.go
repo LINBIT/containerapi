@@ -17,86 +17,104 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// NewLibpodGetEventsParams creates a new LibpodGetEventsParams object
-// with the default values initialized.
+// NewLibpodGetEventsParams creates a new LibpodGetEventsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodGetEventsParams() *LibpodGetEventsParams {
-	var (
-		streamDefault = bool(true)
-	)
 	return &LibpodGetEventsParams{
-		Stream: &streamDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodGetEventsParamsWithTimeout creates a new LibpodGetEventsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodGetEventsParamsWithTimeout(timeout time.Duration) *LibpodGetEventsParams {
-	var (
-		streamDefault = bool(true)
-	)
 	return &LibpodGetEventsParams{
-		Stream: &streamDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodGetEventsParamsWithContext creates a new LibpodGetEventsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodGetEventsParamsWithContext(ctx context.Context) *LibpodGetEventsParams {
-	var (
-		streamDefault = bool(true)
-	)
 	return &LibpodGetEventsParams{
-		Stream: &streamDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodGetEventsParamsWithHTTPClient creates a new LibpodGetEventsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodGetEventsParamsWithHTTPClient(client *http.Client) *LibpodGetEventsParams {
-	var (
-		streamDefault = bool(true)
-	)
 	return &LibpodGetEventsParams{
-		Stream:     &streamDefault,
 		HTTPClient: client,
 	}
 }
 
-/*LibpodGetEventsParams contains all the parameters to send to the API endpoint
-for the libpod get events operation typically these are written to a http.Request
+/* LibpodGetEventsParams contains all the parameters to send to the API endpoint
+   for the libpod get events operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodGetEventsParams struct {
 
-	/*Filters
-	  JSON encoded map[string][]string of constraints
+	/* Filters.
 
+	   JSON encoded map[string][]string of constraints
 	*/
 	Filters *string
-	/*Since
-	  start streaming events from this time
 
+	/* Since.
+
+	   start streaming events from this time
 	*/
 	Since *string
-	/*Stream
-	  when false, do not follow events
 
+	/* Stream.
+
+	   when false, do not follow events
+
+	   Default: true
 	*/
 	Stream *bool
-	/*Until
-	  stop streaming events later than this
 
+	/* Until.
+
+	   stop streaming events later than this
 	*/
 	Until *string
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod get events params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodGetEventsParams) WithDefaults() *LibpodGetEventsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod get events params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodGetEventsParams) SetDefaults() {
+	var (
+		streamDefault = bool(true)
+	)
+
+	val := LibpodGetEventsParams{
+		Stream: &streamDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the libpod get events params
@@ -188,64 +206,68 @@ func (o *LibpodGetEventsParams) WriteToRequest(r runtime.ClientRequest, reg strf
 
 		// query param filters
 		var qrFilters string
+
 		if o.Filters != nil {
 			qrFilters = *o.Filters
 		}
 		qFilters := qrFilters
 		if qFilters != "" {
+
 			if err := r.SetQueryParam("filters", qFilters); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Since != nil {
 
 		// query param since
 		var qrSince string
+
 		if o.Since != nil {
 			qrSince = *o.Since
 		}
 		qSince := qrSince
 		if qSince != "" {
+
 			if err := r.SetQueryParam("since", qSince); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Stream != nil {
 
 		// query param stream
 		var qrStream bool
+
 		if o.Stream != nil {
 			qrStream = *o.Stream
 		}
 		qStream := swag.FormatBool(qrStream)
 		if qStream != "" {
+
 			if err := r.SetQueryParam("stream", qStream); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Until != nil {
 
 		// query param until
 		var qrUntil string
+
 		if o.Until != nil {
 			qrUntil = *o.Until
 		}
 		qUntil := qrUntil
 		if qUntil != "" {
+
 			if err := r.SetQueryParam("until", qUntil); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if len(res) > 0 {

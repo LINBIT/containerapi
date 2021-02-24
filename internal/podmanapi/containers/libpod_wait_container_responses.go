@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -40,7 +41,6 @@ func (o *LibpodWaitContainerReader) ReadResponse(response runtime.ClientResponse
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -51,7 +51,7 @@ func NewLibpodWaitContainerOK() *LibpodWaitContainerOK {
 	return &LibpodWaitContainerOK{}
 }
 
-/*LibpodWaitContainerOK handles this case with default header values.
+/* LibpodWaitContainerOK describes a response with status code 200, with default header values.
 
 exit code
 */
@@ -62,7 +62,6 @@ type LibpodWaitContainerOK struct {
 func (o *LibpodWaitContainerOK) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/wait][%d] libpodWaitContainerOK  %+v", 200, o.Payload)
 }
-
 func (o *LibpodWaitContainerOK) GetPayload() string {
 	return o.Payload
 }
@@ -82,7 +81,7 @@ func NewLibpodWaitContainerNotFound() *LibpodWaitContainerNotFound {
 	return &LibpodWaitContainerNotFound{}
 }
 
-/*LibpodWaitContainerNotFound handles this case with default header values.
+/* LibpodWaitContainerNotFound describes a response with status code 404, with default header values.
 
 No such container
 */
@@ -93,7 +92,6 @@ type LibpodWaitContainerNotFound struct {
 func (o *LibpodWaitContainerNotFound) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/wait][%d] libpodWaitContainerNotFound  %+v", 404, o.Payload)
 }
-
 func (o *LibpodWaitContainerNotFound) GetPayload() *LibpodWaitContainerNotFoundBody {
 	return o.Payload
 }
@@ -115,7 +113,7 @@ func NewLibpodWaitContainerInternalServerError() *LibpodWaitContainerInternalSer
 	return &LibpodWaitContainerInternalServerError{}
 }
 
-/*LibpodWaitContainerInternalServerError handles this case with default header values.
+/* LibpodWaitContainerInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -126,7 +124,6 @@ type LibpodWaitContainerInternalServerError struct {
 func (o *LibpodWaitContainerInternalServerError) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/wait][%d] libpodWaitContainerInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodWaitContainerInternalServerError) GetPayload() *LibpodWaitContainerInternalServerErrorBody {
 	return o.Payload
 }
@@ -149,9 +146,11 @@ swagger:model LibpodWaitContainerInternalServerErrorBody
 type LibpodWaitContainerInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -160,6 +159,11 @@ type LibpodWaitContainerInternalServerErrorBody struct {
 
 // Validate validates this libpod wait container internal server error body
 func (o *LibpodWaitContainerInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod wait container internal server error body based on context it is used
+func (o *LibpodWaitContainerInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -187,9 +191,11 @@ swagger:model LibpodWaitContainerNotFoundBody
 type LibpodWaitContainerNotFoundBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -198,6 +204,11 @@ type LibpodWaitContainerNotFoundBody struct {
 
 // Validate validates this libpod wait container not found body
 func (o *LibpodWaitContainerNotFoundBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod wait container not found body based on context it is used
+func (o *LibpodWaitContainerNotFoundBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

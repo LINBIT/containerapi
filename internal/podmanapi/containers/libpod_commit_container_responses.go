@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -40,7 +41,6 @@ func (o *LibpodCommitContainerReader) ReadResponse(response runtime.ClientRespon
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -51,7 +51,7 @@ func NewLibpodCommitContainerCreated() *LibpodCommitContainerCreated {
 	return &LibpodCommitContainerCreated{}
 }
 
-/*LibpodCommitContainerCreated handles this case with default header values.
+/* LibpodCommitContainerCreated describes a response with status code 201, with default header values.
 
 no error
 */
@@ -72,7 +72,7 @@ func NewLibpodCommitContainerNotFound() *LibpodCommitContainerNotFound {
 	return &LibpodCommitContainerNotFound{}
 }
 
-/*LibpodCommitContainerNotFound handles this case with default header values.
+/* LibpodCommitContainerNotFound describes a response with status code 404, with default header values.
 
 No such image
 */
@@ -83,7 +83,6 @@ type LibpodCommitContainerNotFound struct {
 func (o *LibpodCommitContainerNotFound) Error() string {
 	return fmt.Sprintf("[POST /libpod/commit][%d] libpodCommitContainerNotFound  %+v", 404, o.Payload)
 }
-
 func (o *LibpodCommitContainerNotFound) GetPayload() *LibpodCommitContainerNotFoundBody {
 	return o.Payload
 }
@@ -105,7 +104,7 @@ func NewLibpodCommitContainerInternalServerError() *LibpodCommitContainerInterna
 	return &LibpodCommitContainerInternalServerError{}
 }
 
-/*LibpodCommitContainerInternalServerError handles this case with default header values.
+/* LibpodCommitContainerInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -116,7 +115,6 @@ type LibpodCommitContainerInternalServerError struct {
 func (o *LibpodCommitContainerInternalServerError) Error() string {
 	return fmt.Sprintf("[POST /libpod/commit][%d] libpodCommitContainerInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodCommitContainerInternalServerError) GetPayload() *LibpodCommitContainerInternalServerErrorBody {
 	return o.Payload
 }
@@ -139,9 +137,11 @@ swagger:model LibpodCommitContainerInternalServerErrorBody
 type LibpodCommitContainerInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -150,6 +150,11 @@ type LibpodCommitContainerInternalServerErrorBody struct {
 
 // Validate validates this libpod commit container internal server error body
 func (o *LibpodCommitContainerInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod commit container internal server error body based on context it is used
+func (o *LibpodCommitContainerInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -177,9 +182,11 @@ swagger:model LibpodCommitContainerNotFoundBody
 type LibpodCommitContainerNotFoundBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -188,6 +195,11 @@ type LibpodCommitContainerNotFoundBody struct {
 
 // Validate validates this libpod commit container not found body
 func (o *LibpodCommitContainerNotFoundBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod commit container not found body based on context it is used
+func (o *LibpodCommitContainerNotFoundBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

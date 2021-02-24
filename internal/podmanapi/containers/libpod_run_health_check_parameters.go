@@ -16,59 +16,73 @@ import (
 	"github.com/go-openapi/strfmt"
 )
 
-// NewLibpodRunHealthCheckParams creates a new LibpodRunHealthCheckParams object
-// with the default values initialized.
+// NewLibpodRunHealthCheckParams creates a new LibpodRunHealthCheckParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodRunHealthCheckParams() *LibpodRunHealthCheckParams {
-	var ()
 	return &LibpodRunHealthCheckParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodRunHealthCheckParamsWithTimeout creates a new LibpodRunHealthCheckParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodRunHealthCheckParamsWithTimeout(timeout time.Duration) *LibpodRunHealthCheckParams {
-	var ()
 	return &LibpodRunHealthCheckParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodRunHealthCheckParamsWithContext creates a new LibpodRunHealthCheckParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodRunHealthCheckParamsWithContext(ctx context.Context) *LibpodRunHealthCheckParams {
-	var ()
 	return &LibpodRunHealthCheckParams{
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodRunHealthCheckParamsWithHTTPClient creates a new LibpodRunHealthCheckParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodRunHealthCheckParamsWithHTTPClient(client *http.Client) *LibpodRunHealthCheckParams {
-	var ()
 	return &LibpodRunHealthCheckParams{
 		HTTPClient: client,
 	}
 }
 
-/*LibpodRunHealthCheckParams contains all the parameters to send to the API endpoint
-for the libpod run health check operation typically these are written to a http.Request
+/* LibpodRunHealthCheckParams contains all the parameters to send to the API endpoint
+   for the libpod run health check operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodRunHealthCheckParams struct {
 
-	/*Name
-	  the name or ID of the container
+	/* Name.
 
+	   the name or ID of the container
 	*/
 	Name string
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod run health check params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodRunHealthCheckParams) WithDefaults() *LibpodRunHealthCheckParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod run health check params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodRunHealthCheckParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the libpod run health check params

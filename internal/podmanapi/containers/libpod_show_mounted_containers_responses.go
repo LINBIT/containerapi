@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -34,7 +35,6 @@ func (o *LibpodShowMountedContainersReader) ReadResponse(response runtime.Client
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -45,7 +45,7 @@ func NewLibpodShowMountedContainersOK() *LibpodShowMountedContainersOK {
 	return &LibpodShowMountedContainersOK{}
 }
 
-/*LibpodShowMountedContainersOK handles this case with default header values.
+/* LibpodShowMountedContainersOK describes a response with status code 200, with default header values.
 
 mounted containers
 */
@@ -56,7 +56,6 @@ type LibpodShowMountedContainersOK struct {
 func (o *LibpodShowMountedContainersOK) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/showmounted][%d] libpodShowMountedContainersOK  %+v", 200, o.Payload)
 }
-
 func (o *LibpodShowMountedContainersOK) GetPayload() map[string]string {
 	return o.Payload
 }
@@ -76,7 +75,7 @@ func NewLibpodShowMountedContainersInternalServerError() *LibpodShowMountedConta
 	return &LibpodShowMountedContainersInternalServerError{}
 }
 
-/*LibpodShowMountedContainersInternalServerError handles this case with default header values.
+/* LibpodShowMountedContainersInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -87,7 +86,6 @@ type LibpodShowMountedContainersInternalServerError struct {
 func (o *LibpodShowMountedContainersInternalServerError) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/showmounted][%d] libpodShowMountedContainersInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodShowMountedContainersInternalServerError) GetPayload() *LibpodShowMountedContainersInternalServerErrorBody {
 	return o.Payload
 }
@@ -110,9 +108,11 @@ swagger:model LibpodShowMountedContainersInternalServerErrorBody
 type LibpodShowMountedContainersInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -121,6 +121,11 @@ type LibpodShowMountedContainersInternalServerErrorBody struct {
 
 // Validate validates this libpod show mounted containers internal server error body
 func (o *LibpodShowMountedContainersInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod show mounted containers internal server error body based on context it is used
+func (o *LibpodShowMountedContainersInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

@@ -22,6 +22,7 @@ test-podman:
   before_script:
     - podman pull docker.io/hello-world
     - podman pull docker.io/busybox
+    - podman rmi docker.io/alpine 2>/dev/null || echo "docker.io/alpine not present"
   tags:
     - podman
 
@@ -30,5 +31,6 @@ test-docker:
   before_script:
     - docker pull docker.io/hello-world
     - docker pull docker.io/busybox
+    - docker rmi docker.io/alpine 2>/dev/null || echo "docker.io/alpine not present"
   tags:
     - docker

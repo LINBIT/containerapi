@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"strconv"
@@ -43,7 +44,6 @@ func (o *LibpodGetContainerReader) ReadResponse(response runtime.ClientResponse,
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -54,7 +54,7 @@ func NewLibpodGetContainerOK() *LibpodGetContainerOK {
 	return &LibpodGetContainerOK{}
 }
 
-/*LibpodGetContainerOK handles this case with default header values.
+/* LibpodGetContainerOK describes a response with status code 200, with default header values.
 
 Inspect container
 */
@@ -65,7 +65,6 @@ type LibpodGetContainerOK struct {
 func (o *LibpodGetContainerOK) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/{name}/json][%d] libpodGetContainerOK  %+v", 200, o.Payload)
 }
-
 func (o *LibpodGetContainerOK) GetPayload() *LibpodGetContainerOKBody {
 	return o.Payload
 }
@@ -87,7 +86,7 @@ func NewLibpodGetContainerNotFound() *LibpodGetContainerNotFound {
 	return &LibpodGetContainerNotFound{}
 }
 
-/*LibpodGetContainerNotFound handles this case with default header values.
+/* LibpodGetContainerNotFound describes a response with status code 404, with default header values.
 
 No such container
 */
@@ -98,7 +97,6 @@ type LibpodGetContainerNotFound struct {
 func (o *LibpodGetContainerNotFound) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/{name}/json][%d] libpodGetContainerNotFound  %+v", 404, o.Payload)
 }
-
 func (o *LibpodGetContainerNotFound) GetPayload() *LibpodGetContainerNotFoundBody {
 	return o.Payload
 }
@@ -120,7 +118,7 @@ func NewLibpodGetContainerInternalServerError() *LibpodGetContainerInternalServe
 	return &LibpodGetContainerInternalServerError{}
 }
 
-/*LibpodGetContainerInternalServerError handles this case with default header values.
+/* LibpodGetContainerInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -131,7 +129,6 @@ type LibpodGetContainerInternalServerError struct {
 func (o *LibpodGetContainerInternalServerError) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/{name}/json][%d] libpodGetContainerInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodGetContainerInternalServerError) GetPayload() *LibpodGetContainerInternalServerErrorBody {
 	return o.Payload
 }
@@ -154,9 +151,11 @@ swagger:model LibpodGetContainerInternalServerErrorBody
 type LibpodGetContainerInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -165,6 +164,11 @@ type LibpodGetContainerInternalServerErrorBody struct {
 
 // Validate validates this libpod get container internal server error body
 func (o *LibpodGetContainerInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod get container internal server error body based on context it is used
+func (o *LibpodGetContainerInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -192,9 +196,11 @@ swagger:model LibpodGetContainerNotFoundBody
 type LibpodGetContainerNotFoundBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -203,6 +209,11 @@ type LibpodGetContainerNotFoundBody struct {
 
 // Validate validates this libpod get container not found body
 func (o *LibpodGetContainerNotFoundBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod get container not found body based on context it is used
+func (o *LibpodGetContainerNotFoundBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -384,7 +395,6 @@ func (o *LibpodGetContainerOKBody) Validate(formats strfmt.Registry) error {
 }
 
 func (o *LibpodGetContainerOKBody) validateConfig(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Config) { // not required
 		return nil
 	}
@@ -402,7 +412,6 @@ func (o *LibpodGetContainerOKBody) validateConfig(formats strfmt.Registry) error
 }
 
 func (o *LibpodGetContainerOKBody) validateCreated(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Created) { // not required
 		return nil
 	}
@@ -415,7 +424,6 @@ func (o *LibpodGetContainerOKBody) validateCreated(formats strfmt.Registry) erro
 }
 
 func (o *LibpodGetContainerOKBody) validateGraphDriver(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.GraphDriver) { // not required
 		return nil
 	}
@@ -433,7 +441,6 @@ func (o *LibpodGetContainerOKBody) validateGraphDriver(formats strfmt.Registry) 
 }
 
 func (o *LibpodGetContainerOKBody) validateHostConfig(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.HostConfig) { // not required
 		return nil
 	}
@@ -451,7 +458,6 @@ func (o *LibpodGetContainerOKBody) validateHostConfig(formats strfmt.Registry) e
 }
 
 func (o *LibpodGetContainerOKBody) validateMounts(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Mounts) { // not required
 		return nil
 	}
@@ -476,7 +482,6 @@ func (o *LibpodGetContainerOKBody) validateMounts(formats strfmt.Registry) error
 }
 
 func (o *LibpodGetContainerOKBody) validateNetworkSettings(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.NetworkSettings) { // not required
 		return nil
 	}
@@ -494,13 +499,134 @@ func (o *LibpodGetContainerOKBody) validateNetworkSettings(formats strfmt.Regist
 }
 
 func (o *LibpodGetContainerOKBody) validateState(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.State) { // not required
 		return nil
 	}
 
 	if o.State != nil {
 		if err := o.State.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("libpodGetContainerOK" + "." + "State")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this libpod get container o k body based on the context it is used
+func (o *LibpodGetContainerOKBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidateConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateGraphDriver(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateHostConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateMounts(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateNetworkSettings(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateState(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *LibpodGetContainerOKBody) contextValidateConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Config != nil {
+		if err := o.Config.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("libpodGetContainerOK" + "." + "Config")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodGetContainerOKBody) contextValidateGraphDriver(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.GraphDriver != nil {
+		if err := o.GraphDriver.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("libpodGetContainerOK" + "." + "GraphDriver")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodGetContainerOKBody) contextValidateHostConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.HostConfig != nil {
+		if err := o.HostConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("libpodGetContainerOK" + "." + "HostConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodGetContainerOKBody) contextValidateMounts(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.Mounts); i++ {
+
+		if o.Mounts[i] != nil {
+			if err := o.Mounts[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("libpodGetContainerOK" + "." + "Mounts" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodGetContainerOKBody) contextValidateNetworkSettings(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.NetworkSettings != nil {
+		if err := o.NetworkSettings.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("libpodGetContainerOK" + "." + "NetworkSettings")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodGetContainerOKBody) contextValidateState(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.State != nil {
+		if err := o.State.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("libpodGetContainerOK" + "." + "State")
 			}
@@ -628,13 +754,40 @@ func (o *LibpodGetContainerOKBodyConfig) Validate(formats strfmt.Registry) error
 }
 
 func (o *LibpodGetContainerOKBodyConfig) validateHealthcheck(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Healthcheck) { // not required
 		return nil
 	}
 
 	if o.Healthcheck != nil {
 		if err := o.Healthcheck.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("libpodGetContainerOK" + "." + "Config" + "." + "Healthcheck")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this libpod get container o k body config based on the context it is used
+func (o *LibpodGetContainerOKBodyConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidateHealthcheck(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *LibpodGetContainerOKBodyConfig) contextValidateHealthcheck(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Healthcheck != nil {
+		if err := o.Healthcheck.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("libpodGetContainerOK" + "." + "Config" + "." + "Healthcheck")
 			}
@@ -703,6 +856,11 @@ func (o *LibpodGetContainerOKBodyConfigHealthcheck) Validate(formats strfmt.Regi
 	return nil
 }
 
+// ContextValidate validates this libpod get container o k body config healthcheck based on context it is used
+func (o *LibpodGetContainerOKBodyConfigHealthcheck) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodGetContainerOKBodyConfigHealthcheck) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -735,6 +893,11 @@ type LibpodGetContainerOKBodyGraphDriver struct {
 
 // Validate validates this libpod get container o k body graph driver
 func (o *LibpodGetContainerOKBodyGraphDriver) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod get container o k body graph driver based on context it is used
+func (o *LibpodGetContainerOKBodyGraphDriver) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -1179,7 +1342,6 @@ func (o *LibpodGetContainerOKBodyHostConfig) Validate(formats strfmt.Registry) e
 }
 
 func (o *LibpodGetContainerOKBodyHostConfig) validateBlkioDeviceReadBps(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.BlkioDeviceReadBps) { // not required
 		return nil
 	}
@@ -1204,7 +1366,6 @@ func (o *LibpodGetContainerOKBodyHostConfig) validateBlkioDeviceReadBps(formats 
 }
 
 func (o *LibpodGetContainerOKBodyHostConfig) validateBlkioDeviceReadIOps(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.BlkioDeviceReadIOps) { // not required
 		return nil
 	}
@@ -1229,7 +1390,6 @@ func (o *LibpodGetContainerOKBodyHostConfig) validateBlkioDeviceReadIOps(formats
 }
 
 func (o *LibpodGetContainerOKBodyHostConfig) validateBlkioDeviceWriteBps(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.BlkioDeviceWriteBps) { // not required
 		return nil
 	}
@@ -1254,7 +1414,6 @@ func (o *LibpodGetContainerOKBodyHostConfig) validateBlkioDeviceWriteBps(formats
 }
 
 func (o *LibpodGetContainerOKBodyHostConfig) validateBlkioDeviceWriteIOps(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.BlkioDeviceWriteIOps) { // not required
 		return nil
 	}
@@ -1279,7 +1438,6 @@ func (o *LibpodGetContainerOKBodyHostConfig) validateBlkioDeviceWriteIOps(format
 }
 
 func (o *LibpodGetContainerOKBodyHostConfig) validateBlkioWeightDevice(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.BlkioWeightDevice) { // not required
 		return nil
 	}
@@ -1304,7 +1462,6 @@ func (o *LibpodGetContainerOKBodyHostConfig) validateBlkioWeightDevice(formats s
 }
 
 func (o *LibpodGetContainerOKBodyHostConfig) validateDevices(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Devices) { // not required
 		return nil
 	}
@@ -1329,7 +1486,6 @@ func (o *LibpodGetContainerOKBodyHostConfig) validateDevices(formats strfmt.Regi
 }
 
 func (o *LibpodGetContainerOKBodyHostConfig) validatePortBindings(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.PortBindings) { // not required
 		return nil
 	}
@@ -1357,7 +1513,6 @@ func (o *LibpodGetContainerOKBodyHostConfig) validatePortBindings(formats strfmt
 }
 
 func (o *LibpodGetContainerOKBodyHostConfig) validateUlimits(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Ulimits) { // not required
 		return nil
 	}
@@ -1382,7 +1537,6 @@ func (o *LibpodGetContainerOKBodyHostConfig) validateUlimits(formats strfmt.Regi
 }
 
 func (o *LibpodGetContainerOKBodyHostConfig) validateLogConfig(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.LogConfig) { // not required
 		return nil
 	}
@@ -1400,13 +1554,236 @@ func (o *LibpodGetContainerOKBodyHostConfig) validateLogConfig(formats strfmt.Re
 }
 
 func (o *LibpodGetContainerOKBodyHostConfig) validateRestartPolicy(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.RestartPolicy) { // not required
 		return nil
 	}
 
 	if o.RestartPolicy != nil {
 		if err := o.RestartPolicy.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("libpodGetContainerOK" + "." + "HostConfig" + "." + "RestartPolicy")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this libpod get container o k body host config based on the context it is used
+func (o *LibpodGetContainerOKBodyHostConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidateBlkioDeviceReadBps(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateBlkioDeviceReadIOps(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateBlkioDeviceWriteBps(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateBlkioDeviceWriteIOps(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateBlkioWeightDevice(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateDevices(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidatePortBindings(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateUlimits(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateLogConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateRestartPolicy(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *LibpodGetContainerOKBodyHostConfig) contextValidateBlkioDeviceReadBps(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.BlkioDeviceReadBps); i++ {
+
+		if o.BlkioDeviceReadBps[i] != nil {
+			if err := o.BlkioDeviceReadBps[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("libpodGetContainerOK" + "." + "HostConfig" + "." + "BlkioDeviceReadBps" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodGetContainerOKBodyHostConfig) contextValidateBlkioDeviceReadIOps(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.BlkioDeviceReadIOps); i++ {
+
+		if o.BlkioDeviceReadIOps[i] != nil {
+			if err := o.BlkioDeviceReadIOps[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("libpodGetContainerOK" + "." + "HostConfig" + "." + "BlkioDeviceReadIOps" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodGetContainerOKBodyHostConfig) contextValidateBlkioDeviceWriteBps(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.BlkioDeviceWriteBps); i++ {
+
+		if o.BlkioDeviceWriteBps[i] != nil {
+			if err := o.BlkioDeviceWriteBps[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("libpodGetContainerOK" + "." + "HostConfig" + "." + "BlkioDeviceWriteBps" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodGetContainerOKBodyHostConfig) contextValidateBlkioDeviceWriteIOps(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.BlkioDeviceWriteIOps); i++ {
+
+		if o.BlkioDeviceWriteIOps[i] != nil {
+			if err := o.BlkioDeviceWriteIOps[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("libpodGetContainerOK" + "." + "HostConfig" + "." + "BlkioDeviceWriteIOps" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodGetContainerOKBodyHostConfig) contextValidateBlkioWeightDevice(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.BlkioWeightDevice); i++ {
+
+		if o.BlkioWeightDevice[i] != nil {
+			if err := o.BlkioWeightDevice[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("libpodGetContainerOK" + "." + "HostConfig" + "." + "BlkioWeightDevice" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodGetContainerOKBodyHostConfig) contextValidateDevices(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.Devices); i++ {
+
+		if o.Devices[i] != nil {
+			if err := o.Devices[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("libpodGetContainerOK" + "." + "HostConfig" + "." + "Devices" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodGetContainerOKBodyHostConfig) contextValidatePortBindings(ctx context.Context, formats strfmt.Registry) error {
+
+	for k := range o.PortBindings {
+
+		for i := 0; i < len(o.PortBindings[k]); i++ {
+
+			if err := o.PortBindings[k][i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("libpodGetContainerOK" + "." + "HostConfig" + "." + "PortBindings" + "." + k + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodGetContainerOKBodyHostConfig) contextValidateUlimits(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.Ulimits); i++ {
+
+		if o.Ulimits[i] != nil {
+			if err := o.Ulimits[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("libpodGetContainerOK" + "." + "HostConfig" + "." + "Ulimits" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodGetContainerOKBodyHostConfig) contextValidateLogConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.LogConfig != nil {
+		if err := o.LogConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("libpodGetContainerOK" + "." + "HostConfig" + "." + "LogConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodGetContainerOKBodyHostConfig) contextValidateRestartPolicy(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.RestartPolicy != nil {
+		if err := o.RestartPolicy.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("libpodGetContainerOK" + "." + "HostConfig" + "." + "RestartPolicy")
 			}
@@ -1456,6 +1833,11 @@ func (o *LibpodGetContainerOKBodyHostConfigBlkioDeviceReadBpsItems0) Validate(fo
 	return nil
 }
 
+// ContextValidate validates this libpod get container o k body host config blkio device read bps items0 based on context it is used
+func (o *LibpodGetContainerOKBodyHostConfigBlkioDeviceReadBpsItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodGetContainerOKBodyHostConfigBlkioDeviceReadBpsItems0) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -1492,6 +1874,11 @@ type LibpodGetContainerOKBodyHostConfigBlkioDeviceReadIOpsItems0 struct {
 
 // Validate validates this libpod get container o k body host config blkio device read i ops items0
 func (o *LibpodGetContainerOKBodyHostConfigBlkioDeviceReadIOpsItems0) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod get container o k body host config blkio device read i ops items0 based on context it is used
+func (o *LibpodGetContainerOKBodyHostConfigBlkioDeviceReadIOpsItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -1534,6 +1921,11 @@ func (o *LibpodGetContainerOKBodyHostConfigBlkioDeviceWriteBpsItems0) Validate(f
 	return nil
 }
 
+// ContextValidate validates this libpod get container o k body host config blkio device write bps items0 based on context it is used
+func (o *LibpodGetContainerOKBodyHostConfigBlkioDeviceWriteBpsItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodGetContainerOKBodyHostConfigBlkioDeviceWriteBpsItems0) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -1573,6 +1965,11 @@ func (o *LibpodGetContainerOKBodyHostConfigBlkioDeviceWriteIOpsItems0) Validate(
 	return nil
 }
 
+// ContextValidate validates this libpod get container o k body host config blkio device write i ops items0 based on context it is used
+func (o *LibpodGetContainerOKBodyHostConfigBlkioDeviceWriteIOpsItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodGetContainerOKBodyHostConfigBlkioDeviceWriteIOpsItems0) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -1608,6 +2005,11 @@ type LibpodGetContainerOKBodyHostConfigBlkioWeightDeviceItems0 struct {
 
 // Validate validates this libpod get container o k body host config blkio weight device items0
 func (o *LibpodGetContainerOKBodyHostConfigBlkioWeightDeviceItems0) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod get container o k body host config blkio weight device items0 based on context it is used
+func (o *LibpodGetContainerOKBodyHostConfigBlkioWeightDeviceItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -1651,6 +2053,11 @@ func (o *LibpodGetContainerOKBodyHostConfigDevicesItems0) Validate(formats strfm
 	return nil
 }
 
+// ContextValidate validates this libpod get container o k body host config devices items0 based on context it is used
+func (o *LibpodGetContainerOKBodyHostConfigDevicesItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodGetContainerOKBodyHostConfigDevicesItems0) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -1684,6 +2091,11 @@ type LibpodGetContainerOKBodyHostConfigLogConfig struct {
 
 // Validate validates this libpod get container o k body host config log config
 func (o *LibpodGetContainerOKBodyHostConfigLogConfig) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod get container o k body host config log config based on context it is used
+func (o *LibpodGetContainerOKBodyHostConfigLogConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -1722,6 +2134,11 @@ type LibpodGetContainerOKBodyHostConfigPortBindingsItems0 struct {
 
 // Validate validates this libpod get container o k body host config port bindings items0
 func (o *LibpodGetContainerOKBodyHostConfigPortBindingsItems0) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod get container o k body host config port bindings items0 based on context it is used
+func (o *LibpodGetContainerOKBodyHostConfigPortBindingsItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -1768,6 +2185,11 @@ func (o *LibpodGetContainerOKBodyHostConfigRestartPolicy) Validate(formats strfm
 	return nil
 }
 
+// ContextValidate validates this libpod get container o k body host config restart policy based on context it is used
+func (o *LibpodGetContainerOKBodyHostConfigRestartPolicy) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodGetContainerOKBodyHostConfigRestartPolicy) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -1803,6 +2225,11 @@ type LibpodGetContainerOKBodyHostConfigUlimitsItems0 struct {
 
 // Validate validates this libpod get container o k body host config ulimits items0
 func (o *LibpodGetContainerOKBodyHostConfigUlimitsItems0) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod get container o k body host config ulimits items0 based on context it is used
+func (o *LibpodGetContainerOKBodyHostConfigUlimitsItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -1866,6 +2293,11 @@ type LibpodGetContainerOKBodyMountsItems0 struct {
 
 // Validate validates this libpod get container o k body mounts items0
 func (o *LibpodGetContainerOKBodyMountsItems0) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod get container o k body mounts items0 based on context it is used
+func (o *LibpodGetContainerOKBodyMountsItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -1978,7 +2410,6 @@ func (o *LibpodGetContainerOKBodyNetworkSettings) Validate(formats strfmt.Regist
 }
 
 func (o *LibpodGetContainerOKBodyNetworkSettings) validateNetworks(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Networks) { // not required
 		return nil
 	}
@@ -2000,7 +2431,6 @@ func (o *LibpodGetContainerOKBodyNetworkSettings) validateNetworks(formats strfm
 }
 
 func (o *LibpodGetContainerOKBodyNetworkSettings) validatePorts(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Ports) { // not required
 		return nil
 	}
@@ -2014,6 +2444,59 @@ func (o *LibpodGetContainerOKBodyNetworkSettings) validatePorts(formats strfmt.R
 		for i := 0; i < len(o.Ports[k]); i++ {
 
 			if err := o.Ports[k][i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("libpodGetContainerOK" + "." + "NetworkSettings" + "." + "Ports" + "." + k + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this libpod get container o k body network settings based on the context it is used
+func (o *LibpodGetContainerOKBodyNetworkSettings) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidateNetworks(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidatePorts(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *LibpodGetContainerOKBodyNetworkSettings) contextValidateNetworks(ctx context.Context, formats strfmt.Registry) error {
+
+	for k := range o.Networks {
+
+		if val, ok := o.Networks[k]; ok {
+			if err := val.ContextValidate(ctx, formats); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodGetContainerOKBodyNetworkSettings) contextValidatePorts(ctx context.Context, formats strfmt.Registry) error {
+
+	for k := range o.Ports {
+
+		for i := 0; i < len(o.Ports[k]); i++ {
+
+			if err := o.Ports[k][i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("libpodGetContainerOK" + "." + "NetworkSettings" + "." + "Ports" + "." + k + "." + strconv.Itoa(i))
 				}
@@ -2111,6 +2594,11 @@ func (o *LibpodGetContainerOKBodyNetworkSettingsNetworksAnon) Validate(formats s
 	return nil
 }
 
+// ContextValidate validates this libpod get container o k body network settings networks anon based on context it is used
+func (o *LibpodGetContainerOKBodyNetworkSettingsNetworksAnon) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodGetContainerOKBodyNetworkSettingsNetworksAnon) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -2146,6 +2634,11 @@ type LibpodGetContainerOKBodyNetworkSettingsPortsItems0 struct {
 
 // Validate validates this libpod get container o k body network settings ports items0
 func (o *LibpodGetContainerOKBodyNetworkSettingsPortsItems0) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod get container o k body network settings ports items0 based on context it is used
+func (o *LibpodGetContainerOKBodyNetworkSettingsPortsItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -2244,7 +2737,6 @@ func (o *LibpodGetContainerOKBodyState) Validate(formats strfmt.Registry) error 
 }
 
 func (o *LibpodGetContainerOKBodyState) validateFinishedAt(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.FinishedAt) { // not required
 		return nil
 	}
@@ -2257,7 +2749,6 @@ func (o *LibpodGetContainerOKBodyState) validateFinishedAt(formats strfmt.Regist
 }
 
 func (o *LibpodGetContainerOKBodyState) validateStartedAt(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.StartedAt) { // not required
 		return nil
 	}
@@ -2270,13 +2761,40 @@ func (o *LibpodGetContainerOKBodyState) validateStartedAt(formats strfmt.Registr
 }
 
 func (o *LibpodGetContainerOKBodyState) validateHealthcheck(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Healthcheck) { // not required
 		return nil
 	}
 
 	if o.Healthcheck != nil {
 		if err := o.Healthcheck.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("libpodGetContainerOK" + "." + "State" + "." + "Healthcheck")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this libpod get container o k body state based on the context it is used
+func (o *LibpodGetContainerOKBodyState) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidateHealthcheck(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *LibpodGetContainerOKBodyState) contextValidateHealthcheck(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Healthcheck != nil {
+		if err := o.Healthcheck.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("libpodGetContainerOK" + "." + "State" + "." + "Healthcheck")
 			}
@@ -2335,7 +2853,6 @@ func (o *LibpodGetContainerOKBodyStateHealthcheck) Validate(formats strfmt.Regis
 }
 
 func (o *LibpodGetContainerOKBodyStateHealthcheck) validateLog(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Log) { // not required
 		return nil
 	}
@@ -2347,6 +2864,38 @@ func (o *LibpodGetContainerOKBodyStateHealthcheck) validateLog(formats strfmt.Re
 
 		if o.Log[i] != nil {
 			if err := o.Log[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("libpodGetContainerOK" + "." + "State" + "." + "Healthcheck" + "." + "Log" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this libpod get container o k body state healthcheck based on the context it is used
+func (o *LibpodGetContainerOKBodyStateHealthcheck) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidateLog(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *LibpodGetContainerOKBodyStateHealthcheck) contextValidateLog(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.Log); i++ {
+
+		if o.Log[i] != nil {
+			if err := o.Log[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("libpodGetContainerOK" + "." + "State" + "." + "Healthcheck" + "." + "Log" + "." + strconv.Itoa(i))
 				}
@@ -2397,6 +2946,11 @@ type LibpodGetContainerOKBodyStateHealthcheckLogItems0 struct {
 
 // Validate validates this libpod get container o k body state healthcheck log items0
 func (o *LibpodGetContainerOKBodyStateHealthcheckLogItems0) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod get container o k body state healthcheck log items0 based on context it is used
+func (o *LibpodGetContainerOKBodyStateHealthcheckLogItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

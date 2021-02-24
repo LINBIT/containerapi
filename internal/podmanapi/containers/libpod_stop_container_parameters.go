@@ -17,64 +17,79 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// NewLibpodStopContainerParams creates a new LibpodStopContainerParams object
-// with the default values initialized.
+// NewLibpodStopContainerParams creates a new LibpodStopContainerParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodStopContainerParams() *LibpodStopContainerParams {
-	var ()
 	return &LibpodStopContainerParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodStopContainerParamsWithTimeout creates a new LibpodStopContainerParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodStopContainerParamsWithTimeout(timeout time.Duration) *LibpodStopContainerParams {
-	var ()
 	return &LibpodStopContainerParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodStopContainerParamsWithContext creates a new LibpodStopContainerParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodStopContainerParamsWithContext(ctx context.Context) *LibpodStopContainerParams {
-	var ()
 	return &LibpodStopContainerParams{
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodStopContainerParamsWithHTTPClient creates a new LibpodStopContainerParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodStopContainerParamsWithHTTPClient(client *http.Client) *LibpodStopContainerParams {
-	var ()
 	return &LibpodStopContainerParams{
 		HTTPClient: client,
 	}
 }
 
-/*LibpodStopContainerParams contains all the parameters to send to the API endpoint
-for the libpod stop container operation typically these are written to a http.Request
+/* LibpodStopContainerParams contains all the parameters to send to the API endpoint
+   for the libpod stop container operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodStopContainerParams struct {
 
-	/*Name
-	  the name or ID of the container
+	/* Name.
 
+	   the name or ID of the container
 	*/
 	Name string
-	/*T
-	  number of seconds to wait before killing container
 
+	/* T.
+
+	   number of seconds to wait before killing container
 	*/
 	T *int64
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod stop container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodStopContainerParams) WithDefaults() *LibpodStopContainerParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod stop container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodStopContainerParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the libpod stop container params
@@ -149,16 +164,17 @@ func (o *LibpodStopContainerParams) WriteToRequest(r runtime.ClientRequest, reg 
 
 		// query param t
 		var qrT int64
+
 		if o.T != nil {
 			qrT = *o.T
 		}
 		qT := swag.FormatInt64(qrT)
 		if qT != "" {
+
 			if err := r.SetQueryParam("t", qT); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if len(res) > 0 {

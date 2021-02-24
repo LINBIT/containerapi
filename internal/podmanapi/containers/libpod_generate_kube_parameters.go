@@ -17,76 +17,90 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// NewLibpodGenerateKubeParams creates a new LibpodGenerateKubeParams object
-// with the default values initialized.
+// NewLibpodGenerateKubeParams creates a new LibpodGenerateKubeParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodGenerateKubeParams() *LibpodGenerateKubeParams {
-	var (
-		serviceDefault = bool(false)
-	)
 	return &LibpodGenerateKubeParams{
-		Service: &serviceDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodGenerateKubeParamsWithTimeout creates a new LibpodGenerateKubeParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodGenerateKubeParamsWithTimeout(timeout time.Duration) *LibpodGenerateKubeParams {
-	var (
-		serviceDefault = bool(false)
-	)
 	return &LibpodGenerateKubeParams{
-		Service: &serviceDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodGenerateKubeParamsWithContext creates a new LibpodGenerateKubeParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodGenerateKubeParamsWithContext(ctx context.Context) *LibpodGenerateKubeParams {
-	var (
-		serviceDefault = bool(false)
-	)
 	return &LibpodGenerateKubeParams{
-		Service: &serviceDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodGenerateKubeParamsWithHTTPClient creates a new LibpodGenerateKubeParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodGenerateKubeParamsWithHTTPClient(client *http.Client) *LibpodGenerateKubeParams {
-	var (
-		serviceDefault = bool(false)
-	)
 	return &LibpodGenerateKubeParams{
-		Service:    &serviceDefault,
 		HTTPClient: client,
 	}
 }
 
-/*LibpodGenerateKubeParams contains all the parameters to send to the API endpoint
-for the libpod generate kube operation typically these are written to a http.Request
+/* LibpodGenerateKubeParams contains all the parameters to send to the API endpoint
+   for the libpod generate kube operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodGenerateKubeParams struct {
 
-	/*Name
-	  Name or ID of the container or pod.
+	/* Name.
 
+	   Name or ID of the container or pod.
 	*/
 	Name string
-	/*Service
-	  Generate YAML for a Kubernetes service object.
 
+	/* Service.
+
+	   Generate YAML for a Kubernetes service object.
 	*/
 	Service *bool
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod generate kube params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodGenerateKubeParams) WithDefaults() *LibpodGenerateKubeParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod generate kube params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodGenerateKubeParams) SetDefaults() {
+	var (
+		serviceDefault = bool(false)
+	)
+
+	val := LibpodGenerateKubeParams{
+		Service: &serviceDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the libpod generate kube params
@@ -161,16 +175,17 @@ func (o *LibpodGenerateKubeParams) WriteToRequest(r runtime.ClientRequest, reg s
 
 		// query param service
 		var qrService bool
+
 		if o.Service != nil {
 			qrService = *o.Service
 		}
 		qService := swag.FormatBool(qrService)
 		if qService != "" {
+
 			if err := r.SetQueryParam("service", qService); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if len(res) > 0 {

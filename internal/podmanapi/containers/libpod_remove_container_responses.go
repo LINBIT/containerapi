@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -52,7 +53,6 @@ func (o *LibpodRemoveContainerReader) ReadResponse(response runtime.ClientRespon
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -63,7 +63,7 @@ func NewLibpodRemoveContainerNoContent() *LibpodRemoveContainerNoContent {
 	return &LibpodRemoveContainerNoContent{}
 }
 
-/*LibpodRemoveContainerNoContent handles this case with default header values.
+/* LibpodRemoveContainerNoContent describes a response with status code 204, with default header values.
 
 no error
 */
@@ -84,7 +84,7 @@ func NewLibpodRemoveContainerBadRequest() *LibpodRemoveContainerBadRequest {
 	return &LibpodRemoveContainerBadRequest{}
 }
 
-/*LibpodRemoveContainerBadRequest handles this case with default header values.
+/* LibpodRemoveContainerBadRequest describes a response with status code 400, with default header values.
 
 Bad parameter in request
 */
@@ -95,7 +95,6 @@ type LibpodRemoveContainerBadRequest struct {
 func (o *LibpodRemoveContainerBadRequest) Error() string {
 	return fmt.Sprintf("[DELETE /libpod/containers/{name}][%d] libpodRemoveContainerBadRequest  %+v", 400, o.Payload)
 }
-
 func (o *LibpodRemoveContainerBadRequest) GetPayload() *LibpodRemoveContainerBadRequestBody {
 	return o.Payload
 }
@@ -117,7 +116,7 @@ func NewLibpodRemoveContainerNotFound() *LibpodRemoveContainerNotFound {
 	return &LibpodRemoveContainerNotFound{}
 }
 
-/*LibpodRemoveContainerNotFound handles this case with default header values.
+/* LibpodRemoveContainerNotFound describes a response with status code 404, with default header values.
 
 No such container
 */
@@ -128,7 +127,6 @@ type LibpodRemoveContainerNotFound struct {
 func (o *LibpodRemoveContainerNotFound) Error() string {
 	return fmt.Sprintf("[DELETE /libpod/containers/{name}][%d] libpodRemoveContainerNotFound  %+v", 404, o.Payload)
 }
-
 func (o *LibpodRemoveContainerNotFound) GetPayload() *LibpodRemoveContainerNotFoundBody {
 	return o.Payload
 }
@@ -150,7 +148,7 @@ func NewLibpodRemoveContainerConflict() *LibpodRemoveContainerConflict {
 	return &LibpodRemoveContainerConflict{}
 }
 
-/*LibpodRemoveContainerConflict handles this case with default header values.
+/* LibpodRemoveContainerConflict describes a response with status code 409, with default header values.
 
 Conflict error in operation
 */
@@ -161,7 +159,6 @@ type LibpodRemoveContainerConflict struct {
 func (o *LibpodRemoveContainerConflict) Error() string {
 	return fmt.Sprintf("[DELETE /libpod/containers/{name}][%d] libpodRemoveContainerConflict  %+v", 409, o.Payload)
 }
-
 func (o *LibpodRemoveContainerConflict) GetPayload() *LibpodRemoveContainerConflictBody {
 	return o.Payload
 }
@@ -183,7 +180,7 @@ func NewLibpodRemoveContainerInternalServerError() *LibpodRemoveContainerInterna
 	return &LibpodRemoveContainerInternalServerError{}
 }
 
-/*LibpodRemoveContainerInternalServerError handles this case with default header values.
+/* LibpodRemoveContainerInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -194,7 +191,6 @@ type LibpodRemoveContainerInternalServerError struct {
 func (o *LibpodRemoveContainerInternalServerError) Error() string {
 	return fmt.Sprintf("[DELETE /libpod/containers/{name}][%d] libpodRemoveContainerInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodRemoveContainerInternalServerError) GetPayload() *LibpodRemoveContainerInternalServerErrorBody {
 	return o.Payload
 }
@@ -217,9 +213,11 @@ swagger:model LibpodRemoveContainerBadRequestBody
 type LibpodRemoveContainerBadRequestBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -228,6 +226,11 @@ type LibpodRemoveContainerBadRequestBody struct {
 
 // Validate validates this libpod remove container bad request body
 func (o *LibpodRemoveContainerBadRequestBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod remove container bad request body based on context it is used
+func (o *LibpodRemoveContainerBadRequestBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -255,9 +258,11 @@ swagger:model LibpodRemoveContainerConflictBody
 type LibpodRemoveContainerConflictBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -266,6 +271,11 @@ type LibpodRemoveContainerConflictBody struct {
 
 // Validate validates this libpod remove container conflict body
 func (o *LibpodRemoveContainerConflictBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod remove container conflict body based on context it is used
+func (o *LibpodRemoveContainerConflictBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -293,9 +303,11 @@ swagger:model LibpodRemoveContainerInternalServerErrorBody
 type LibpodRemoveContainerInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -304,6 +316,11 @@ type LibpodRemoveContainerInternalServerErrorBody struct {
 
 // Validate validates this libpod remove container internal server error body
 func (o *LibpodRemoveContainerInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod remove container internal server error body based on context it is used
+func (o *LibpodRemoveContainerInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -331,9 +348,11 @@ swagger:model LibpodRemoveContainerNotFoundBody
 type LibpodRemoveContainerNotFoundBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -342,6 +361,11 @@ type LibpodRemoveContainerNotFoundBody struct {
 
 // Validate validates this libpod remove container not found body
 func (o *LibpodRemoveContainerNotFoundBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod remove container not found body based on context it is used
+func (o *LibpodRemoveContainerNotFoundBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

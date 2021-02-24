@@ -1,7 +1,9 @@
 package containerapi
 
 import (
+	"bufio"
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net"
@@ -14,9 +16,11 @@ import (
 
 	"github.com/LINBIT/containerapi/internal/podmanapi"
 	"github.com/LINBIT/containerapi/internal/podmanapi/containers"
+	"github.com/LINBIT/containerapi/internal/podmanapi/images"
 	"github.com/LINBIT/containerapi/internal/podmanapi/system"
 
 	"github.com/docker/docker/pkg/stdcopy"
+	"github.com/go-openapi/runtime"
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
 	log "github.com/sirupsen/logrus"
@@ -25,7 +29,7 @@ import (
 // swagger command from https://github.com/go-swagger/go-swagger/releases/
 // swagger file from https://storage.googleapis.com/libpod-master-releases/swagger-latest-master.yaml
 // with slight modifications, see ./swagger-2020-09-02.yaml.patch
-//go:generate go run github.com/go-swagger/go-swagger/cmd/swagger generate client -f ./podman_swagger.yaml --with-flatten expand --tags=containers --tags=system --skip-models -t ./internal -c podmanapi --keep-spec-order
+//go:generate go run github.com/go-swagger/go-swagger/cmd/swagger generate client -f ./podman_swagger.yaml --with-flatten expand --tags=containers --tags=system --tags=images --skip-models -t ./internal -c podmanapi --keep-spec-order
 
 type PodmanProvider struct {
 	client *podmanapi.ProvidesaContainerCompatibleInterface
@@ -36,6 +40,64 @@ func (d PodmanProvider) Close() error {
 }
 
 func (d PodmanProvider) Create(ctx context.Context, cfg *ContainerConfig) (string, error) {
+	existsParams := images.NewLibpodImageExistsParamsWithContext(ctx)
+	existsParams.Name = cfg.image
+	_, err := d.client.Images.LibpodImageExists(existsParams)
+	if cfg.pullConfig != nil && cfg.pullConfig(cfg.image, err == nil) {
+		pullParams := images.NewLibpodImagesPullParamsWithContext(ctx)
+		pullParams.Reference = &cfg.image
+		log.WithField("image", cfg.image).Info("pulling...")
+
+		read, write, err := os.Pipe()
+		if err != nil {
+			return "", err
+		}
+		defer write.Close()
+
+		go func() {
+			defer read.Close()
+			scan := bufio.NewScanner(read)
+			for scan.Scan() {
+				line := scan.Text()
+				type item struct {
+					Stream string `json:"stream,omitempty"`
+				}
+				data := item{}
+				err := json.Unmarshal([]byte(line), &data)
+				if err != nil {
+					log.WithError(err).WithField("line", line).Errorf("failed to read pull log")
+				}
+
+				if data.Stream != "" {
+					log.Info(data.Stream)
+				}
+			}
+		}()
+
+		// Some explanation is required here: We force the result to be interpreted as raw bytes in the success case.
+		// This is needed, as:
+		// * podman does not set an appropriate Content-Type header for the response
+		// * go-swagger defaults to assume JSON output
+		// * podman will send newline delimited json
+		// * go-swagger will stop after reading the first line of json
+		// This means that we return to early from the ImagePull function, so the image isn't actually pulled in time
+		// to create the container. Forcing the response to be read by the runtime.ByteStreamConsumer means we always
+		// wait for the full response, which waits for the image pull to complete.
+		_, err = d.client.Images.LibpodImagesPull(pullParams, write, func(operation *runtime.ClientOperation) {
+			originalReader := operation.Reader
+			operation.Reader = runtime.ClientResponseReaderFunc(func(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
+				if response.Code() == 200 {
+					consumer = runtime.ByteStreamConsumer(runtime.ClosesStream)
+				}
+				return originalReader.ReadResponse(response, consumer)
+			})
+		})
+		if err != nil {
+			return "", err
+		}
+		log.WithField("image", cfg.image).Infof("pull complete")
+	}
+
 	params := containers.NewLibpodCreateContainerParamsWithContext(ctx)
 	timeout := uint64(0)
 

@@ -17,69 +17,85 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// NewLibpodRemoveContainerParams creates a new LibpodRemoveContainerParams object
-// with the default values initialized.
+// NewLibpodRemoveContainerParams creates a new LibpodRemoveContainerParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodRemoveContainerParams() *LibpodRemoveContainerParams {
-	var ()
 	return &LibpodRemoveContainerParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodRemoveContainerParamsWithTimeout creates a new LibpodRemoveContainerParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodRemoveContainerParamsWithTimeout(timeout time.Duration) *LibpodRemoveContainerParams {
-	var ()
 	return &LibpodRemoveContainerParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodRemoveContainerParamsWithContext creates a new LibpodRemoveContainerParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodRemoveContainerParamsWithContext(ctx context.Context) *LibpodRemoveContainerParams {
-	var ()
 	return &LibpodRemoveContainerParams{
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodRemoveContainerParamsWithHTTPClient creates a new LibpodRemoveContainerParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodRemoveContainerParamsWithHTTPClient(client *http.Client) *LibpodRemoveContainerParams {
-	var ()
 	return &LibpodRemoveContainerParams{
 		HTTPClient: client,
 	}
 }
 
-/*LibpodRemoveContainerParams contains all the parameters to send to the API endpoint
-for the libpod remove container operation typically these are written to a http.Request
+/* LibpodRemoveContainerParams contains all the parameters to send to the API endpoint
+   for the libpod remove container operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodRemoveContainerParams struct {
 
-	/*Force
-	  need something
+	/* Force.
 
+	   need something
 	*/
 	Force *bool
-	/*Name
-	  the name or ID of the container
 
+	/* Name.
+
+	   the name or ID of the container
 	*/
 	Name string
-	/*V
-	  delete volumes
 
+	/* V.
+
+	   delete volumes
 	*/
 	V *bool
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod remove container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodRemoveContainerParams) WithDefaults() *LibpodRemoveContainerParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod remove container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodRemoveContainerParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the libpod remove container params
@@ -160,16 +176,17 @@ func (o *LibpodRemoveContainerParams) WriteToRequest(r runtime.ClientRequest, re
 
 		// query param force
 		var qrForce bool
+
 		if o.Force != nil {
 			qrForce = *o.Force
 		}
 		qForce := swag.FormatBool(qrForce)
 		if qForce != "" {
+
 			if err := r.SetQueryParam("force", qForce); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// path param name
@@ -181,16 +198,17 @@ func (o *LibpodRemoveContainerParams) WriteToRequest(r runtime.ClientRequest, re
 
 		// query param v
 		var qrV bool
+
 		if o.V != nil {
 			qrV = *o.V
 		}
 		qV := swag.FormatBool(qrV)
 		if qV != "" {
+
 			if err := r.SetQueryParam("v", qV); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if len(res) > 0 {

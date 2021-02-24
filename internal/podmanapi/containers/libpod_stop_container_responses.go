@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -46,7 +47,6 @@ func (o *LibpodStopContainerReader) ReadResponse(response runtime.ClientResponse
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -57,7 +57,7 @@ func NewLibpodStopContainerNoContent() *LibpodStopContainerNoContent {
 	return &LibpodStopContainerNoContent{}
 }
 
-/*LibpodStopContainerNoContent handles this case with default header values.
+/* LibpodStopContainerNoContent describes a response with status code 204, with default header values.
 
 no error
 */
@@ -78,7 +78,7 @@ func NewLibpodStopContainerNotModified() *LibpodStopContainerNotModified {
 	return &LibpodStopContainerNotModified{}
 }
 
-/*LibpodStopContainerNotModified handles this case with default header values.
+/* LibpodStopContainerNotModified describes a response with status code 304, with default header values.
 
 Container already stopped
 */
@@ -89,7 +89,6 @@ type LibpodStopContainerNotModified struct {
 func (o *LibpodStopContainerNotModified) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/stop][%d] libpodStopContainerNotModified  %+v", 304, o.Payload)
 }
-
 func (o *LibpodStopContainerNotModified) GetPayload() *LibpodStopContainerNotModifiedBody {
 	return o.Payload
 }
@@ -111,7 +110,7 @@ func NewLibpodStopContainerNotFound() *LibpodStopContainerNotFound {
 	return &LibpodStopContainerNotFound{}
 }
 
-/*LibpodStopContainerNotFound handles this case with default header values.
+/* LibpodStopContainerNotFound describes a response with status code 404, with default header values.
 
 No such container
 */
@@ -122,7 +121,6 @@ type LibpodStopContainerNotFound struct {
 func (o *LibpodStopContainerNotFound) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/stop][%d] libpodStopContainerNotFound  %+v", 404, o.Payload)
 }
-
 func (o *LibpodStopContainerNotFound) GetPayload() *LibpodStopContainerNotFoundBody {
 	return o.Payload
 }
@@ -144,7 +142,7 @@ func NewLibpodStopContainerInternalServerError() *LibpodStopContainerInternalSer
 	return &LibpodStopContainerInternalServerError{}
 }
 
-/*LibpodStopContainerInternalServerError handles this case with default header values.
+/* LibpodStopContainerInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -155,7 +153,6 @@ type LibpodStopContainerInternalServerError struct {
 func (o *LibpodStopContainerInternalServerError) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/stop][%d] libpodStopContainerInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodStopContainerInternalServerError) GetPayload() *LibpodStopContainerInternalServerErrorBody {
 	return o.Payload
 }
@@ -178,9 +175,11 @@ swagger:model LibpodStopContainerInternalServerErrorBody
 type LibpodStopContainerInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -189,6 +188,11 @@ type LibpodStopContainerInternalServerErrorBody struct {
 
 // Validate validates this libpod stop container internal server error body
 func (o *LibpodStopContainerInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod stop container internal server error body based on context it is used
+func (o *LibpodStopContainerInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -216,9 +220,11 @@ swagger:model LibpodStopContainerNotFoundBody
 type LibpodStopContainerNotFoundBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -227,6 +233,11 @@ type LibpodStopContainerNotFoundBody struct {
 
 // Validate validates this libpod stop container not found body
 func (o *LibpodStopContainerNotFoundBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod stop container not found body based on context it is used
+func (o *LibpodStopContainerNotFoundBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -254,9 +265,11 @@ swagger:model LibpodStopContainerNotModifiedBody
 type LibpodStopContainerNotModifiedBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -265,6 +278,11 @@ type LibpodStopContainerNotModifiedBody struct {
 
 // Validate validates this libpod stop container not modified body
 func (o *LibpodStopContainerNotModifiedBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod stop container not modified body based on context it is used
+func (o *LibpodStopContainerNotModifiedBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

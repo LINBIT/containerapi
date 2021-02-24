@@ -16,55 +16,54 @@ import (
 	"github.com/go-openapi/strfmt"
 )
 
-// NewLibpodPruneContainersParams creates a new LibpodPruneContainersParams object
-// with the default values initialized.
+// NewLibpodPruneContainersParams creates a new LibpodPruneContainersParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodPruneContainersParams() *LibpodPruneContainersParams {
-	var ()
 	return &LibpodPruneContainersParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodPruneContainersParamsWithTimeout creates a new LibpodPruneContainersParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodPruneContainersParamsWithTimeout(timeout time.Duration) *LibpodPruneContainersParams {
-	var ()
 	return &LibpodPruneContainersParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodPruneContainersParamsWithContext creates a new LibpodPruneContainersParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodPruneContainersParamsWithContext(ctx context.Context) *LibpodPruneContainersParams {
-	var ()
 	return &LibpodPruneContainersParams{
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodPruneContainersParamsWithHTTPClient creates a new LibpodPruneContainersParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodPruneContainersParamsWithHTTPClient(client *http.Client) *LibpodPruneContainersParams {
-	var ()
 	return &LibpodPruneContainersParams{
 		HTTPClient: client,
 	}
 }
 
-/*LibpodPruneContainersParams contains all the parameters to send to the API endpoint
-for the libpod prune containers operation typically these are written to a http.Request
+/* LibpodPruneContainersParams contains all the parameters to send to the API endpoint
+   for the libpod prune containers operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodPruneContainersParams struct {
 
-	/*Filters
-	 Filters to process on the prune list, encoded as JSON (a `map[string][]string`).  Available filters:
+	/* Filters.
+
+	    Filters to process on the prune list, encoded as JSON (a `map[string][]string`).  Available filters:
 	- `until=<timestamp>` Prune containers created before this timestamp. The `<timestamp>` can be Unix timestamps, date formatted timestamps, or Go duration strings (e.g. `10m`, `1h30m`) computed relative to the daemon machine’s time.
 	- `label` (`label=<key>`, `label=<key>=<value>`, `label!=<key>`, or `label!=<key>=<value>`) Prune containers with (or without, in case `label!=...` is used) the specified labels.
-
 
 	*/
 	Filters *string
@@ -72,6 +71,21 @@ type LibpodPruneContainersParams struct {
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod prune containers params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodPruneContainersParams) WithDefaults() *LibpodPruneContainersParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod prune containers params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodPruneContainersParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the libpod prune containers params
@@ -130,16 +144,17 @@ func (o *LibpodPruneContainersParams) WriteToRequest(r runtime.ClientRequest, re
 
 		// query param filters
 		var qrFilters string
+
 		if o.Filters != nil {
 			qrFilters = *o.Filters
 		}
 		qFilters := qrFilters
 		if qFilters != "" {
+
 			if err := r.SetQueryParam("filters", qFilters); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if len(res) > 0 {

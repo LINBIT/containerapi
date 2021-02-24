@@ -17,76 +17,92 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// NewLibpodStatsContainerParams creates a new LibpodStatsContainerParams object
-// with the default values initialized.
+// NewLibpodStatsContainerParams creates a new LibpodStatsContainerParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodStatsContainerParams() *LibpodStatsContainerParams {
-	var (
-		streamDefault = bool(true)
-	)
 	return &LibpodStatsContainerParams{
-		Stream: &streamDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodStatsContainerParamsWithTimeout creates a new LibpodStatsContainerParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodStatsContainerParamsWithTimeout(timeout time.Duration) *LibpodStatsContainerParams {
-	var (
-		streamDefault = bool(true)
-	)
 	return &LibpodStatsContainerParams{
-		Stream: &streamDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodStatsContainerParamsWithContext creates a new LibpodStatsContainerParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodStatsContainerParamsWithContext(ctx context.Context) *LibpodStatsContainerParams {
-	var (
-		streamDefault = bool(true)
-	)
 	return &LibpodStatsContainerParams{
-		Stream: &streamDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodStatsContainerParamsWithHTTPClient creates a new LibpodStatsContainerParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodStatsContainerParamsWithHTTPClient(client *http.Client) *LibpodStatsContainerParams {
-	var (
-		streamDefault = bool(true)
-	)
 	return &LibpodStatsContainerParams{
-		Stream:     &streamDefault,
 		HTTPClient: client,
 	}
 }
 
-/*LibpodStatsContainerParams contains all the parameters to send to the API endpoint
-for the libpod stats container operation typically these are written to a http.Request
+/* LibpodStatsContainerParams contains all the parameters to send to the API endpoint
+   for the libpod stats container operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodStatsContainerParams struct {
 
-	/*Name
-	  the name or ID of the container
+	/* Name.
 
+	   the name or ID of the container
 	*/
 	Name string
-	/*Stream
-	  Stream the output
 
+	/* Stream.
+
+	   Stream the output
+
+	   Default: true
 	*/
 	Stream *bool
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod stats container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodStatsContainerParams) WithDefaults() *LibpodStatsContainerParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod stats container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodStatsContainerParams) SetDefaults() {
+	var (
+		streamDefault = bool(true)
+	)
+
+	val := LibpodStatsContainerParams{
+		Stream: &streamDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the libpod stats container params
@@ -161,16 +177,17 @@ func (o *LibpodStatsContainerParams) WriteToRequest(r runtime.ClientRequest, reg
 
 		// query param stream
 		var qrStream bool
+
 		if o.Stream != nil {
 			qrStream = *o.Stream
 		}
 		qStream := swag.FormatBool(qrStream)
 		if qStream != "" {
+
 			if err := r.SetQueryParam("stream", qStream); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if len(res) > 0 {

@@ -6,6 +6,7 @@ package system
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -35,7 +36,6 @@ func (o *LibpodPingGetReader) ReadResponse(response runtime.ClientResponse, cons
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -46,36 +46,43 @@ func NewLibpodPingGetOK() *LibpodPingGetOK {
 	return &LibpodPingGetOK{}
 }
 
-/*LibpodPingGetOK handles this case with default header values.
+/* LibpodPingGetOK describes a response with status code 200, with default header values.
 
 Success
 */
 type LibpodPingGetOK struct {
-	/*Max compatibility API Version the server supports
+
+	/* Max compatibility API Version the server supports
 	 */
 	APIVersion string
-	/*Default version of docker image builder
+
+	/* Default version of docker image builder
 	 */
 	BuildKitVersion string
-	/*always no-cache
+
+	/* always no-cache
 	 */
 	CacheControl string
-	/*If the server is running with experimental mode enabled, always true
+
+	/* If the server is running with experimental mode enabled, always true
 	 */
 	DockerExperimental bool
-	/*Max Podman API Version the server supports.
+
+	/* Max Podman API Version the server supports.
 	Available if service is backed by Podman, therefore may be used to
 	determine if talking to Podman engine or another engine
 
 	*/
 	LibpodAPIVersion string
-	/*Default version of libpod image builder.
-	  Available if service is backed by Podman, therefore may be used to
-	  determine if talking to Podman engine or another engine
+
+	/* Default version of libpod image builder.
+	Available if service is backed by Podman, therefore may be used to
+	determine if talking to Podman engine or another engine
 
 	*/
 	LibpodBuildhaVersion string
-	/*always no-cache
+
+	/* always no-cache
 	 */
 	Pragma string
 
@@ -85,37 +92,64 @@ type LibpodPingGetOK struct {
 func (o *LibpodPingGetOK) Error() string {
 	return fmt.Sprintf("[GET /libpod/_ping][%d] libpodPingGetOK  %+v", 200, o.Payload)
 }
-
 func (o *LibpodPingGetOK) GetPayload() string {
 	return o.Payload
 }
 
 func (o *LibpodPingGetOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	// response header API-Version
-	o.APIVersion = response.GetHeader("API-Version")
+	// hydrates response header API-Version
+	hdrAPIVersion := response.GetHeader("API-Version")
 
-	// response header BuildKit-Version
-	o.BuildKitVersion = response.GetHeader("BuildKit-Version")
-
-	// response header Cache-Control
-	o.CacheControl = response.GetHeader("Cache-Control")
-
-	// response header Docker-Experimental
-	dockerExperimental, err := swag.ConvertBool(response.GetHeader("Docker-Experimental"))
-	if err != nil {
-		return errors.InvalidType("Docker-Experimental", "header", "bool", response.GetHeader("Docker-Experimental"))
+	if hdrAPIVersion != "" {
+		o.APIVersion = hdrAPIVersion
 	}
-	o.DockerExperimental = dockerExperimental
 
-	// response header Libpod-API-Version
-	o.LibpodAPIVersion = response.GetHeader("Libpod-API-Version")
+	// hydrates response header BuildKit-Version
+	hdrBuildKitVersion := response.GetHeader("BuildKit-Version")
 
-	// response header Libpod-Buildha-Version
-	o.LibpodBuildhaVersion = response.GetHeader("Libpod-Buildha-Version")
+	if hdrBuildKitVersion != "" {
+		o.BuildKitVersion = hdrBuildKitVersion
+	}
 
-	// response header Pragma
-	o.Pragma = response.GetHeader("Pragma")
+	// hydrates response header Cache-Control
+	hdrCacheControl := response.GetHeader("Cache-Control")
+
+	if hdrCacheControl != "" {
+		o.CacheControl = hdrCacheControl
+	}
+
+	// hydrates response header Docker-Experimental
+	hdrDockerExperimental := response.GetHeader("Docker-Experimental")
+
+	if hdrDockerExperimental != "" {
+		valdockerExperimental, err := swag.ConvertBool(hdrDockerExperimental)
+		if err != nil {
+			return errors.InvalidType("Docker-Experimental", "header", "bool", hdrDockerExperimental)
+		}
+		o.DockerExperimental = valdockerExperimental
+	}
+
+	// hydrates response header Libpod-API-Version
+	hdrLibpodAPIVersion := response.GetHeader("Libpod-API-Version")
+
+	if hdrLibpodAPIVersion != "" {
+		o.LibpodAPIVersion = hdrLibpodAPIVersion
+	}
+
+	// hydrates response header Libpod-Buildha-Version
+	hdrLibpodBuildhaVersion := response.GetHeader("Libpod-Buildha-Version")
+
+	if hdrLibpodBuildhaVersion != "" {
+		o.LibpodBuildhaVersion = hdrLibpodBuildhaVersion
+	}
+
+	// hydrates response header Pragma
+	hdrPragma := response.GetHeader("Pragma")
+
+	if hdrPragma != "" {
+		o.Pragma = hdrPragma
+	}
 
 	// response payload
 	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
@@ -130,7 +164,7 @@ func NewLibpodPingGetInternalServerError() *LibpodPingGetInternalServerError {
 	return &LibpodPingGetInternalServerError{}
 }
 
-/*LibpodPingGetInternalServerError handles this case with default header values.
+/* LibpodPingGetInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -141,7 +175,6 @@ type LibpodPingGetInternalServerError struct {
 func (o *LibpodPingGetInternalServerError) Error() string {
 	return fmt.Sprintf("[GET /libpod/_ping][%d] libpodPingGetInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodPingGetInternalServerError) GetPayload() *LibpodPingGetInternalServerErrorBody {
 	return o.Payload
 }
@@ -164,9 +197,11 @@ swagger:model LibpodPingGetInternalServerErrorBody
 type LibpodPingGetInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -175,6 +210,11 @@ type LibpodPingGetInternalServerErrorBody struct {
 
 // Validate validates this libpod ping get internal server error body
 func (o *LibpodPingGetInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod ping get internal server error body based on context it is used
+func (o *LibpodPingGetInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

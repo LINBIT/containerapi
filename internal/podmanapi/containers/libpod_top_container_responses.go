@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -42,7 +43,6 @@ func (o *LibpodTopContainerReader) ReadResponse(response runtime.ClientResponse,
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -53,7 +53,7 @@ func NewLibpodTopContainerOK() *LibpodTopContainerOK {
 	return &LibpodTopContainerOK{}
 }
 
-/*LibpodTopContainerOK handles this case with default header values.
+/* LibpodTopContainerOK describes a response with status code 200, with default header values.
 
 List processes in container
 */
@@ -64,7 +64,6 @@ type LibpodTopContainerOK struct {
 func (o *LibpodTopContainerOK) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/{name}/top][%d] libpodTopContainerOK  %+v", 200, o.Payload)
 }
-
 func (o *LibpodTopContainerOK) GetPayload() *LibpodTopContainerOKBody {
 	return o.Payload
 }
@@ -86,7 +85,7 @@ func NewLibpodTopContainerNotFound() *LibpodTopContainerNotFound {
 	return &LibpodTopContainerNotFound{}
 }
 
-/*LibpodTopContainerNotFound handles this case with default header values.
+/* LibpodTopContainerNotFound describes a response with status code 404, with default header values.
 
 No such container
 */
@@ -97,7 +96,6 @@ type LibpodTopContainerNotFound struct {
 func (o *LibpodTopContainerNotFound) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/{name}/top][%d] libpodTopContainerNotFound  %+v", 404, o.Payload)
 }
-
 func (o *LibpodTopContainerNotFound) GetPayload() *LibpodTopContainerNotFoundBody {
 	return o.Payload
 }
@@ -119,7 +117,7 @@ func NewLibpodTopContainerInternalServerError() *LibpodTopContainerInternalServe
 	return &LibpodTopContainerInternalServerError{}
 }
 
-/*LibpodTopContainerInternalServerError handles this case with default header values.
+/* LibpodTopContainerInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -130,7 +128,6 @@ type LibpodTopContainerInternalServerError struct {
 func (o *LibpodTopContainerInternalServerError) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/{name}/top][%d] libpodTopContainerInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodTopContainerInternalServerError) GetPayload() *LibpodTopContainerInternalServerErrorBody {
 	return o.Payload
 }
@@ -153,9 +150,11 @@ swagger:model LibpodTopContainerInternalServerErrorBody
 type LibpodTopContainerInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -164,6 +163,11 @@ type LibpodTopContainerInternalServerErrorBody struct {
 
 // Validate validates this libpod top container internal server error body
 func (o *LibpodTopContainerInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod top container internal server error body based on context it is used
+func (o *LibpodTopContainerInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -191,9 +195,11 @@ swagger:model LibpodTopContainerNotFoundBody
 type LibpodTopContainerNotFoundBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -202,6 +208,11 @@ type LibpodTopContainerNotFoundBody struct {
 
 // Validate validates this libpod top container not found body
 func (o *LibpodTopContainerNotFoundBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod top container not found body based on context it is used
+func (o *LibpodTopContainerNotFoundBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -270,6 +281,11 @@ func (o *LibpodTopContainerOKBody) validateTitles(formats strfmt.Registry) error
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this libpod top container o k body based on context it is used
+func (o *LibpodTopContainerOKBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

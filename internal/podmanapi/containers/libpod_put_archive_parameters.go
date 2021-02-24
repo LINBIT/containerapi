@@ -17,86 +17,104 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// NewLibpodPutArchiveParams creates a new LibpodPutArchiveParams object
-// with the default values initialized.
+// NewLibpodPutArchiveParams creates a new LibpodPutArchiveParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodPutArchiveParams() *LibpodPutArchiveParams {
-	var (
-		pauseDefault = bool(true)
-	)
 	return &LibpodPutArchiveParams{
-		Pause: &pauseDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodPutArchiveParamsWithTimeout creates a new LibpodPutArchiveParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodPutArchiveParamsWithTimeout(timeout time.Duration) *LibpodPutArchiveParams {
-	var (
-		pauseDefault = bool(true)
-	)
 	return &LibpodPutArchiveParams{
-		Pause: &pauseDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodPutArchiveParamsWithContext creates a new LibpodPutArchiveParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodPutArchiveParamsWithContext(ctx context.Context) *LibpodPutArchiveParams {
-	var (
-		pauseDefault = bool(true)
-	)
 	return &LibpodPutArchiveParams{
-		Pause: &pauseDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodPutArchiveParamsWithHTTPClient creates a new LibpodPutArchiveParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodPutArchiveParamsWithHTTPClient(client *http.Client) *LibpodPutArchiveParams {
-	var (
-		pauseDefault = bool(true)
-	)
 	return &LibpodPutArchiveParams{
-		Pause:      &pauseDefault,
 		HTTPClient: client,
 	}
 }
 
-/*LibpodPutArchiveParams contains all the parameters to send to the API endpoint
-for the libpod put archive operation typically these are written to a http.Request
+/* LibpodPutArchiveParams contains all the parameters to send to the API endpoint
+   for the libpod put archive operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodPutArchiveParams struct {
 
-	/*Name
-	  container name or id
+	/* Name.
 
+	   container name or id
 	*/
 	Name string
-	/*Path
-	  Path to a directory in the container to extract
 
+	/* Path.
+
+	   Path to a directory in the container to extract
 	*/
 	Path string
-	/*Pause
-	  pause the container while copying (defaults to true)
 
+	/* Pause.
+
+	   pause the container while copying (defaults to true)
+
+	   Default: true
 	*/
 	Pause *bool
-	/*Request
-	  tarfile of files to copy into the container
 
+	/* Request.
+
+	   tarfile of files to copy into the container
 	*/
 	Request string
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod put archive params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodPutArchiveParams) WithDefaults() *LibpodPutArchiveParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod put archive params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodPutArchiveParams) SetDefaults() {
+	var (
+		pauseDefault = bool(true)
+	)
+
+	val := LibpodPutArchiveParams{
+		Pause: &pauseDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the libpod put archive params
@@ -193,6 +211,7 @@ func (o *LibpodPutArchiveParams) WriteToRequest(r runtime.ClientRequest, reg str
 	qrPath := o.Path
 	qPath := qrPath
 	if qPath != "" {
+
 		if err := r.SetQueryParam("path", qPath); err != nil {
 			return err
 		}
@@ -202,18 +221,18 @@ func (o *LibpodPutArchiveParams) WriteToRequest(r runtime.ClientRequest, reg str
 
 		// query param pause
 		var qrPause bool
+
 		if o.Pause != nil {
 			qrPause = *o.Pause
 		}
 		qPause := swag.FormatBool(qrPause)
 		if qPause != "" {
+
 			if err := r.SetQueryParam("pause", qPause); err != nil {
 				return err
 			}
 		}
-
 	}
-
 	if err := r.SetBodyParam(o.Request); err != nil {
 		return err
 	}

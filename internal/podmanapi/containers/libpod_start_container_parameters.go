@@ -16,76 +16,92 @@ import (
 	"github.com/go-openapi/strfmt"
 )
 
-// NewLibpodStartContainerParams creates a new LibpodStartContainerParams object
-// with the default values initialized.
+// NewLibpodStartContainerParams creates a new LibpodStartContainerParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodStartContainerParams() *LibpodStartContainerParams {
-	var (
-		detachKeysDefault = string("ctrl-p,ctrl-q")
-	)
 	return &LibpodStartContainerParams{
-		DetachKeys: &detachKeysDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodStartContainerParamsWithTimeout creates a new LibpodStartContainerParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodStartContainerParamsWithTimeout(timeout time.Duration) *LibpodStartContainerParams {
-	var (
-		detachKeysDefault = string("ctrl-p,ctrl-q")
-	)
 	return &LibpodStartContainerParams{
-		DetachKeys: &detachKeysDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodStartContainerParamsWithContext creates a new LibpodStartContainerParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodStartContainerParamsWithContext(ctx context.Context) *LibpodStartContainerParams {
-	var (
-		detachKeysDefault = string("ctrl-p,ctrl-q")
-	)
 	return &LibpodStartContainerParams{
-		DetachKeys: &detachKeysDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodStartContainerParamsWithHTTPClient creates a new LibpodStartContainerParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodStartContainerParamsWithHTTPClient(client *http.Client) *LibpodStartContainerParams {
-	var (
-		detachKeysDefault = string("ctrl-p,ctrl-q")
-	)
 	return &LibpodStartContainerParams{
-		DetachKeys: &detachKeysDefault,
 		HTTPClient: client,
 	}
 }
 
-/*LibpodStartContainerParams contains all the parameters to send to the API endpoint
-for the libpod start container operation typically these are written to a http.Request
+/* LibpodStartContainerParams contains all the parameters to send to the API endpoint
+   for the libpod start container operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodStartContainerParams struct {
 
-	/*DetachKeys
-	  Override the key sequence for detaching a container. Format is a single character [a-Z] or ctrl-<value> where <value> is one of: a-z, @, ^, [, , or _.
+	/* DetachKeys.
 
+	   Override the key sequence for detaching a container. Format is a single character [a-Z] or ctrl-<value> where <value> is one of: a-z, @, ^, [, , or _.
+
+	   Default: "ctrl-p,ctrl-q"
 	*/
 	DetachKeys *string
-	/*Name
-	  the name or ID of the container
 
+	/* Name.
+
+	   the name or ID of the container
 	*/
 	Name string
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod start container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodStartContainerParams) WithDefaults() *LibpodStartContainerParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod start container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodStartContainerParams) SetDefaults() {
+	var (
+		detachKeysDefault = string("ctrl-p,ctrl-q")
+	)
+
+	val := LibpodStartContainerParams{
+		DetachKeys: &detachKeysDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the libpod start container params
@@ -155,16 +171,17 @@ func (o *LibpodStartContainerParams) WriteToRequest(r runtime.ClientRequest, reg
 
 		// query param detachKeys
 		var qrDetachKeys string
+
 		if o.DetachKeys != nil {
 			qrDetachKeys = *o.DetachKeys
 		}
 		qDetachKeys := qrDetachKeys
 		if qDetachKeys != "" {
+
 			if err := r.SetQueryParam("detachKeys", qDetachKeys); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// path param name

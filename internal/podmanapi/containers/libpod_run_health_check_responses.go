@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"strconv"
@@ -48,7 +49,6 @@ func (o *LibpodRunHealthCheckReader) ReadResponse(response runtime.ClientRespons
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -59,7 +59,7 @@ func NewLibpodRunHealthCheckOK() *LibpodRunHealthCheckOK {
 	return &LibpodRunHealthCheckOK{}
 }
 
-/*LibpodRunHealthCheckOK handles this case with default header values.
+/* LibpodRunHealthCheckOK describes a response with status code 200, with default header values.
 
 Healthcheck
 */
@@ -70,7 +70,6 @@ type LibpodRunHealthCheckOK struct {
 func (o *LibpodRunHealthCheckOK) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/{name:.*}/healthcheck][%d] libpodRunHealthCheckOK  %+v", 200, o.Payload)
 }
-
 func (o *LibpodRunHealthCheckOK) GetPayload() *LibpodRunHealthCheckOKBody {
 	return o.Payload
 }
@@ -92,7 +91,7 @@ func NewLibpodRunHealthCheckNotFound() *LibpodRunHealthCheckNotFound {
 	return &LibpodRunHealthCheckNotFound{}
 }
 
-/*LibpodRunHealthCheckNotFound handles this case with default header values.
+/* LibpodRunHealthCheckNotFound describes a response with status code 404, with default header values.
 
 No such container
 */
@@ -103,7 +102,6 @@ type LibpodRunHealthCheckNotFound struct {
 func (o *LibpodRunHealthCheckNotFound) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/{name:.*}/healthcheck][%d] libpodRunHealthCheckNotFound  %+v", 404, o.Payload)
 }
-
 func (o *LibpodRunHealthCheckNotFound) GetPayload() *LibpodRunHealthCheckNotFoundBody {
 	return o.Payload
 }
@@ -125,7 +123,7 @@ func NewLibpodRunHealthCheckConflict() *LibpodRunHealthCheckConflict {
 	return &LibpodRunHealthCheckConflict{}
 }
 
-/*LibpodRunHealthCheckConflict handles this case with default header values.
+/* LibpodRunHealthCheckConflict describes a response with status code 409, with default header values.
 
 container has no healthcheck or is not running
 */
@@ -146,7 +144,7 @@ func NewLibpodRunHealthCheckInternalServerError() *LibpodRunHealthCheckInternalS
 	return &LibpodRunHealthCheckInternalServerError{}
 }
 
-/*LibpodRunHealthCheckInternalServerError handles this case with default header values.
+/* LibpodRunHealthCheckInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -157,7 +155,6 @@ type LibpodRunHealthCheckInternalServerError struct {
 func (o *LibpodRunHealthCheckInternalServerError) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/{name:.*}/healthcheck][%d] libpodRunHealthCheckInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodRunHealthCheckInternalServerError) GetPayload() *LibpodRunHealthCheckInternalServerErrorBody {
 	return o.Payload
 }
@@ -180,9 +177,11 @@ swagger:model LibpodRunHealthCheckInternalServerErrorBody
 type LibpodRunHealthCheckInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -191,6 +190,11 @@ type LibpodRunHealthCheckInternalServerErrorBody struct {
 
 // Validate validates this libpod run health check internal server error body
 func (o *LibpodRunHealthCheckInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod run health check internal server error body based on context it is used
+func (o *LibpodRunHealthCheckInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -218,9 +222,11 @@ swagger:model LibpodRunHealthCheckNotFoundBody
 type LibpodRunHealthCheckNotFoundBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -229,6 +235,11 @@ type LibpodRunHealthCheckNotFoundBody struct {
 
 // Validate validates this libpod run health check not found body
 func (o *LibpodRunHealthCheckNotFoundBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod run health check not found body based on context it is used
+func (o *LibpodRunHealthCheckNotFoundBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -280,7 +291,6 @@ func (o *LibpodRunHealthCheckOKBody) Validate(formats strfmt.Registry) error {
 }
 
 func (o *LibpodRunHealthCheckOKBody) validateLog(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Log) { // not required
 		return nil
 	}
@@ -292,6 +302,38 @@ func (o *LibpodRunHealthCheckOKBody) validateLog(formats strfmt.Registry) error 
 
 		if o.Log[i] != nil {
 			if err := o.Log[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("libpodRunHealthCheckOK" + "." + "Log" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this libpod run health check o k body based on the context it is used
+func (o *LibpodRunHealthCheckOKBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidateLog(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *LibpodRunHealthCheckOKBody) contextValidateLog(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.Log); i++ {
+
+		if o.Log[i] != nil {
+			if err := o.Log[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("libpodRunHealthCheckOK" + "." + "Log" + "." + strconv.Itoa(i))
 				}
@@ -342,6 +384,11 @@ type LibpodRunHealthCheckOKBodyLogItems0 struct {
 
 // Validate validates this libpod run health check o k body log items0
 func (o *LibpodRunHealthCheckOKBodyLogItems0) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod run health check o k body log items0 based on context it is used
+func (o *LibpodRunHealthCheckOKBodyLogItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

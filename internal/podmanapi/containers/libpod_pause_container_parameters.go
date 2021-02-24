@@ -16,59 +16,73 @@ import (
 	"github.com/go-openapi/strfmt"
 )
 
-// NewLibpodPauseContainerParams creates a new LibpodPauseContainerParams object
-// with the default values initialized.
+// NewLibpodPauseContainerParams creates a new LibpodPauseContainerParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodPauseContainerParams() *LibpodPauseContainerParams {
-	var ()
 	return &LibpodPauseContainerParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodPauseContainerParamsWithTimeout creates a new LibpodPauseContainerParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodPauseContainerParamsWithTimeout(timeout time.Duration) *LibpodPauseContainerParams {
-	var ()
 	return &LibpodPauseContainerParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodPauseContainerParamsWithContext creates a new LibpodPauseContainerParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodPauseContainerParamsWithContext(ctx context.Context) *LibpodPauseContainerParams {
-	var ()
 	return &LibpodPauseContainerParams{
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodPauseContainerParamsWithHTTPClient creates a new LibpodPauseContainerParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodPauseContainerParamsWithHTTPClient(client *http.Client) *LibpodPauseContainerParams {
-	var ()
 	return &LibpodPauseContainerParams{
 		HTTPClient: client,
 	}
 }
 
-/*LibpodPauseContainerParams contains all the parameters to send to the API endpoint
-for the libpod pause container operation typically these are written to a http.Request
+/* LibpodPauseContainerParams contains all the parameters to send to the API endpoint
+   for the libpod pause container operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodPauseContainerParams struct {
 
-	/*Name
-	  the name or ID of the container
+	/* Name.
 
+	   the name or ID of the container
 	*/
 	Name string
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod pause container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodPauseContainerParams) WithDefaults() *LibpodPauseContainerParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod pause container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodPauseContainerParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the libpod pause container params

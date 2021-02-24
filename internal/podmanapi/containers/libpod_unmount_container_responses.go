@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -40,7 +41,6 @@ func (o *LibpodUnmountContainerReader) ReadResponse(response runtime.ClientRespo
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -51,7 +51,7 @@ func NewLibpodUnmountContainerNoContent() *LibpodUnmountContainerNoContent {
 	return &LibpodUnmountContainerNoContent{}
 }
 
-/*LibpodUnmountContainerNoContent handles this case with default header values.
+/* LibpodUnmountContainerNoContent describes a response with status code 204, with default header values.
 
 ok
 */
@@ -72,7 +72,7 @@ func NewLibpodUnmountContainerNotFound() *LibpodUnmountContainerNotFound {
 	return &LibpodUnmountContainerNotFound{}
 }
 
-/*LibpodUnmountContainerNotFound handles this case with default header values.
+/* LibpodUnmountContainerNotFound describes a response with status code 404, with default header values.
 
 No such container
 */
@@ -83,7 +83,6 @@ type LibpodUnmountContainerNotFound struct {
 func (o *LibpodUnmountContainerNotFound) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/unmount][%d] libpodUnmountContainerNotFound  %+v", 404, o.Payload)
 }
-
 func (o *LibpodUnmountContainerNotFound) GetPayload() *LibpodUnmountContainerNotFoundBody {
 	return o.Payload
 }
@@ -105,7 +104,7 @@ func NewLibpodUnmountContainerInternalServerError() *LibpodUnmountContainerInter
 	return &LibpodUnmountContainerInternalServerError{}
 }
 
-/*LibpodUnmountContainerInternalServerError handles this case with default header values.
+/* LibpodUnmountContainerInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -116,7 +115,6 @@ type LibpodUnmountContainerInternalServerError struct {
 func (o *LibpodUnmountContainerInternalServerError) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/unmount][%d] libpodUnmountContainerInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodUnmountContainerInternalServerError) GetPayload() *LibpodUnmountContainerInternalServerErrorBody {
 	return o.Payload
 }
@@ -139,9 +137,11 @@ swagger:model LibpodUnmountContainerInternalServerErrorBody
 type LibpodUnmountContainerInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -150,6 +150,11 @@ type LibpodUnmountContainerInternalServerErrorBody struct {
 
 // Validate validates this libpod unmount container internal server error body
 func (o *LibpodUnmountContainerInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod unmount container internal server error body based on context it is used
+func (o *LibpodUnmountContainerInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -177,9 +182,11 @@ swagger:model LibpodUnmountContainerNotFoundBody
 type LibpodUnmountContainerNotFoundBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -188,6 +195,11 @@ type LibpodUnmountContainerNotFoundBody struct {
 
 // Validate validates this libpod unmount container not found body
 func (o *LibpodUnmountContainerNotFoundBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod unmount container not found body based on context it is used
+func (o *LibpodUnmountContainerNotFoundBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

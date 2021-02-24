@@ -17,7 +17,10 @@ type ContainerConfig struct {
 	mounts           []Mount
 	dnsServers       []net.IP
 	dnsSearchDomains []string
+	pullConfig		 ShouldPull
 }
+
+type ShouldPull func(img string, exists bool) bool
 
 // Represents a single host path to bind mount in the container
 type Mount struct {
@@ -94,6 +97,29 @@ func WithDNSSearchDomains(domains ...string) ConfigOption {
 		config.dnsSearchDomains = domains
 	}
 }
+
+// Configure the pulling behaviour for this container
+func WithPullConfig(shouldPull ShouldPull) ConfigOption {
+	return func(config *ContainerConfig) {
+		config.pullConfig = shouldPull
+	}
+}
+
+func PullNever(img string, exists bool) bool {
+	return false
+}
+
+func PullAlways(img string, exists bool) bool {
+	return true
+}
+
+func PullIfNotExists(img string, exists bool) bool {
+	return !exists
+}
+
+var _ ShouldPull = PullNever
+var _ ShouldPull = PullAlways
+var _ ShouldPull = PullIfNotExists
 
 // A ContainerProvider offers basic control over a container lifecycle
 //

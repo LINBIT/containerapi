@@ -17,91 +17,105 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// NewLibpodTopContainerParams creates a new LibpodTopContainerParams object
-// with the default values initialized.
+// NewLibpodTopContainerParams creates a new LibpodTopContainerParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodTopContainerParams() *LibpodTopContainerParams {
-	var (
-		psArgsDefault = string("-ef")
-		streamDefault = bool(true)
-	)
 	return &LibpodTopContainerParams{
-		PsArgs: &psArgsDefault,
-		Stream: &streamDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodTopContainerParamsWithTimeout creates a new LibpodTopContainerParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodTopContainerParamsWithTimeout(timeout time.Duration) *LibpodTopContainerParams {
-	var (
-		psArgsDefault = string("-ef")
-		streamDefault = bool(true)
-	)
 	return &LibpodTopContainerParams{
-		PsArgs: &psArgsDefault,
-		Stream: &streamDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodTopContainerParamsWithContext creates a new LibpodTopContainerParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodTopContainerParamsWithContext(ctx context.Context) *LibpodTopContainerParams {
-	var (
-		psArgsDefault = string("-ef")
-		streamDefault = bool(true)
-	)
 	return &LibpodTopContainerParams{
-		PsArgs: &psArgsDefault,
-		Stream: &streamDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodTopContainerParamsWithHTTPClient creates a new LibpodTopContainerParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodTopContainerParamsWithHTTPClient(client *http.Client) *LibpodTopContainerParams {
-	var (
-		psArgsDefault = string("-ef")
-		streamDefault = bool(true)
-	)
 	return &LibpodTopContainerParams{
-		PsArgs:     &psArgsDefault,
-		Stream:     &streamDefault,
 		HTTPClient: client,
 	}
 }
 
-/*LibpodTopContainerParams contains all the parameters to send to the API endpoint
-for the libpod top container operation typically these are written to a http.Request
+/* LibpodTopContainerParams contains all the parameters to send to the API endpoint
+   for the libpod top container operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodTopContainerParams struct {
 
-	/*Name
-	  Name of container to query for processes
-	(As of version 1.xx)
+	/* Name.
 
+	     Name of container to query for processes
+	(As of version 1.xx)
 
 	*/
 	Name string
-	/*PsArgs
-	  arguments to pass to ps such as aux. Requires ps(1) to be installed in the container if no ps(1) compatible AIX descriptors are used.
 
+	/* PsArgs.
+
+	   arguments to pass to ps such as aux. Requires ps(1) to be installed in the container if no ps(1) compatible AIX descriptors are used.
+
+	   Default: "-ef"
 	*/
 	PsArgs *string
-	/*Stream
-	  Stream the output
 
+	/* Stream.
+
+	   Stream the output
+
+	   Default: true
 	*/
 	Stream *bool
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod top container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodTopContainerParams) WithDefaults() *LibpodTopContainerParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod top container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodTopContainerParams) SetDefaults() {
+	var (
+		psArgsDefault = string("-ef")
+
+		streamDefault = bool(true)
+	)
+
+	val := LibpodTopContainerParams{
+		PsArgs: &psArgsDefault,
+		Stream: &streamDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the libpod top container params
@@ -187,32 +201,34 @@ func (o *LibpodTopContainerParams) WriteToRequest(r runtime.ClientRequest, reg s
 
 		// query param ps_args
 		var qrPsArgs string
+
 		if o.PsArgs != nil {
 			qrPsArgs = *o.PsArgs
 		}
 		qPsArgs := qrPsArgs
 		if qPsArgs != "" {
+
 			if err := r.SetQueryParam("ps_args", qPsArgs); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Stream != nil {
 
 		// query param stream
 		var qrStream bool
+
 		if o.Stream != nil {
 			qrStream = *o.Stream
 		}
 		qStream := swag.FormatBool(qrStream)
 		if qStream != "" {
+
 			if err := r.SetQueryParam("stream", qStream); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if len(res) > 0 {

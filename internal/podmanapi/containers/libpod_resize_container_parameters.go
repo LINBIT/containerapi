@@ -17,69 +17,85 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// NewLibpodResizeContainerParams creates a new LibpodResizeContainerParams object
-// with the default values initialized.
+// NewLibpodResizeContainerParams creates a new LibpodResizeContainerParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodResizeContainerParams() *LibpodResizeContainerParams {
-	var ()
 	return &LibpodResizeContainerParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodResizeContainerParamsWithTimeout creates a new LibpodResizeContainerParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodResizeContainerParamsWithTimeout(timeout time.Duration) *LibpodResizeContainerParams {
-	var ()
 	return &LibpodResizeContainerParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodResizeContainerParamsWithContext creates a new LibpodResizeContainerParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodResizeContainerParamsWithContext(ctx context.Context) *LibpodResizeContainerParams {
-	var ()
 	return &LibpodResizeContainerParams{
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodResizeContainerParamsWithHTTPClient creates a new LibpodResizeContainerParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodResizeContainerParamsWithHTTPClient(client *http.Client) *LibpodResizeContainerParams {
-	var ()
 	return &LibpodResizeContainerParams{
 		HTTPClient: client,
 	}
 }
 
-/*LibpodResizeContainerParams contains all the parameters to send to the API endpoint
-for the libpod resize container operation typically these are written to a http.Request
+/* LibpodResizeContainerParams contains all the parameters to send to the API endpoint
+   for the libpod resize container operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodResizeContainerParams struct {
 
-	/*H
-	  Height to set for the terminal, in characters
+	/* H.
 
+	   Height to set for the terminal, in characters
 	*/
 	H *int64
-	/*Name
-	  the name or ID of the container
 
+	/* Name.
+
+	   the name or ID of the container
 	*/
 	Name string
-	/*W
-	  Width to set for the terminal, in characters
 
+	/* W.
+
+	   Width to set for the terminal, in characters
 	*/
 	W *int64
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod resize container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodResizeContainerParams) WithDefaults() *LibpodResizeContainerParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod resize container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodResizeContainerParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the libpod resize container params
@@ -160,16 +176,17 @@ func (o *LibpodResizeContainerParams) WriteToRequest(r runtime.ClientRequest, re
 
 		// query param h
 		var qrH int64
+
 		if o.H != nil {
 			qrH = *o.H
 		}
 		qH := swag.FormatInt64(qrH)
 		if qH != "" {
+
 			if err := r.SetQueryParam("h", qH); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// path param name
@@ -181,16 +198,17 @@ func (o *LibpodResizeContainerParams) WriteToRequest(r runtime.ClientRequest, re
 
 		// query param w
 		var qrW int64
+
 		if o.W != nil {
 			qrW = *o.W
 		}
 		qW := swag.FormatInt64(qrW)
 		if qW != "" {
+
 			if err := r.SetQueryParam("w", qW); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if len(res) > 0 {

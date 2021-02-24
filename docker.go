@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"os"
 	"os/exec"
 	"time"
@@ -24,6 +25,23 @@ func (d DockerProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 	dockerEnv := make([]string, 0, len(cfg.env))
 	for k, v := range cfg.env {
 		dockerEnv = append(dockerEnv, fmt.Sprintf("%s=%s", k, v))
+	}
+
+
+	_, _, err := d.client.ImageInspectWithRaw(ctx, cfg.image)
+	if cfg.pullConfig != nil && cfg.pullConfig(cfg.image, err == nil) {
+		log.WithField("image", cfg.image).Info("pulling...")
+		reader, err := d.client.ImagePull(ctx, cfg.image, types.ImagePullOptions{})
+		if err != nil {
+			return "", fmt.Errorf("failed to pull image: %w", err)
+		}
+		defer reader.Close()
+
+		_, err = ioutil.ReadAll(reader)
+		if err != nil {
+			return "", fmt.Errorf("failed to pull image: %w", err)
+		}
+		log.WithField("image", cfg.image).Infof("pull complete")
 	}
 
 	mounts := make([]mount.Mount, len(cfg.mounts))
@@ -58,7 +76,7 @@ func (d DockerProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 		DNSSearch:   cfg.dnsSearchDomains,
 	}
 
-	resp, err := d.client.ContainerCreate(ctx, config, hostConfig, nil, cfg.name)
+	resp, err := d.client.ContainerCreate(ctx, config, hostConfig, nil, nil, cfg.name)
 	if err != nil {
 		return "", fmt.Errorf("failed to create docker container: %w", err)
 	}

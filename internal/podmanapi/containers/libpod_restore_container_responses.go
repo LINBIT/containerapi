@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -40,7 +41,6 @@ func (o *LibpodRestoreContainerReader) ReadResponse(response runtime.ClientRespo
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -51,7 +51,7 @@ func NewLibpodRestoreContainerOK() *LibpodRestoreContainerOK {
 	return &LibpodRestoreContainerOK{}
 }
 
-/*LibpodRestoreContainerOK handles this case with default header values.
+/* LibpodRestoreContainerOK describes a response with status code 200, with default header values.
 
 tarball is returned in body if exported
 */
@@ -72,7 +72,7 @@ func NewLibpodRestoreContainerNotFound() *LibpodRestoreContainerNotFound {
 	return &LibpodRestoreContainerNotFound{}
 }
 
-/*LibpodRestoreContainerNotFound handles this case with default header values.
+/* LibpodRestoreContainerNotFound describes a response with status code 404, with default header values.
 
 No such container
 */
@@ -83,7 +83,6 @@ type LibpodRestoreContainerNotFound struct {
 func (o *LibpodRestoreContainerNotFound) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/restore][%d] libpodRestoreContainerNotFound  %+v", 404, o.Payload)
 }
-
 func (o *LibpodRestoreContainerNotFound) GetPayload() *LibpodRestoreContainerNotFoundBody {
 	return o.Payload
 }
@@ -105,7 +104,7 @@ func NewLibpodRestoreContainerInternalServerError() *LibpodRestoreContainerInter
 	return &LibpodRestoreContainerInternalServerError{}
 }
 
-/*LibpodRestoreContainerInternalServerError handles this case with default header values.
+/* LibpodRestoreContainerInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -116,7 +115,6 @@ type LibpodRestoreContainerInternalServerError struct {
 func (o *LibpodRestoreContainerInternalServerError) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/restore][%d] libpodRestoreContainerInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodRestoreContainerInternalServerError) GetPayload() *LibpodRestoreContainerInternalServerErrorBody {
 	return o.Payload
 }
@@ -139,9 +137,11 @@ swagger:model LibpodRestoreContainerInternalServerErrorBody
 type LibpodRestoreContainerInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -150,6 +150,11 @@ type LibpodRestoreContainerInternalServerErrorBody struct {
 
 // Validate validates this libpod restore container internal server error body
 func (o *LibpodRestoreContainerInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod restore container internal server error body based on context it is used
+func (o *LibpodRestoreContainerInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -177,9 +182,11 @@ swagger:model LibpodRestoreContainerNotFoundBody
 type LibpodRestoreContainerNotFoundBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -188,6 +195,11 @@ type LibpodRestoreContainerNotFoundBody struct {
 
 // Validate validates this libpod restore container not found body
 func (o *LibpodRestoreContainerNotFoundBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod restore container not found body based on context it is used
+func (o *LibpodRestoreContainerNotFoundBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

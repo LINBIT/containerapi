@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -40,7 +41,6 @@ func (o *LibpodPauseContainerReader) ReadResponse(response runtime.ClientRespons
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -51,7 +51,7 @@ func NewLibpodPauseContainerNoContent() *LibpodPauseContainerNoContent {
 	return &LibpodPauseContainerNoContent{}
 }
 
-/*LibpodPauseContainerNoContent handles this case with default header values.
+/* LibpodPauseContainerNoContent describes a response with status code 204, with default header values.
 
 no error
 */
@@ -72,7 +72,7 @@ func NewLibpodPauseContainerNotFound() *LibpodPauseContainerNotFound {
 	return &LibpodPauseContainerNotFound{}
 }
 
-/*LibpodPauseContainerNotFound handles this case with default header values.
+/* LibpodPauseContainerNotFound describes a response with status code 404, with default header values.
 
 No such container
 */
@@ -83,7 +83,6 @@ type LibpodPauseContainerNotFound struct {
 func (o *LibpodPauseContainerNotFound) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/pause][%d] libpodPauseContainerNotFound  %+v", 404, o.Payload)
 }
-
 func (o *LibpodPauseContainerNotFound) GetPayload() *LibpodPauseContainerNotFoundBody {
 	return o.Payload
 }
@@ -105,7 +104,7 @@ func NewLibpodPauseContainerInternalServerError() *LibpodPauseContainerInternalS
 	return &LibpodPauseContainerInternalServerError{}
 }
 
-/*LibpodPauseContainerInternalServerError handles this case with default header values.
+/* LibpodPauseContainerInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -116,7 +115,6 @@ type LibpodPauseContainerInternalServerError struct {
 func (o *LibpodPauseContainerInternalServerError) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/pause][%d] libpodPauseContainerInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodPauseContainerInternalServerError) GetPayload() *LibpodPauseContainerInternalServerErrorBody {
 	return o.Payload
 }
@@ -139,9 +137,11 @@ swagger:model LibpodPauseContainerInternalServerErrorBody
 type LibpodPauseContainerInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -150,6 +150,11 @@ type LibpodPauseContainerInternalServerErrorBody struct {
 
 // Validate validates this libpod pause container internal server error body
 func (o *LibpodPauseContainerInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod pause container internal server error body based on context it is used
+func (o *LibpodPauseContainerInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -177,9 +182,11 @@ swagger:model LibpodPauseContainerNotFoundBody
 type LibpodPauseContainerNotFoundBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -188,6 +195,11 @@ type LibpodPauseContainerNotFoundBody struct {
 
 // Validate validates this libpod pause container not found body
 func (o *LibpodPauseContainerNotFoundBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod pause container not found body based on context it is used
+func (o *LibpodPauseContainerNotFoundBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

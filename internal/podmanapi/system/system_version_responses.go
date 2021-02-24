@@ -6,6 +6,7 @@ package system
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -29,7 +30,6 @@ func (o *SystemVersionReader) ReadResponse(response runtime.ClientResponse, cons
 			return nil, err
 		}
 		return result, nil
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -40,7 +40,7 @@ func NewSystemVersionOK() *SystemVersionOK {
 	return &SystemVersionOK{}
 }
 
-/*SystemVersionOK handles this case with default header values.
+/* SystemVersionOK describes a response with status code 200, with default header values.
 
 Version
 */
@@ -51,7 +51,6 @@ type SystemVersionOK struct {
 func (o *SystemVersionOK) Error() string {
 	return fmt.Sprintf("[GET /libpod/version][%d] systemVersionOK  %+v", 200, o.Payload)
 }
-
 func (o *SystemVersionOK) GetPayload() *SystemVersionOKBody {
 	return o.Payload
 }
@@ -99,7 +98,6 @@ func (o *SystemVersionOKBody) Validate(formats strfmt.Registry) error {
 }
 
 func (o *SystemVersionOKBody) validateClient(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Client) { // not required
 		return nil
 	}
@@ -117,13 +115,58 @@ func (o *SystemVersionOKBody) validateClient(formats strfmt.Registry) error {
 }
 
 func (o *SystemVersionOKBody) validateServer(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Server) { // not required
 		return nil
 	}
 
 	if o.Server != nil {
 		if err := o.Server.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("systemVersionOK" + "." + "Server")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this system version o k body based on the context it is used
+func (o *SystemVersionOKBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidateClient(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateServer(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *SystemVersionOKBody) contextValidateClient(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Client != nil {
+		if err := o.Client.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("systemVersionOK" + "." + "Client")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *SystemVersionOKBody) contextValidateServer(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Server != nil {
+		if err := o.Server.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("systemVersionOK" + "." + "Server")
 			}
@@ -184,6 +227,11 @@ func (o *SystemVersionOKBodyClient) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
+// ContextValidate validates this system version o k body client based on context it is used
+func (o *SystemVersionOKBodyClient) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *SystemVersionOKBodyClient) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -231,6 +279,11 @@ type SystemVersionOKBodyServer struct {
 
 // Validate validates this system version o k body server
 func (o *SystemVersionOKBodyServer) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this system version o k body server based on context it is used
+func (o *SystemVersionOKBodyServer) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

@@ -17,64 +17,79 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// NewLibpodRestartContainerParams creates a new LibpodRestartContainerParams object
-// with the default values initialized.
+// NewLibpodRestartContainerParams creates a new LibpodRestartContainerParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodRestartContainerParams() *LibpodRestartContainerParams {
-	var ()
 	return &LibpodRestartContainerParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodRestartContainerParamsWithTimeout creates a new LibpodRestartContainerParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodRestartContainerParamsWithTimeout(timeout time.Duration) *LibpodRestartContainerParams {
-	var ()
 	return &LibpodRestartContainerParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodRestartContainerParamsWithContext creates a new LibpodRestartContainerParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodRestartContainerParamsWithContext(ctx context.Context) *LibpodRestartContainerParams {
-	var ()
 	return &LibpodRestartContainerParams{
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodRestartContainerParamsWithHTTPClient creates a new LibpodRestartContainerParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodRestartContainerParamsWithHTTPClient(client *http.Client) *LibpodRestartContainerParams {
-	var ()
 	return &LibpodRestartContainerParams{
 		HTTPClient: client,
 	}
 }
 
-/*LibpodRestartContainerParams contains all the parameters to send to the API endpoint
-for the libpod restart container operation typically these are written to a http.Request
+/* LibpodRestartContainerParams contains all the parameters to send to the API endpoint
+   for the libpod restart container operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodRestartContainerParams struct {
 
-	/*Name
-	  the name or ID of the container
+	/* Name.
 
+	   the name or ID of the container
 	*/
 	Name string
-	/*T
-	  timeout before sending kill signal to container
 
+	/* T.
+
+	   timeout before sending kill signal to container
 	*/
 	T *int64
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod restart container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodRestartContainerParams) WithDefaults() *LibpodRestartContainerParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod restart container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodRestartContainerParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the libpod restart container params
@@ -149,16 +164,17 @@ func (o *LibpodRestartContainerParams) WriteToRequest(r runtime.ClientRequest, r
 
 		// query param t
 		var qrT int64
+
 		if o.T != nil {
 			qrT = *o.T
 		}
 		qT := swag.FormatInt64(qrT)
 		if qT != "" {
+
 			if err := r.SetQueryParam("t", qT); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if len(res) > 0 {

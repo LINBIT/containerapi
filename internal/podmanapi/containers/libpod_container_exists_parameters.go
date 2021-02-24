@@ -16,59 +16,73 @@ import (
 	"github.com/go-openapi/strfmt"
 )
 
-// NewLibpodContainerExistsParams creates a new LibpodContainerExistsParams object
-// with the default values initialized.
+// NewLibpodContainerExistsParams creates a new LibpodContainerExistsParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodContainerExistsParams() *LibpodContainerExistsParams {
-	var ()
 	return &LibpodContainerExistsParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodContainerExistsParamsWithTimeout creates a new LibpodContainerExistsParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodContainerExistsParamsWithTimeout(timeout time.Duration) *LibpodContainerExistsParams {
-	var ()
 	return &LibpodContainerExistsParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodContainerExistsParamsWithContext creates a new LibpodContainerExistsParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodContainerExistsParamsWithContext(ctx context.Context) *LibpodContainerExistsParams {
-	var ()
 	return &LibpodContainerExistsParams{
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodContainerExistsParamsWithHTTPClient creates a new LibpodContainerExistsParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodContainerExistsParamsWithHTTPClient(client *http.Client) *LibpodContainerExistsParams {
-	var ()
 	return &LibpodContainerExistsParams{
 		HTTPClient: client,
 	}
 }
 
-/*LibpodContainerExistsParams contains all the parameters to send to the API endpoint
-for the libpod container exists operation typically these are written to a http.Request
+/* LibpodContainerExistsParams contains all the parameters to send to the API endpoint
+   for the libpod container exists operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodContainerExistsParams struct {
 
-	/*Name
-	  the name or ID of the container
+	/* Name.
 
+	   the name or ID of the container
 	*/
 	Name string
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod container exists params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodContainerExistsParams) WithDefaults() *LibpodContainerExistsParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod container exists params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodContainerExistsParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the libpod container exists params

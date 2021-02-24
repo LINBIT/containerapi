@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -40,7 +41,6 @@ func (o *LibpodContainerExistsReader) ReadResponse(response runtime.ClientRespon
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -51,7 +51,7 @@ func NewLibpodContainerExistsNoContent() *LibpodContainerExistsNoContent {
 	return &LibpodContainerExistsNoContent{}
 }
 
-/*LibpodContainerExistsNoContent handles this case with default header values.
+/* LibpodContainerExistsNoContent describes a response with status code 204, with default header values.
 
 container exists
 */
@@ -72,7 +72,7 @@ func NewLibpodContainerExistsNotFound() *LibpodContainerExistsNotFound {
 	return &LibpodContainerExistsNotFound{}
 }
 
-/*LibpodContainerExistsNotFound handles this case with default header values.
+/* LibpodContainerExistsNotFound describes a response with status code 404, with default header values.
 
 No such container
 */
@@ -83,7 +83,6 @@ type LibpodContainerExistsNotFound struct {
 func (o *LibpodContainerExistsNotFound) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/{name}/exists][%d] libpodContainerExistsNotFound  %+v", 404, o.Payload)
 }
-
 func (o *LibpodContainerExistsNotFound) GetPayload() *LibpodContainerExistsNotFoundBody {
 	return o.Payload
 }
@@ -105,7 +104,7 @@ func NewLibpodContainerExistsInternalServerError() *LibpodContainerExistsInterna
 	return &LibpodContainerExistsInternalServerError{}
 }
 
-/*LibpodContainerExistsInternalServerError handles this case with default header values.
+/* LibpodContainerExistsInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -116,7 +115,6 @@ type LibpodContainerExistsInternalServerError struct {
 func (o *LibpodContainerExistsInternalServerError) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/{name}/exists][%d] libpodContainerExistsInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodContainerExistsInternalServerError) GetPayload() *LibpodContainerExistsInternalServerErrorBody {
 	return o.Payload
 }
@@ -139,9 +137,11 @@ swagger:model LibpodContainerExistsInternalServerErrorBody
 type LibpodContainerExistsInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -150,6 +150,11 @@ type LibpodContainerExistsInternalServerErrorBody struct {
 
 // Validate validates this libpod container exists internal server error body
 func (o *LibpodContainerExistsInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod container exists internal server error body based on context it is used
+func (o *LibpodContainerExistsInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -177,9 +182,11 @@ swagger:model LibpodContainerExistsNotFoundBody
 type LibpodContainerExistsNotFoundBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -188,6 +195,11 @@ type LibpodContainerExistsNotFoundBody struct {
 
 // Validate validates this libpod container exists not found body
 func (o *LibpodContainerExistsNotFoundBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod container exists not found body based on context it is used
+func (o *LibpodContainerExistsNotFoundBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

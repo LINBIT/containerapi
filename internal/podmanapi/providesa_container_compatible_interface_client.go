@@ -11,6 +11,7 @@ import (
 	"github.com/go-openapi/strfmt"
 
 	"github.com/LINBIT/containerapi/internal/podmanapi/containers"
+	"github.com/LINBIT/containerapi/internal/podmanapi/images"
 	"github.com/LINBIT/containerapi/internal/podmanapi/system"
 )
 
@@ -57,6 +58,7 @@ func New(transport runtime.ClientTransport, formats strfmt.Registry) *ProvidesaC
 	cli := new(ProvidesaContainerCompatibleInterface)
 	cli.Transport = transport
 	cli.Containers = containers.New(transport, formats)
+	cli.Images = images.New(transport, formats)
 	cli.System = system.New(transport, formats)
 	return cli
 }
@@ -104,6 +106,8 @@ func (cfg *TransportConfig) WithSchemes(schemes []string) *TransportConfig {
 type ProvidesaContainerCompatibleInterface struct {
 	Containers containers.ClientService
 
+	Images images.ClientService
+
 	System system.ClientService
 
 	Transport runtime.ClientTransport
@@ -113,5 +117,6 @@ type ProvidesaContainerCompatibleInterface struct {
 func (c *ProvidesaContainerCompatibleInterface) SetTransport(transport runtime.ClientTransport) {
 	c.Transport = transport
 	c.Containers.SetTransport(transport)
+	c.Images.SetTransport(transport)
 	c.System.SetTransport(transport)
 }

@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -41,7 +42,6 @@ func (o *LibpodLogsFromContainerReader) ReadResponse(response runtime.ClientResp
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -50,11 +50,12 @@ func (o *LibpodLogsFromContainerReader) ReadResponse(response runtime.ClientResp
 // NewLibpodLogsFromContainerOK creates a LibpodLogsFromContainerOK with default headers values
 func NewLibpodLogsFromContainerOK(writer io.Writer) *LibpodLogsFromContainerOK {
 	return &LibpodLogsFromContainerOK{
+
 		Payload: writer,
 	}
 }
 
-/*LibpodLogsFromContainerOK handles this case with default header values.
+/* LibpodLogsFromContainerOK describes a response with status code 200, with default header values.
 
 logs returned as a stream in response body.
 */
@@ -65,7 +66,6 @@ type LibpodLogsFromContainerOK struct {
 func (o *LibpodLogsFromContainerOK) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/{name}/logs][%d] libpodLogsFromContainerOK  %+v", 200, o.Payload)
 }
-
 func (o *LibpodLogsFromContainerOK) GetPayload() io.Writer {
 	return o.Payload
 }
@@ -85,7 +85,7 @@ func NewLibpodLogsFromContainerNotFound() *LibpodLogsFromContainerNotFound {
 	return &LibpodLogsFromContainerNotFound{}
 }
 
-/*LibpodLogsFromContainerNotFound handles this case with default header values.
+/* LibpodLogsFromContainerNotFound describes a response with status code 404, with default header values.
 
 No such container
 */
@@ -96,7 +96,6 @@ type LibpodLogsFromContainerNotFound struct {
 func (o *LibpodLogsFromContainerNotFound) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/{name}/logs][%d] libpodLogsFromContainerNotFound  %+v", 404, o.Payload)
 }
-
 func (o *LibpodLogsFromContainerNotFound) GetPayload() *LibpodLogsFromContainerNotFoundBody {
 	return o.Payload
 }
@@ -118,7 +117,7 @@ func NewLibpodLogsFromContainerInternalServerError() *LibpodLogsFromContainerInt
 	return &LibpodLogsFromContainerInternalServerError{}
 }
 
-/*LibpodLogsFromContainerInternalServerError handles this case with default header values.
+/* LibpodLogsFromContainerInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -129,7 +128,6 @@ type LibpodLogsFromContainerInternalServerError struct {
 func (o *LibpodLogsFromContainerInternalServerError) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/{name}/logs][%d] libpodLogsFromContainerInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodLogsFromContainerInternalServerError) GetPayload() *LibpodLogsFromContainerInternalServerErrorBody {
 	return o.Payload
 }
@@ -152,9 +150,11 @@ swagger:model LibpodLogsFromContainerInternalServerErrorBody
 type LibpodLogsFromContainerInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -163,6 +163,11 @@ type LibpodLogsFromContainerInternalServerErrorBody struct {
 
 // Validate validates this libpod logs from container internal server error body
 func (o *LibpodLogsFromContainerInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod logs from container internal server error body based on context it is used
+func (o *LibpodLogsFromContainerInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -190,9 +195,11 @@ swagger:model LibpodLogsFromContainerNotFoundBody
 type LibpodLogsFromContainerNotFoundBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -201,6 +208,11 @@ type LibpodLogsFromContainerNotFoundBody struct {
 
 // Validate validates this libpod logs from container not found body
 func (o *LibpodLogsFromContainerNotFoundBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod logs from container not found body based on context it is used
+func (o *LibpodLogsFromContainerNotFoundBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -40,7 +41,6 @@ func (o *ChangesContainerReader) ReadResponse(response runtime.ClientResponse, c
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -51,7 +51,7 @@ func NewChangesContainerOK() *ChangesContainerOK {
 	return &ChangesContainerOK{}
 }
 
-/*ChangesContainerOK handles this case with default header values.
+/* ChangesContainerOK describes a response with status code 200, with default header values.
 
 Array of Changes
 */
@@ -72,7 +72,7 @@ func NewChangesContainerNotFound() *ChangesContainerNotFound {
 	return &ChangesContainerNotFound{}
 }
 
-/*ChangesContainerNotFound handles this case with default header values.
+/* ChangesContainerNotFound describes a response with status code 404, with default header values.
 
 No such container
 */
@@ -83,7 +83,6 @@ type ChangesContainerNotFound struct {
 func (o *ChangesContainerNotFound) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/{name}/changes][%d] changesContainerNotFound  %+v", 404, o.Payload)
 }
-
 func (o *ChangesContainerNotFound) GetPayload() *ChangesContainerNotFoundBody {
 	return o.Payload
 }
@@ -105,7 +104,7 @@ func NewChangesContainerInternalServerError() *ChangesContainerInternalServerErr
 	return &ChangesContainerInternalServerError{}
 }
 
-/*ChangesContainerInternalServerError handles this case with default header values.
+/* ChangesContainerInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -116,7 +115,6 @@ type ChangesContainerInternalServerError struct {
 func (o *ChangesContainerInternalServerError) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/{name}/changes][%d] changesContainerInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *ChangesContainerInternalServerError) GetPayload() *ChangesContainerInternalServerErrorBody {
 	return o.Payload
 }
@@ -139,9 +137,11 @@ swagger:model ChangesContainerInternalServerErrorBody
 type ChangesContainerInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -150,6 +150,11 @@ type ChangesContainerInternalServerErrorBody struct {
 
 // Validate validates this changes container internal server error body
 func (o *ChangesContainerInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this changes container internal server error body based on context it is used
+func (o *ChangesContainerInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -177,9 +182,11 @@ swagger:model ChangesContainerNotFoundBody
 type ChangesContainerNotFoundBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -188,6 +195,11 @@ type ChangesContainerNotFoundBody struct {
 
 // Validate validates this changes container not found body
 func (o *ChangesContainerNotFoundBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this changes container not found body based on context it is used
+func (o *ChangesContainerNotFoundBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

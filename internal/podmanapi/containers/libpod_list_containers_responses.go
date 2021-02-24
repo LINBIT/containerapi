@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"strconv"
@@ -42,7 +43,6 @@ func (o *LibpodListContainersReader) ReadResponse(response runtime.ClientRespons
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -53,7 +53,7 @@ func NewLibpodListContainersOK() *LibpodListContainersOK {
 	return &LibpodListContainersOK{}
 }
 
-/*LibpodListContainersOK handles this case with default header values.
+/* LibpodListContainersOK describes a response with status code 200, with default header values.
 
 List Containers
 */
@@ -64,7 +64,6 @@ type LibpodListContainersOK struct {
 func (o *LibpodListContainersOK) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/json][%d] libpodListContainersOK  %+v", 200, o.Payload)
 }
-
 func (o *LibpodListContainersOK) GetPayload() []*LibpodListContainersOKBodyItems0 {
 	return o.Payload
 }
@@ -84,7 +83,7 @@ func NewLibpodListContainersBadRequest() *LibpodListContainersBadRequest {
 	return &LibpodListContainersBadRequest{}
 }
 
-/*LibpodListContainersBadRequest handles this case with default header values.
+/* LibpodListContainersBadRequest describes a response with status code 400, with default header values.
 
 Bad parameter in request
 */
@@ -95,7 +94,6 @@ type LibpodListContainersBadRequest struct {
 func (o *LibpodListContainersBadRequest) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/json][%d] libpodListContainersBadRequest  %+v", 400, o.Payload)
 }
-
 func (o *LibpodListContainersBadRequest) GetPayload() *LibpodListContainersBadRequestBody {
 	return o.Payload
 }
@@ -117,7 +115,7 @@ func NewLibpodListContainersInternalServerError() *LibpodListContainersInternalS
 	return &LibpodListContainersInternalServerError{}
 }
 
-/*LibpodListContainersInternalServerError handles this case with default header values.
+/* LibpodListContainersInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -128,7 +126,6 @@ type LibpodListContainersInternalServerError struct {
 func (o *LibpodListContainersInternalServerError) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/json][%d] libpodListContainersInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodListContainersInternalServerError) GetPayload() *LibpodListContainersInternalServerErrorBody {
 	return o.Payload
 }
@@ -151,9 +148,11 @@ swagger:model LibpodListContainersBadRequestBody
 type LibpodListContainersBadRequestBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -162,6 +161,11 @@ type LibpodListContainersBadRequestBody struct {
 
 // Validate validates this libpod list containers bad request body
 func (o *LibpodListContainersBadRequestBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod list containers bad request body based on context it is used
+func (o *LibpodListContainersBadRequestBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -189,9 +193,11 @@ swagger:model LibpodListContainersInternalServerErrorBody
 type LibpodListContainersInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -200,6 +206,11 @@ type LibpodListContainersInternalServerErrorBody struct {
 
 // Validate validates this libpod list containers internal server error body
 func (o *LibpodListContainersInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod list containers internal server error body based on context it is used
+func (o *LibpodListContainersInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -318,7 +329,6 @@ func (o *LibpodListContainersOKBodyItems0) Validate(formats strfmt.Registry) err
 }
 
 func (o *LibpodListContainersOKBodyItems0) validatePorts(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Ports) { // not required
 		return nil
 	}
@@ -343,7 +353,6 @@ func (o *LibpodListContainersOKBodyItems0) validatePorts(formats strfmt.Registry
 }
 
 func (o *LibpodListContainersOKBodyItems0) validateNamespaces(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Namespaces) { // not required
 		return nil
 	}
@@ -361,13 +370,80 @@ func (o *LibpodListContainersOKBodyItems0) validateNamespaces(formats strfmt.Reg
 }
 
 func (o *LibpodListContainersOKBodyItems0) validateSize(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Size) { // not required
 		return nil
 	}
 
 	if o.Size != nil {
 		if err := o.Size.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("Size")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this libpod list containers o k body items0 based on the context it is used
+func (o *LibpodListContainersOKBodyItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidatePorts(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateNamespaces(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateSize(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *LibpodListContainersOKBodyItems0) contextValidatePorts(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.Ports); i++ {
+
+		if o.Ports[i] != nil {
+			if err := o.Ports[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("Ports" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodListContainersOKBodyItems0) contextValidateNamespaces(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Namespaces != nil {
+		if err := o.Namespaces.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("Namespaces")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodListContainersOKBodyItems0) contextValidateSize(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Size != nil {
+		if err := o.Size.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("Size")
 			}
@@ -425,6 +501,11 @@ type LibpodListContainersOKBodyItems0Namespaces struct {
 
 // Validate validates this libpod list containers o k body items0 namespaces
 func (o *LibpodListContainersOKBodyItems0Namespaces) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod list containers o k body items0 namespaces based on context it is used
+func (o *LibpodListContainersOKBodyItems0Namespaces) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -488,6 +569,11 @@ func (o *LibpodListContainersOKBodyItems0PortsItems0) Validate(formats strfmt.Re
 	return nil
 }
 
+// ContextValidate validates this libpod list containers o k body items0 ports items0 based on context it is used
+func (o *LibpodListContainersOKBodyItems0PortsItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodListContainersOKBodyItems0PortsItems0) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -521,6 +607,11 @@ type LibpodListContainersOKBodyItems0Size struct {
 
 // Validate validates this libpod list containers o k body items0 size
 func (o *LibpodListContainersOKBodyItems0Size) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod list containers o k body items0 size based on context it is used
+func (o *LibpodListContainersOKBodyItems0Size) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

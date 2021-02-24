@@ -25,19 +25,22 @@ type Client struct {
 	formats   strfmt.Registry
 }
 
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
 // ClientService is the interface for Client methods
 type ClientService interface {
-	SystemVersion(params *SystemVersionParams) (*SystemVersionOK, error)
+	SystemVersion(params *SystemVersionParams, opts ...ClientOption) (*SystemVersionOK, error)
 
-	Df(params *DfParams) (*DfOK, error)
+	Df(params *DfParams, opts ...ClientOption) (*DfOK, error)
 
-	LibpodGetEvents(params *LibpodGetEventsParams) (*LibpodGetEventsOK, error)
+	LibpodGetEvents(params *LibpodGetEventsParams, opts ...ClientOption) (*LibpodGetEventsOK, error)
 
-	LibpodGetInfo(params *LibpodGetInfoParams) (*LibpodGetInfoOK, error)
+	LibpodGetInfo(params *LibpodGetInfoParams, opts ...ClientOption) (*LibpodGetInfoOK, error)
 
-	LibpodPingGet(params *LibpodPingGetParams) (*LibpodPingGetOK, error)
+	LibpodPingGet(params *LibpodPingGetParams, opts ...ClientOption) (*LibpodPingGetOK, error)
 
-	PruneSystem(params *PruneSystemParams) (*PruneSystemOK, error)
+	PruneSystem(params *PruneSystemParams, opts ...ClientOption) (*PruneSystemOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
@@ -45,13 +48,12 @@ type ClientService interface {
 /*
   SystemVersion components version information
 */
-func (a *Client) SystemVersion(params *SystemVersionParams) (*SystemVersionOK, error) {
+func (a *Client) SystemVersion(params *SystemVersionParams, opts ...ClientOption) (*SystemVersionOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewSystemVersionParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "SystemVersion",
 		Method:             "GET",
 		PathPattern:        "/libpod/version",
@@ -62,7 +64,12 @@ func (a *Client) SystemVersion(params *SystemVersionParams) (*SystemVersionOK, e
 		Reader:             &SystemVersionReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -81,13 +88,12 @@ func (a *Client) SystemVersion(params *SystemVersionParams) (*SystemVersionOK, e
 
   Return information about disk usage for containers, images, and volumes
 */
-func (a *Client) Df(params *DfParams) (*DfOK, error) {
+func (a *Client) Df(params *DfParams, opts ...ClientOption) (*DfOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDfParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "df",
 		Method:             "GET",
 		PathPattern:        "/libpod/system/df",
@@ -98,7 +104,12 @@ func (a *Client) Df(params *DfParams) (*DfOK, error) {
 		Reader:             &DfReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -117,13 +128,12 @@ func (a *Client) Df(params *DfParams) (*DfOK, error) {
 
   Returns events filtered on query parameters
 */
-func (a *Client) LibpodGetEvents(params *LibpodGetEventsParams) (*LibpodGetEventsOK, error) {
+func (a *Client) LibpodGetEvents(params *LibpodGetEventsParams, opts ...ClientOption) (*LibpodGetEventsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodGetEventsParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodGetEvents",
 		Method:             "GET",
 		PathPattern:        "/libpod/events",
@@ -134,7 +144,12 @@ func (a *Client) LibpodGetEvents(params *LibpodGetEventsParams) (*LibpodGetEvent
 		Reader:             &LibpodGetEventsReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -153,13 +168,12 @@ func (a *Client) LibpodGetEvents(params *LibpodGetEventsParams) (*LibpodGetEvent
 
   Returns information on the system and libpod configuration
 */
-func (a *Client) LibpodGetInfo(params *LibpodGetInfoParams) (*LibpodGetInfoOK, error) {
+func (a *Client) LibpodGetInfo(params *LibpodGetInfoParams, opts ...ClientOption) (*LibpodGetInfoOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodGetInfoParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodGetInfo",
 		Method:             "GET",
 		PathPattern:        "/libpod/info",
@@ -170,7 +184,12 @@ func (a *Client) LibpodGetInfo(params *LibpodGetInfoParams) (*LibpodGetInfoOK, e
 		Reader:             &LibpodGetInfoReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -193,13 +212,12 @@ func (a *Client) LibpodGetInfo(params *LibpodGetInfoParams) (*LibpodGetInfoOK, e
 The '_ping' endpoints are not versioned.
 
 */
-func (a *Client) LibpodPingGet(params *LibpodPingGetParams) (*LibpodPingGetOK, error) {
+func (a *Client) LibpodPingGet(params *LibpodPingGetParams, opts ...ClientOption) (*LibpodPingGetOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodPingGetParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodPingGet",
 		Method:             "GET",
 		PathPattern:        "/libpod/_ping",
@@ -210,7 +228,12 @@ func (a *Client) LibpodPingGet(params *LibpodPingGetParams) (*LibpodPingGetOK, e
 		Reader:             &LibpodPingGetReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -227,13 +250,12 @@ func (a *Client) LibpodPingGet(params *LibpodPingGetParams) (*LibpodPingGetOK, e
 /*
   PruneSystem prunes unused data
 */
-func (a *Client) PruneSystem(params *PruneSystemParams) (*PruneSystemOK, error) {
+func (a *Client) PruneSystem(params *PruneSystemParams, opts ...ClientOption) (*PruneSystemOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewPruneSystemParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "pruneSystem",
 		Method:             "POST",
 		PathPattern:        "/libpod/system/prune",
@@ -244,7 +266,12 @@ func (a *Client) PruneSystem(params *PruneSystemParams) (*PruneSystemOK, error) 
 		Reader:             &PruneSystemReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}

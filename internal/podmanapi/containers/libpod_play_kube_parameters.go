@@ -17,81 +17,98 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// NewLibpodPlayKubeParams creates a new LibpodPlayKubeParams object
-// with the default values initialized.
+// NewLibpodPlayKubeParams creates a new LibpodPlayKubeParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodPlayKubeParams() *LibpodPlayKubeParams {
-	var (
-		tLSVerifyDefault = bool(true)
-	)
 	return &LibpodPlayKubeParams{
-		TLSVerify: &tLSVerifyDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodPlayKubeParamsWithTimeout creates a new LibpodPlayKubeParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodPlayKubeParamsWithTimeout(timeout time.Duration) *LibpodPlayKubeParams {
-	var (
-		tLSVerifyDefault = bool(true)
-	)
 	return &LibpodPlayKubeParams{
-		TLSVerify: &tLSVerifyDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodPlayKubeParamsWithContext creates a new LibpodPlayKubeParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodPlayKubeParamsWithContext(ctx context.Context) *LibpodPlayKubeParams {
-	var (
-		tlsVerifyDefault = bool(true)
-	)
 	return &LibpodPlayKubeParams{
-		TLSVerify: &tlsVerifyDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodPlayKubeParamsWithHTTPClient creates a new LibpodPlayKubeParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodPlayKubeParamsWithHTTPClient(client *http.Client) *LibpodPlayKubeParams {
-	var (
-		tlsVerifyDefault = bool(true)
-	)
 	return &LibpodPlayKubeParams{
-		TLSVerify:  &tlsVerifyDefault,
 		HTTPClient: client,
 	}
 }
 
-/*LibpodPlayKubeParams contains all the parameters to send to the API endpoint
-for the libpod play kube operation typically these are written to a http.Request
+/* LibpodPlayKubeParams contains all the parameters to send to the API endpoint
+   for the libpod play kube operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodPlayKubeParams struct {
 
-	/*Network
-	  Connect the pod to this network.
+	/* Network.
 
+	   Connect the pod to this network.
 	*/
 	Network *string
-	/*Request
-	  Kubernetes YAML file.
 
+	/* Request.
+
+	   Kubernetes YAML file.
 	*/
 	Request string
-	/*TLSVerify
-	  Require HTTPS and verify signatures when contating registries.
 
+	/* TLSVerify.
+
+	   Require HTTPS and verify signatures when contating registries.
+
+	   Default: true
 	*/
 	TLSVerify *bool
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod play kube params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodPlayKubeParams) WithDefaults() *LibpodPlayKubeParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod play kube params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodPlayKubeParams) SetDefaults() {
+	var (
+		tLSVerifyDefault = bool(true)
+	)
+
+	val := LibpodPlayKubeParams{
+		TLSVerify: &tLSVerifyDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the libpod play kube params
@@ -172,18 +189,18 @@ func (o *LibpodPlayKubeParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 
 		// query param network
 		var qrNetwork string
+
 		if o.Network != nil {
 			qrNetwork = *o.Network
 		}
 		qNetwork := qrNetwork
 		if qNetwork != "" {
+
 			if err := r.SetQueryParam("network", qNetwork); err != nil {
 				return err
 			}
 		}
-
 	}
-
 	if err := r.SetBodyParam(o.Request); err != nil {
 		return err
 	}
@@ -192,16 +209,17 @@ func (o *LibpodPlayKubeParams) WriteToRequest(r runtime.ClientRequest, reg strfm
 
 		// query param tlsVerify
 		var qrTLSVerify bool
+
 		if o.TLSVerify != nil {
 			qrTLSVerify = *o.TLSVerify
 		}
 		qTLSVerify := swag.FormatBool(qrTLSVerify)
 		if qTLSVerify != "" {
+
 			if err := r.SetQueryParam("tlsVerify", qTLSVerify); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if len(res) > 0 {

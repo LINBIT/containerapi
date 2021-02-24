@@ -17,101 +17,122 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// NewLibpodAttachContainerParams creates a new LibpodAttachContainerParams object
-// with the default values initialized.
+// NewLibpodAttachContainerParams creates a new LibpodAttachContainerParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodAttachContainerParams() *LibpodAttachContainerParams {
-	var (
-		streamDefault = bool(true)
-	)
 	return &LibpodAttachContainerParams{
-		Stream: &streamDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodAttachContainerParamsWithTimeout creates a new LibpodAttachContainerParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodAttachContainerParamsWithTimeout(timeout time.Duration) *LibpodAttachContainerParams {
-	var (
-		streamDefault = bool(true)
-	)
 	return &LibpodAttachContainerParams{
-		Stream: &streamDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodAttachContainerParamsWithContext creates a new LibpodAttachContainerParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodAttachContainerParamsWithContext(ctx context.Context) *LibpodAttachContainerParams {
-	var (
-		streamDefault = bool(true)
-	)
 	return &LibpodAttachContainerParams{
-		Stream: &streamDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodAttachContainerParamsWithHTTPClient creates a new LibpodAttachContainerParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodAttachContainerParamsWithHTTPClient(client *http.Client) *LibpodAttachContainerParams {
-	var (
-		streamDefault = bool(true)
-	)
 	return &LibpodAttachContainerParams{
-		Stream:     &streamDefault,
 		HTTPClient: client,
 	}
 }
 
-/*LibpodAttachContainerParams contains all the parameters to send to the API endpoint
-for the libpod attach container operation typically these are written to a http.Request
+/* LibpodAttachContainerParams contains all the parameters to send to the API endpoint
+   for the libpod attach container operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodAttachContainerParams struct {
 
-	/*DetachKeys
-	  keys to use for detaching from the container
+	/* DetachKeys.
 
+	   keys to use for detaching from the container
 	*/
 	DetachKeys *string
-	/*Logs
-	  Stream all logs from the container across the connection. Happens before streaming attach (if requested). At least one of logs or stream must be set
 
+	/* Logs.
+
+	   Stream all logs from the container across the connection. Happens before streaming attach (if requested). At least one of logs or stream must be set
 	*/
 	Logs *bool
-	/*Name
-	  the name or ID of the container
 
+	/* Name.
+
+	   the name or ID of the container
 	*/
 	Name string
-	/*Stderr
-	  Attach to container STDERR
 
+	/* Stderr.
+
+	   Attach to container STDERR
 	*/
 	Stderr *bool
-	/*Stdin
-	  Attach to container STDIN
 
+	/* Stdin.
+
+	   Attach to container STDIN
 	*/
 	Stdin *bool
-	/*Stdout
-	  Attach to container STDOUT
 
+	/* Stdout.
+
+	   Attach to container STDOUT
 	*/
 	Stdout *bool
-	/*Stream
-	  Attach to the container. If unset, and logs is set, only the container's logs will be sent. At least one of stream or logs must be set
 
+	/* Stream.
+
+	   Attach to the container. If unset, and logs is set, only the container's logs will be sent. At least one of stream or logs must be set
+
+	   Default: true
 	*/
 	Stream *bool
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod attach container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodAttachContainerParams) WithDefaults() *LibpodAttachContainerParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod attach container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodAttachContainerParams) SetDefaults() {
+	var (
+		streamDefault = bool(true)
+	)
+
+	val := LibpodAttachContainerParams{
+		Stream: &streamDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the libpod attach container params
@@ -236,32 +257,34 @@ func (o *LibpodAttachContainerParams) WriteToRequest(r runtime.ClientRequest, re
 
 		// query param detachKeys
 		var qrDetachKeys string
+
 		if o.DetachKeys != nil {
 			qrDetachKeys = *o.DetachKeys
 		}
 		qDetachKeys := qrDetachKeys
 		if qDetachKeys != "" {
+
 			if err := r.SetQueryParam("detachKeys", qDetachKeys); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Logs != nil {
 
 		// query param logs
 		var qrLogs bool
+
 		if o.Logs != nil {
 			qrLogs = *o.Logs
 		}
 		qLogs := swag.FormatBool(qrLogs)
 		if qLogs != "" {
+
 			if err := r.SetQueryParam("logs", qLogs); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// path param name
@@ -273,64 +296,68 @@ func (o *LibpodAttachContainerParams) WriteToRequest(r runtime.ClientRequest, re
 
 		// query param stderr
 		var qrStderr bool
+
 		if o.Stderr != nil {
 			qrStderr = *o.Stderr
 		}
 		qStderr := swag.FormatBool(qrStderr)
 		if qStderr != "" {
+
 			if err := r.SetQueryParam("stderr", qStderr); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Stdin != nil {
 
 		// query param stdin
 		var qrStdin bool
+
 		if o.Stdin != nil {
 			qrStdin = *o.Stdin
 		}
 		qStdin := swag.FormatBool(qrStdin)
 		if qStdin != "" {
+
 			if err := r.SetQueryParam("stdin", qStdin); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Stdout != nil {
 
 		// query param stdout
 		var qrStdout bool
+
 		if o.Stdout != nil {
 			qrStdout = *o.Stdout
 		}
 		qStdout := swag.FormatBool(qrStdout)
 		if qStdout != "" {
+
 			if err := r.SetQueryParam("stdout", qStdout); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Stream != nil {
 
 		// query param stream
 		var qrStream bool
+
 		if o.Stream != nil {
 			qrStream = *o.Stream
 		}
 		qStream := swag.FormatBool(qrStream)
 		if qStream != "" {
+
 			if err := r.SetQueryParam("stream", qStream); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if len(res) > 0 {

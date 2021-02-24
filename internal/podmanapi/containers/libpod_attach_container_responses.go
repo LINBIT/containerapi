@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -46,7 +47,6 @@ func (o *LibpodAttachContainerReader) ReadResponse(response runtime.ClientRespon
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -57,7 +57,7 @@ func NewLibpodAttachContainerSwitchingProtocols() *LibpodAttachContainerSwitchin
 	return &LibpodAttachContainerSwitchingProtocols{}
 }
 
-/*LibpodAttachContainerSwitchingProtocols handles this case with default header values.
+/* LibpodAttachContainerSwitchingProtocols describes a response with status code 101, with default header values.
 
 No error, connection has been hijacked for transporting streams.
 */
@@ -78,7 +78,7 @@ func NewLibpodAttachContainerBadRequest() *LibpodAttachContainerBadRequest {
 	return &LibpodAttachContainerBadRequest{}
 }
 
-/*LibpodAttachContainerBadRequest handles this case with default header values.
+/* LibpodAttachContainerBadRequest describes a response with status code 400, with default header values.
 
 Bad parameter in request
 */
@@ -89,7 +89,6 @@ type LibpodAttachContainerBadRequest struct {
 func (o *LibpodAttachContainerBadRequest) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/attach][%d] libpodAttachContainerBadRequest  %+v", 400, o.Payload)
 }
-
 func (o *LibpodAttachContainerBadRequest) GetPayload() *LibpodAttachContainerBadRequestBody {
 	return o.Payload
 }
@@ -111,7 +110,7 @@ func NewLibpodAttachContainerNotFound() *LibpodAttachContainerNotFound {
 	return &LibpodAttachContainerNotFound{}
 }
 
-/*LibpodAttachContainerNotFound handles this case with default header values.
+/* LibpodAttachContainerNotFound describes a response with status code 404, with default header values.
 
 No such container
 */
@@ -122,7 +121,6 @@ type LibpodAttachContainerNotFound struct {
 func (o *LibpodAttachContainerNotFound) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/attach][%d] libpodAttachContainerNotFound  %+v", 404, o.Payload)
 }
-
 func (o *LibpodAttachContainerNotFound) GetPayload() *LibpodAttachContainerNotFoundBody {
 	return o.Payload
 }
@@ -144,7 +142,7 @@ func NewLibpodAttachContainerInternalServerError() *LibpodAttachContainerInterna
 	return &LibpodAttachContainerInternalServerError{}
 }
 
-/*LibpodAttachContainerInternalServerError handles this case with default header values.
+/* LibpodAttachContainerInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -155,7 +153,6 @@ type LibpodAttachContainerInternalServerError struct {
 func (o *LibpodAttachContainerInternalServerError) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/attach][%d] libpodAttachContainerInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodAttachContainerInternalServerError) GetPayload() *LibpodAttachContainerInternalServerErrorBody {
 	return o.Payload
 }
@@ -178,9 +175,11 @@ swagger:model LibpodAttachContainerBadRequestBody
 type LibpodAttachContainerBadRequestBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -189,6 +188,11 @@ type LibpodAttachContainerBadRequestBody struct {
 
 // Validate validates this libpod attach container bad request body
 func (o *LibpodAttachContainerBadRequestBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod attach container bad request body based on context it is used
+func (o *LibpodAttachContainerBadRequestBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -216,9 +220,11 @@ swagger:model LibpodAttachContainerInternalServerErrorBody
 type LibpodAttachContainerInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -227,6 +233,11 @@ type LibpodAttachContainerInternalServerErrorBody struct {
 
 // Validate validates this libpod attach container internal server error body
 func (o *LibpodAttachContainerInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod attach container internal server error body based on context it is used
+func (o *LibpodAttachContainerInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -254,9 +265,11 @@ swagger:model LibpodAttachContainerNotFoundBody
 type LibpodAttachContainerNotFoundBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -265,6 +278,11 @@ type LibpodAttachContainerNotFoundBody struct {
 
 // Validate validates this libpod attach container not found body
 func (o *LibpodAttachContainerNotFoundBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod attach container not found body based on context it is used
+func (o *LibpodAttachContainerNotFoundBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

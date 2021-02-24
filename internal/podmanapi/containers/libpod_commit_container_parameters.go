@@ -17,94 +17,115 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// NewLibpodCommitContainerParams creates a new LibpodCommitContainerParams object
-// with the default values initialized.
+// NewLibpodCommitContainerParams creates a new LibpodCommitContainerParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodCommitContainerParams() *LibpodCommitContainerParams {
-	var ()
 	return &LibpodCommitContainerParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodCommitContainerParamsWithTimeout creates a new LibpodCommitContainerParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodCommitContainerParamsWithTimeout(timeout time.Duration) *LibpodCommitContainerParams {
-	var ()
 	return &LibpodCommitContainerParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodCommitContainerParamsWithContext creates a new LibpodCommitContainerParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodCommitContainerParamsWithContext(ctx context.Context) *LibpodCommitContainerParams {
-	var ()
 	return &LibpodCommitContainerParams{
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodCommitContainerParamsWithHTTPClient creates a new LibpodCommitContainerParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodCommitContainerParamsWithHTTPClient(client *http.Client) *LibpodCommitContainerParams {
-	var ()
 	return &LibpodCommitContainerParams{
 		HTTPClient: client,
 	}
 }
 
-/*LibpodCommitContainerParams contains all the parameters to send to the API endpoint
-for the libpod commit container operation typically these are written to a http.Request
+/* LibpodCommitContainerParams contains all the parameters to send to the API endpoint
+   for the libpod commit container operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodCommitContainerParams struct {
 
-	/*Author
-	  author of the image
+	/* Author.
 
+	   author of the image
 	*/
 	Author *string
-	/*Changes
-	  instructions to apply while committing in Dockerfile format (i.e. "CMD=/bin/foo")
 
+	/* Changes.
+
+	   instructions to apply while committing in Dockerfile format (i.e. "CMD=/bin/foo")
 	*/
 	Changes []string
-	/*Comment
-	  commit message
 
+	/* Comment.
+
+	   commit message
 	*/
 	Comment *string
-	/*Container
-	  the name or ID of a container
 
+	/* Container.
+
+	   the name or ID of a container
 	*/
 	Container string
-	/*Format
-	  format of the image manifest and metadata (default "oci")
 
+	/* Format.
+
+	   format of the image manifest and metadata (default "oci")
 	*/
 	Format *string
-	/*Pause
-	  pause the container before committing it
 
+	/* Pause.
+
+	   pause the container before committing it
 	*/
 	Pause *bool
-	/*Repo
-	  the repository name for the created image
 
+	/* Repo.
+
+	   the repository name for the created image
 	*/
 	Repo *string
-	/*Tag
-	  tag name for the created image
 
+	/* Tag.
+
+	   tag name for the created image
 	*/
 	Tag *string
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod commit container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodCommitContainerParams) WithDefaults() *LibpodCommitContainerParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod commit container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodCommitContainerParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the libpod commit container params
@@ -240,46 +261,52 @@ func (o *LibpodCommitContainerParams) WriteToRequest(r runtime.ClientRequest, re
 
 		// query param author
 		var qrAuthor string
+
 		if o.Author != nil {
 			qrAuthor = *o.Author
 		}
 		qAuthor := qrAuthor
 		if qAuthor != "" {
+
 			if err := r.SetQueryParam("author", qAuthor); err != nil {
 				return err
 			}
 		}
-
 	}
 
-	valuesChanges := o.Changes
+	if o.Changes != nil {
 
-	joinedChanges := swag.JoinByFormat(valuesChanges, "")
-	// query array param changes
-	if err := r.SetQueryParam("changes", joinedChanges...); err != nil {
-		return err
+		// binding items for changes
+		joinedChanges := o.bindParamChanges(reg)
+
+		// query array param changes
+		if err := r.SetQueryParam("changes", joinedChanges...); err != nil {
+			return err
+		}
 	}
 
 	if o.Comment != nil {
 
 		// query param comment
 		var qrComment string
+
 		if o.Comment != nil {
 			qrComment = *o.Comment
 		}
 		qComment := qrComment
 		if qComment != "" {
+
 			if err := r.SetQueryParam("comment", qComment); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// query param container
 	qrContainer := o.Container
 	qContainer := qrContainer
 	if qContainer != "" {
+
 		if err := r.SetQueryParam("container", qContainer); err != nil {
 			return err
 		}
@@ -289,68 +316,89 @@ func (o *LibpodCommitContainerParams) WriteToRequest(r runtime.ClientRequest, re
 
 		// query param format
 		var qrFormat string
+
 		if o.Format != nil {
 			qrFormat = *o.Format
 		}
 		qFormat := qrFormat
 		if qFormat != "" {
+
 			if err := r.SetQueryParam("format", qFormat); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Pause != nil {
 
 		// query param pause
 		var qrPause bool
+
 		if o.Pause != nil {
 			qrPause = *o.Pause
 		}
 		qPause := swag.FormatBool(qrPause)
 		if qPause != "" {
+
 			if err := r.SetQueryParam("pause", qPause); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Repo != nil {
 
 		// query param repo
 		var qrRepo string
+
 		if o.Repo != nil {
 			qrRepo = *o.Repo
 		}
 		qRepo := qrRepo
 		if qRepo != "" {
+
 			if err := r.SetQueryParam("repo", qRepo); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Tag != nil {
 
 		// query param tag
 		var qrTag string
+
 		if o.Tag != nil {
 			qrTag = *o.Tag
 		}
 		qTag := qrTag
 		if qTag != "" {
+
 			if err := r.SetQueryParam("tag", qTag); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
+}
+
+// bindParamLibpodCommitContainer binds the parameter changes
+func (o *LibpodCommitContainerParams) bindParamChanges(formats strfmt.Registry) []string {
+	changesIR := o.Changes
+
+	var changesIC []string
+	for _, changesIIR := range changesIR { // explode []string
+
+		changesIIV := changesIIR // string as string
+		changesIC = append(changesIC, changesIIV)
+	}
+
+	// items.CollectionFormat: ""
+	changesIS := swag.JoinByFormat(changesIC, "")
+
+	return changesIS
 }

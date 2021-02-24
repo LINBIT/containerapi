@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -40,7 +41,6 @@ func (o *LibpodCheckpointContainerReader) ReadResponse(response runtime.ClientRe
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -51,7 +51,7 @@ func NewLibpodCheckpointContainerOK() *LibpodCheckpointContainerOK {
 	return &LibpodCheckpointContainerOK{}
 }
 
-/*LibpodCheckpointContainerOK handles this case with default header values.
+/* LibpodCheckpointContainerOK describes a response with status code 200, with default header values.
 
 tarball is returned in body if exported
 */
@@ -72,7 +72,7 @@ func NewLibpodCheckpointContainerNotFound() *LibpodCheckpointContainerNotFound {
 	return &LibpodCheckpointContainerNotFound{}
 }
 
-/*LibpodCheckpointContainerNotFound handles this case with default header values.
+/* LibpodCheckpointContainerNotFound describes a response with status code 404, with default header values.
 
 No such container
 */
@@ -83,7 +83,6 @@ type LibpodCheckpointContainerNotFound struct {
 func (o *LibpodCheckpointContainerNotFound) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/checkpoint][%d] libpodCheckpointContainerNotFound  %+v", 404, o.Payload)
 }
-
 func (o *LibpodCheckpointContainerNotFound) GetPayload() *LibpodCheckpointContainerNotFoundBody {
 	return o.Payload
 }
@@ -105,7 +104,7 @@ func NewLibpodCheckpointContainerInternalServerError() *LibpodCheckpointContaine
 	return &LibpodCheckpointContainerInternalServerError{}
 }
 
-/*LibpodCheckpointContainerInternalServerError handles this case with default header values.
+/* LibpodCheckpointContainerInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -116,7 +115,6 @@ type LibpodCheckpointContainerInternalServerError struct {
 func (o *LibpodCheckpointContainerInternalServerError) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/checkpoint][%d] libpodCheckpointContainerInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodCheckpointContainerInternalServerError) GetPayload() *LibpodCheckpointContainerInternalServerErrorBody {
 	return o.Payload
 }
@@ -139,9 +137,11 @@ swagger:model LibpodCheckpointContainerInternalServerErrorBody
 type LibpodCheckpointContainerInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -150,6 +150,11 @@ type LibpodCheckpointContainerInternalServerErrorBody struct {
 
 // Validate validates this libpod checkpoint container internal server error body
 func (o *LibpodCheckpointContainerInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod checkpoint container internal server error body based on context it is used
+func (o *LibpodCheckpointContainerInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -177,9 +182,11 @@ swagger:model LibpodCheckpointContainerNotFoundBody
 type LibpodCheckpointContainerNotFoundBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -188,6 +195,11 @@ type LibpodCheckpointContainerNotFoundBody struct {
 
 // Validate validates this libpod checkpoint container not found body
 func (o *LibpodCheckpointContainerNotFoundBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod checkpoint container not found body based on context it is used
+func (o *LibpodCheckpointContainerNotFoundBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

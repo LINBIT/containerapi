@@ -17,64 +17,79 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// NewLibpodGetContainerParams creates a new LibpodGetContainerParams object
-// with the default values initialized.
+// NewLibpodGetContainerParams creates a new LibpodGetContainerParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodGetContainerParams() *LibpodGetContainerParams {
-	var ()
 	return &LibpodGetContainerParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodGetContainerParamsWithTimeout creates a new LibpodGetContainerParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodGetContainerParamsWithTimeout(timeout time.Duration) *LibpodGetContainerParams {
-	var ()
 	return &LibpodGetContainerParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodGetContainerParamsWithContext creates a new LibpodGetContainerParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodGetContainerParamsWithContext(ctx context.Context) *LibpodGetContainerParams {
-	var ()
 	return &LibpodGetContainerParams{
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodGetContainerParamsWithHTTPClient creates a new LibpodGetContainerParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodGetContainerParamsWithHTTPClient(client *http.Client) *LibpodGetContainerParams {
-	var ()
 	return &LibpodGetContainerParams{
 		HTTPClient: client,
 	}
 }
 
-/*LibpodGetContainerParams contains all the parameters to send to the API endpoint
-for the libpod get container operation typically these are written to a http.Request
+/* LibpodGetContainerParams contains all the parameters to send to the API endpoint
+   for the libpod get container operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodGetContainerParams struct {
 
-	/*Name
-	  the name or ID of the container
+	/* Name.
 
+	   the name or ID of the container
 	*/
 	Name string
-	/*Size
-	  display filesystem usage
 
+	/* Size.
+
+	   display filesystem usage
 	*/
 	Size *bool
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod get container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodGetContainerParams) WithDefaults() *LibpodGetContainerParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod get container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodGetContainerParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the libpod get container params
@@ -149,16 +164,17 @@ func (o *LibpodGetContainerParams) WriteToRequest(r runtime.ClientRequest, reg s
 
 		// query param size
 		var qrSize bool
+
 		if o.Size != nil {
 			qrSize = *o.Size
 		}
 		qSize := swag.FormatBool(qrSize)
 		if qSize != "" {
+
 			if err := r.SetQueryParam("size", qSize); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if len(res) > 0 {

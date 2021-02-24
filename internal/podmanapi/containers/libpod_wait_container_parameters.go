@@ -16,71 +16,86 @@ import (
 	"github.com/go-openapi/strfmt"
 )
 
-// NewLibpodWaitContainerParams creates a new LibpodWaitContainerParams object
-// with the default values initialized.
+// NewLibpodWaitContainerParams creates a new LibpodWaitContainerParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodWaitContainerParams() *LibpodWaitContainerParams {
-	var ()
 	return &LibpodWaitContainerParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodWaitContainerParamsWithTimeout creates a new LibpodWaitContainerParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodWaitContainerParamsWithTimeout(timeout time.Duration) *LibpodWaitContainerParams {
-	var ()
 	return &LibpodWaitContainerParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodWaitContainerParamsWithContext creates a new LibpodWaitContainerParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodWaitContainerParamsWithContext(ctx context.Context) *LibpodWaitContainerParams {
-	var ()
 	return &LibpodWaitContainerParams{
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodWaitContainerParamsWithHTTPClient creates a new LibpodWaitContainerParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodWaitContainerParamsWithHTTPClient(client *http.Client) *LibpodWaitContainerParams {
-	var ()
 	return &LibpodWaitContainerParams{
 		HTTPClient: client,
 	}
 }
 
-/*LibpodWaitContainerParams contains all the parameters to send to the API endpoint
-for the libpod wait container operation typically these are written to a http.Request
+/* LibpodWaitContainerParams contains all the parameters to send to the API endpoint
+   for the libpod wait container operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodWaitContainerParams struct {
 
-	/*Condition
-	  wait until container is to a given condition. default is stopped. valid conditions are:
-	  - configured
-	  - created
-	  - exited
-	  - paused
-	  - running
-	  - stopped
+	/* Condition.
 
+	   wait until container is to a given condition. default is stopped. valid conditions are:
+	- configured
+	- created
+	- exited
+	- paused
+	- running
+	- stopped
 
 	*/
 	Condition *string
-	/*Name
-	  the name or ID of the container
 
+	/* Name.
+
+	   the name or ID of the container
 	*/
 	Name string
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod wait container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodWaitContainerParams) WithDefaults() *LibpodWaitContainerParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod wait container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodWaitContainerParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the libpod wait container params
@@ -150,16 +165,17 @@ func (o *LibpodWaitContainerParams) WriteToRequest(r runtime.ClientRequest, reg 
 
 		// query param condition
 		var qrCondition string
+
 		if o.Condition != nil {
 			qrCondition = *o.Condition
 		}
 		qCondition := qrCondition
 		if qCondition != "" {
+
 			if err := r.SetQueryParam("condition", qCondition); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// path param name

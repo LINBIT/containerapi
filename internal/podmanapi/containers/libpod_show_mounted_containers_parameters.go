@@ -16,52 +16,66 @@ import (
 	"github.com/go-openapi/strfmt"
 )
 
-// NewLibpodShowMountedContainersParams creates a new LibpodShowMountedContainersParams object
-// with the default values initialized.
+// NewLibpodShowMountedContainersParams creates a new LibpodShowMountedContainersParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodShowMountedContainersParams() *LibpodShowMountedContainersParams {
-
 	return &LibpodShowMountedContainersParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodShowMountedContainersParamsWithTimeout creates a new LibpodShowMountedContainersParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodShowMountedContainersParamsWithTimeout(timeout time.Duration) *LibpodShowMountedContainersParams {
-
 	return &LibpodShowMountedContainersParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodShowMountedContainersParamsWithContext creates a new LibpodShowMountedContainersParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodShowMountedContainersParamsWithContext(ctx context.Context) *LibpodShowMountedContainersParams {
-
 	return &LibpodShowMountedContainersParams{
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodShowMountedContainersParamsWithHTTPClient creates a new LibpodShowMountedContainersParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodShowMountedContainersParamsWithHTTPClient(client *http.Client) *LibpodShowMountedContainersParams {
-
 	return &LibpodShowMountedContainersParams{
 		HTTPClient: client,
 	}
 }
 
-/*LibpodShowMountedContainersParams contains all the parameters to send to the API endpoint
-for the libpod show mounted containers operation typically these are written to a http.Request
+/* LibpodShowMountedContainersParams contains all the parameters to send to the API endpoint
+   for the libpod show mounted containers operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodShowMountedContainersParams struct {
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod show mounted containers params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodShowMountedContainersParams) WithDefaults() *LibpodShowMountedContainersParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod show mounted containers params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodShowMountedContainersParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the libpod show mounted containers params

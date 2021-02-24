@@ -6,6 +6,7 @@ package system
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"strconv"
@@ -36,7 +37,6 @@ func (o *LibpodGetInfoReader) ReadResponse(response runtime.ClientResponse, cons
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -47,7 +47,7 @@ func NewLibpodGetInfoOK() *LibpodGetInfoOK {
 	return &LibpodGetInfoOK{}
 }
 
-/*LibpodGetInfoOK handles this case with default header values.
+/* LibpodGetInfoOK describes a response with status code 200, with default header values.
 
 Info
 */
@@ -58,7 +58,6 @@ type LibpodGetInfoOK struct {
 func (o *LibpodGetInfoOK) Error() string {
 	return fmt.Sprintf("[GET /libpod/info][%d] libpodGetInfoOK  %+v", 200, o.Payload)
 }
-
 func (o *LibpodGetInfoOK) GetPayload() *LibpodGetInfoOKBody {
 	return o.Payload
 }
@@ -80,7 +79,7 @@ func NewLibpodGetInfoInternalServerError() *LibpodGetInfoInternalServerError {
 	return &LibpodGetInfoInternalServerError{}
 }
 
-/*LibpodGetInfoInternalServerError handles this case with default header values.
+/* LibpodGetInfoInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -91,7 +90,6 @@ type LibpodGetInfoInternalServerError struct {
 func (o *LibpodGetInfoInternalServerError) Error() string {
 	return fmt.Sprintf("[GET /libpod/info][%d] libpodGetInfoInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodGetInfoInternalServerError) GetPayload() *LibpodGetInfoInternalServerErrorBody {
 	return o.Payload
 }
@@ -114,9 +112,11 @@ swagger:model LibpodGetInfoInternalServerErrorBody
 type LibpodGetInfoInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -125,6 +125,11 @@ type LibpodGetInfoInternalServerErrorBody struct {
 
 // Validate validates this libpod get info internal server error body
 func (o *LibpodGetInfoInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod get info internal server error body based on context it is used
+func (o *LibpodGetInfoInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -188,7 +193,6 @@ func (o *LibpodGetInfoOKBody) Validate(formats strfmt.Registry) error {
 }
 
 func (o *LibpodGetInfoOKBody) validateHost(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Host) { // not required
 		return nil
 	}
@@ -206,7 +210,6 @@ func (o *LibpodGetInfoOKBody) validateHost(formats strfmt.Registry) error {
 }
 
 func (o *LibpodGetInfoOKBody) validateStore(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Store) { // not required
 		return nil
 	}
@@ -224,13 +227,76 @@ func (o *LibpodGetInfoOKBody) validateStore(formats strfmt.Registry) error {
 }
 
 func (o *LibpodGetInfoOKBody) validateVersion(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Version) { // not required
 		return nil
 	}
 
 	if o.Version != nil {
 		if err := o.Version.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("libpodGetInfoOK" + "." + "version")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this libpod get info o k body based on the context it is used
+func (o *LibpodGetInfoOKBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidateHost(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateStore(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateVersion(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *LibpodGetInfoOKBody) contextValidateHost(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Host != nil {
+		if err := o.Host.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("libpodGetInfoOK" + "." + "host")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodGetInfoOKBody) contextValidateStore(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Store != nil {
+		if err := o.Store.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("libpodGetInfoOK" + "." + "store")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodGetInfoOKBody) contextValidateVersion(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Version != nil {
+		if err := o.Version.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("libpodGetInfoOK" + "." + "version")
 			}
@@ -366,7 +432,6 @@ func (o *LibpodGetInfoOKBodyHost) Validate(formats strfmt.Registry) error {
 }
 
 func (o *LibpodGetInfoOKBodyHost) validateConmon(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Conmon) { // not required
 		return nil
 	}
@@ -384,7 +449,6 @@ func (o *LibpodGetInfoOKBodyHost) validateConmon(formats strfmt.Registry) error 
 }
 
 func (o *LibpodGetInfoOKBodyHost) validateDistribution(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Distribution) { // not required
 		return nil
 	}
@@ -402,7 +466,6 @@ func (o *LibpodGetInfoOKBodyHost) validateDistribution(formats strfmt.Registry) 
 }
 
 func (o *LibpodGetInfoOKBodyHost) validateIDMappings(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.IDMappings) { // not required
 		return nil
 	}
@@ -420,7 +483,6 @@ func (o *LibpodGetInfoOKBodyHost) validateIDMappings(formats strfmt.Registry) er
 }
 
 func (o *LibpodGetInfoOKBodyHost) validateOciRuntime(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.OciRuntime) { // not required
 		return nil
 	}
@@ -438,7 +500,6 @@ func (o *LibpodGetInfoOKBodyHost) validateOciRuntime(formats strfmt.Registry) er
 }
 
 func (o *LibpodGetInfoOKBodyHost) validateRemoteSocket(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.RemoteSocket) { // not required
 		return nil
 	}
@@ -456,13 +517,130 @@ func (o *LibpodGetInfoOKBodyHost) validateRemoteSocket(formats strfmt.Registry) 
 }
 
 func (o *LibpodGetInfoOKBodyHost) validateSlirp4netns(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Slirp4netns) { // not required
 		return nil
 	}
 
 	if o.Slirp4netns != nil {
 		if err := o.Slirp4netns.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("libpodGetInfoOK" + "." + "host" + "." + "slirp4netns")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this libpod get info o k body host based on the context it is used
+func (o *LibpodGetInfoOKBodyHost) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidateConmon(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateDistribution(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateIDMappings(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateOciRuntime(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateRemoteSocket(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateSlirp4netns(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *LibpodGetInfoOKBodyHost) contextValidateConmon(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Conmon != nil {
+		if err := o.Conmon.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("libpodGetInfoOK" + "." + "host" + "." + "conmon")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodGetInfoOKBodyHost) contextValidateDistribution(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Distribution != nil {
+		if err := o.Distribution.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("libpodGetInfoOK" + "." + "host" + "." + "distribution")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodGetInfoOKBodyHost) contextValidateIDMappings(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.IDMappings != nil {
+		if err := o.IDMappings.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("libpodGetInfoOK" + "." + "host" + "." + "idMappings")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodGetInfoOKBodyHost) contextValidateOciRuntime(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.OciRuntime != nil {
+		if err := o.OciRuntime.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("libpodGetInfoOK" + "." + "host" + "." + "ociRuntime")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodGetInfoOKBodyHost) contextValidateRemoteSocket(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.RemoteSocket != nil {
+		if err := o.RemoteSocket.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("libpodGetInfoOK" + "." + "host" + "." + "remoteSocket")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodGetInfoOKBodyHost) contextValidateSlirp4netns(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Slirp4netns != nil {
+		if err := o.Slirp4netns.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("libpodGetInfoOK" + "." + "host" + "." + "slirp4netns")
 			}
@@ -511,6 +689,11 @@ func (o *LibpodGetInfoOKBodyHostConmon) Validate(formats strfmt.Registry) error 
 	return nil
 }
 
+// ContextValidate validates this libpod get info o k body host conmon based on context it is used
+func (o *LibpodGetInfoOKBodyHostConmon) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodGetInfoOKBodyHostConmon) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -544,6 +727,11 @@ type LibpodGetInfoOKBodyHostDistribution struct {
 
 // Validate validates this libpod get info o k body host distribution
 func (o *LibpodGetInfoOKBodyHostDistribution) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod get info o k body host distribution based on context it is used
+func (o *LibpodGetInfoOKBodyHostDistribution) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -596,7 +784,6 @@ func (o *LibpodGetInfoOKBodyHostIDMappings) Validate(formats strfmt.Registry) er
 }
 
 func (o *LibpodGetInfoOKBodyHostIDMappings) validateGIDMap(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.GIDMap) { // not required
 		return nil
 	}
@@ -621,7 +808,6 @@ func (o *LibpodGetInfoOKBodyHostIDMappings) validateGIDMap(formats strfmt.Regist
 }
 
 func (o *LibpodGetInfoOKBodyHostIDMappings) validateUIDMap(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.UIDMap) { // not required
 		return nil
 	}
@@ -633,6 +819,60 @@ func (o *LibpodGetInfoOKBodyHostIDMappings) validateUIDMap(formats strfmt.Regist
 
 		if o.UIDMap[i] != nil {
 			if err := o.UIDMap[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("libpodGetInfoOK" + "." + "host" + "." + "idMappings" + "." + "uidmap" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this libpod get info o k body host ID mappings based on the context it is used
+func (o *LibpodGetInfoOKBodyHostIDMappings) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidateGIDMap(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateUIDMap(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *LibpodGetInfoOKBodyHostIDMappings) contextValidateGIDMap(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.GIDMap); i++ {
+
+		if o.GIDMap[i] != nil {
+			if err := o.GIDMap[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("libpodGetInfoOK" + "." + "host" + "." + "idMappings" + "." + "gidmap" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodGetInfoOKBodyHostIDMappings) contextValidateUIDMap(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.UIDMap); i++ {
+
+		if o.UIDMap[i] != nil {
+			if err := o.UIDMap[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("libpodGetInfoOK" + "." + "host" + "." + "idMappings" + "." + "uidmap" + "." + strconv.Itoa(i))
 				}
@@ -685,6 +925,11 @@ func (o *LibpodGetInfoOKBodyHostIDMappingsGidmapItems0) Validate(formats strfmt.
 	return nil
 }
 
+// ContextValidate validates this libpod get info o k body host ID mappings gidmap items0 based on context it is used
+func (o *LibpodGetInfoOKBodyHostIDMappingsGidmapItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodGetInfoOKBodyHostIDMappingsGidmapItems0) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -722,6 +967,11 @@ type LibpodGetInfoOKBodyHostIDMappingsUidmapItems0 struct {
 
 // Validate validates this libpod get info o k body host ID mappings uidmap items0
 func (o *LibpodGetInfoOKBodyHostIDMappingsUidmapItems0) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod get info o k body host ID mappings uidmap items0 based on context it is used
+func (o *LibpodGetInfoOKBodyHostIDMappingsUidmapItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -767,6 +1017,11 @@ func (o *LibpodGetInfoOKBodyHostOciRuntime) Validate(formats strfmt.Registry) er
 	return nil
 }
 
+// ContextValidate validates this libpod get info o k body host oci runtime based on context it is used
+func (o *LibpodGetInfoOKBodyHostOciRuntime) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodGetInfoOKBodyHostOciRuntime) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -799,6 +1054,11 @@ type LibpodGetInfoOKBodyHostRemoteSocket struct {
 
 // Validate validates this libpod get info o k body host remote socket
 func (o *LibpodGetInfoOKBodyHostRemoteSocket) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod get info o k body host remote socket based on context it is used
+func (o *LibpodGetInfoOKBodyHostRemoteSocket) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -838,6 +1098,11 @@ type LibpodGetInfoOKBodyHostSlirp4netns struct {
 
 // Validate validates this libpod get info o k body host slirp4netns
 func (o *LibpodGetInfoOKBodyHostSlirp4netns) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod get info o k body host slirp4netns based on context it is used
+func (o *LibpodGetInfoOKBodyHostSlirp4netns) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -912,7 +1177,6 @@ func (o *LibpodGetInfoOKBodyStore) Validate(formats strfmt.Registry) error {
 }
 
 func (o *LibpodGetInfoOKBodyStore) validateContainerStore(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.ContainerStore) { // not required
 		return nil
 	}
@@ -930,13 +1194,58 @@ func (o *LibpodGetInfoOKBodyStore) validateContainerStore(formats strfmt.Registr
 }
 
 func (o *LibpodGetInfoOKBodyStore) validateImageStore(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.ImageStore) { // not required
 		return nil
 	}
 
 	if o.ImageStore != nil {
 		if err := o.ImageStore.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("libpodGetInfoOK" + "." + "store" + "." + "imageStore")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this libpod get info o k body store based on the context it is used
+func (o *LibpodGetInfoOKBodyStore) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidateContainerStore(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateImageStore(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *LibpodGetInfoOKBodyStore) contextValidateContainerStore(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.ContainerStore != nil {
+		if err := o.ContainerStore.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("libpodGetInfoOK" + "." + "store" + "." + "containerStore")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodGetInfoOKBodyStore) contextValidateImageStore(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.ImageStore != nil {
+		if err := o.ImageStore.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("libpodGetInfoOK" + "." + "store" + "." + "imageStore")
 			}
@@ -989,6 +1298,11 @@ func (o *LibpodGetInfoOKBodyStoreContainerStore) Validate(formats strfmt.Registr
 	return nil
 }
 
+// ContextValidate validates this libpod get info o k body store container store based on context it is used
+func (o *LibpodGetInfoOKBodyStoreContainerStore) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodGetInfoOKBodyStoreContainerStore) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -1019,6 +1333,11 @@ type LibpodGetInfoOKBodyStoreImageStore struct {
 
 // Validate validates this libpod get info o k body store image store
 func (o *LibpodGetInfoOKBodyStoreImageStore) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod get info o k body store image store based on context it is used
+func (o *LibpodGetInfoOKBodyStoreImageStore) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -1069,6 +1388,11 @@ type LibpodGetInfoOKBodyVersion struct {
 
 // Validate validates this libpod get info o k body version
 func (o *LibpodGetInfoOKBodyVersion) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod get info o k body version based on context it is used
+func (o *LibpodGetInfoOKBodyVersion) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

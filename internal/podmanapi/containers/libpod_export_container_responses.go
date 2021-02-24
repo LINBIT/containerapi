@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -40,7 +41,6 @@ func (o *LibpodExportContainerReader) ReadResponse(response runtime.ClientRespon
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -51,7 +51,7 @@ func NewLibpodExportContainerOK() *LibpodExportContainerOK {
 	return &LibpodExportContainerOK{}
 }
 
-/*LibpodExportContainerOK handles this case with default header values.
+/* LibpodExportContainerOK describes a response with status code 200, with default header values.
 
 tarball is returned in body
 */
@@ -72,7 +72,7 @@ func NewLibpodExportContainerNotFound() *LibpodExportContainerNotFound {
 	return &LibpodExportContainerNotFound{}
 }
 
-/*LibpodExportContainerNotFound handles this case with default header values.
+/* LibpodExportContainerNotFound describes a response with status code 404, with default header values.
 
 No such container
 */
@@ -83,7 +83,6 @@ type LibpodExportContainerNotFound struct {
 func (o *LibpodExportContainerNotFound) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/{name}/export][%d] libpodExportContainerNotFound  %+v", 404, o.Payload)
 }
-
 func (o *LibpodExportContainerNotFound) GetPayload() *LibpodExportContainerNotFoundBody {
 	return o.Payload
 }
@@ -105,7 +104,7 @@ func NewLibpodExportContainerInternalServerError() *LibpodExportContainerInterna
 	return &LibpodExportContainerInternalServerError{}
 }
 
-/*LibpodExportContainerInternalServerError handles this case with default header values.
+/* LibpodExportContainerInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -116,7 +115,6 @@ type LibpodExportContainerInternalServerError struct {
 func (o *LibpodExportContainerInternalServerError) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/{name}/export][%d] libpodExportContainerInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodExportContainerInternalServerError) GetPayload() *LibpodExportContainerInternalServerErrorBody {
 	return o.Payload
 }
@@ -139,9 +137,11 @@ swagger:model LibpodExportContainerInternalServerErrorBody
 type LibpodExportContainerInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -150,6 +150,11 @@ type LibpodExportContainerInternalServerErrorBody struct {
 
 // Validate validates this libpod export container internal server error body
 func (o *LibpodExportContainerInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod export container internal server error body based on context it is used
+func (o *LibpodExportContainerInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -177,9 +182,11 @@ swagger:model LibpodExportContainerNotFoundBody
 type LibpodExportContainerNotFoundBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -188,6 +195,11 @@ type LibpodExportContainerNotFoundBody struct {
 
 // Validate validates this libpod export container not found body
 func (o *LibpodExportContainerNotFoundBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod export container not found body based on context it is used
+func (o *LibpodExportContainerNotFoundBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

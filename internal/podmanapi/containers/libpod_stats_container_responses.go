@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -40,7 +41,6 @@ func (o *LibpodStatsContainerReader) ReadResponse(response runtime.ClientRespons
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -51,7 +51,7 @@ func NewLibpodStatsContainerOK() *LibpodStatsContainerOK {
 	return &LibpodStatsContainerOK{}
 }
 
-/*LibpodStatsContainerOK handles this case with default header values.
+/* LibpodStatsContainerOK describes a response with status code 200, with default header values.
 
 no error
 */
@@ -72,7 +72,7 @@ func NewLibpodStatsContainerNotFound() *LibpodStatsContainerNotFound {
 	return &LibpodStatsContainerNotFound{}
 }
 
-/*LibpodStatsContainerNotFound handles this case with default header values.
+/* LibpodStatsContainerNotFound describes a response with status code 404, with default header values.
 
 No such container
 */
@@ -83,7 +83,6 @@ type LibpodStatsContainerNotFound struct {
 func (o *LibpodStatsContainerNotFound) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/{name}/stats][%d] libpodStatsContainerNotFound  %+v", 404, o.Payload)
 }
-
 func (o *LibpodStatsContainerNotFound) GetPayload() *LibpodStatsContainerNotFoundBody {
 	return o.Payload
 }
@@ -105,7 +104,7 @@ func NewLibpodStatsContainerInternalServerError() *LibpodStatsContainerInternalS
 	return &LibpodStatsContainerInternalServerError{}
 }
 
-/*LibpodStatsContainerInternalServerError handles this case with default header values.
+/* LibpodStatsContainerInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -116,7 +115,6 @@ type LibpodStatsContainerInternalServerError struct {
 func (o *LibpodStatsContainerInternalServerError) Error() string {
 	return fmt.Sprintf("[GET /libpod/containers/{name}/stats][%d] libpodStatsContainerInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodStatsContainerInternalServerError) GetPayload() *LibpodStatsContainerInternalServerErrorBody {
 	return o.Payload
 }
@@ -139,9 +137,11 @@ swagger:model LibpodStatsContainerInternalServerErrorBody
 type LibpodStatsContainerInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -150,6 +150,11 @@ type LibpodStatsContainerInternalServerErrorBody struct {
 
 // Validate validates this libpod stats container internal server error body
 func (o *LibpodStatsContainerInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod stats container internal server error body based on context it is used
+func (o *LibpodStatsContainerInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -177,9 +182,11 @@ swagger:model LibpodStatsContainerNotFoundBody
 type LibpodStatsContainerNotFoundBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -188,6 +195,11 @@ type LibpodStatsContainerNotFoundBody struct {
 
 // Validate validates this libpod stats container not found body
 func (o *LibpodStatsContainerNotFoundBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod stats container not found body based on context it is used
+func (o *LibpodStatsContainerNotFoundBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

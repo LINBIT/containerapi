@@ -16,52 +16,66 @@ import (
 	"github.com/go-openapi/strfmt"
 )
 
-// NewDfParams creates a new DfParams object
-// with the default values initialized.
+// NewDfParams creates a new DfParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewDfParams() *DfParams {
-
 	return &DfParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewDfParamsWithTimeout creates a new DfParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewDfParamsWithTimeout(timeout time.Duration) *DfParams {
-
 	return &DfParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewDfParamsWithContext creates a new DfParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewDfParamsWithContext(ctx context.Context) *DfParams {
-
 	return &DfParams{
-
 		Context: ctx,
 	}
 }
 
 // NewDfParamsWithHTTPClient creates a new DfParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewDfParamsWithHTTPClient(client *http.Client) *DfParams {
-
 	return &DfParams{
 		HTTPClient: client,
 	}
 }
 
-/*DfParams contains all the parameters to send to the API endpoint
-for the df operation typically these are written to a http.Request
+/* DfParams contains all the parameters to send to the API endpoint
+   for the df operation.
+
+   Typically these are written to a http.Request.
 */
 type DfParams struct {
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the df params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DfParams) WithDefaults() *DfParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the df params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *DfParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the df params

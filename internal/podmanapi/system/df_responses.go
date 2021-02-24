@@ -6,6 +6,7 @@ package system
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"strconv"
@@ -37,7 +38,6 @@ func (o *DfReader) ReadResponse(response runtime.ClientResponse, consumer runtim
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -48,7 +48,7 @@ func NewDfOK() *DfOK {
 	return &DfOK{}
 }
 
-/*DfOK handles this case with default header values.
+/* DfOK describes a response with status code 200, with default header values.
 
 Disk usage
 */
@@ -59,7 +59,6 @@ type DfOK struct {
 func (o *DfOK) Error() string {
 	return fmt.Sprintf("[GET /libpod/system/df][%d] dfOK  %+v", 200, o.Payload)
 }
-
 func (o *DfOK) GetPayload() *DfOKBody {
 	return o.Payload
 }
@@ -81,7 +80,7 @@ func NewDfInternalServerError() *DfInternalServerError {
 	return &DfInternalServerError{}
 }
 
-/*DfInternalServerError handles this case with default header values.
+/* DfInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -92,7 +91,6 @@ type DfInternalServerError struct {
 func (o *DfInternalServerError) Error() string {
 	return fmt.Sprintf("[GET /libpod/system/df][%d] dfInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *DfInternalServerError) GetPayload() *DfInternalServerErrorBody {
 	return o.Payload
 }
@@ -115,9 +113,11 @@ swagger:model DfInternalServerErrorBody
 type DfInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -126,6 +126,11 @@ type DfInternalServerErrorBody struct {
 
 // Validate validates this df internal server error body
 func (o *DfInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this df internal server error body based on context it is used
+func (o *DfInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -185,7 +190,6 @@ func (o *DfOKBody) Validate(formats strfmt.Registry) error {
 }
 
 func (o *DfOKBody) validateContainers(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Containers) { // not required
 		return nil
 	}
@@ -210,7 +214,6 @@ func (o *DfOKBody) validateContainers(formats strfmt.Registry) error {
 }
 
 func (o *DfOKBody) validateImages(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Images) { // not required
 		return nil
 	}
@@ -235,7 +238,6 @@ func (o *DfOKBody) validateImages(formats strfmt.Registry) error {
 }
 
 func (o *DfOKBody) validateVolumes(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Volumes) { // not required
 		return nil
 	}
@@ -247,6 +249,82 @@ func (o *DfOKBody) validateVolumes(formats strfmt.Registry) error {
 
 		if o.Volumes[i] != nil {
 			if err := o.Volumes[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("dfOK" + "." + "Volumes" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this df o k body based on the context it is used
+func (o *DfOKBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidateContainers(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateImages(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateVolumes(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *DfOKBody) contextValidateContainers(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.Containers); i++ {
+
+		if o.Containers[i] != nil {
+			if err := o.Containers[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("dfOK" + "." + "Containers" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *DfOKBody) contextValidateImages(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.Images); i++ {
+
+		if o.Images[i] != nil {
+			if err := o.Images[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("dfOK" + "." + "Images" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *DfOKBody) contextValidateVolumes(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.Volumes); i++ {
+
+		if o.Volumes[i] != nil {
+			if err := o.Volumes[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("dfOK" + "." + "Volumes" + "." + strconv.Itoa(i))
 				}
@@ -326,7 +404,6 @@ func (o *DfOKBodyContainersItems0) Validate(formats strfmt.Registry) error {
 }
 
 func (o *DfOKBodyContainersItems0) validateCreated(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Created) { // not required
 		return nil
 	}
@@ -335,6 +412,11 @@ func (o *DfOKBodyContainersItems0) validateCreated(formats strfmt.Registry) erro
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this df o k body containers items0 based on context it is used
+func (o *DfOKBodyContainersItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -402,7 +484,6 @@ func (o *DfOKBodyImagesItems0) Validate(formats strfmt.Registry) error {
 }
 
 func (o *DfOKBodyImagesItems0) validateCreated(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Created) { // not required
 		return nil
 	}
@@ -411,6 +492,11 @@ func (o *DfOKBodyImagesItems0) validateCreated(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this df o k body images items0 based on context it is used
+func (o *DfOKBodyImagesItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -449,6 +535,11 @@ type DfOKBodyVolumesItems0 struct {
 
 // Validate validates this df o k body volumes items0
 func (o *DfOKBodyVolumesItems0) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this df o k body volumes items0 based on context it is used
+func (o *DfOKBodyVolumesItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

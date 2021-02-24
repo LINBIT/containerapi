@@ -6,6 +6,7 @@ package system
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"strconv"
@@ -42,7 +43,6 @@ func (o *PruneSystemReader) ReadResponse(response runtime.ClientResponse, consum
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -53,7 +53,7 @@ func NewPruneSystemOK() *PruneSystemOK {
 	return &PruneSystemOK{}
 }
 
-/*PruneSystemOK handles this case with default header values.
+/* PruneSystemOK describes a response with status code 200, with default header values.
 
 Prune report
 */
@@ -64,7 +64,6 @@ type PruneSystemOK struct {
 func (o *PruneSystemOK) Error() string {
 	return fmt.Sprintf("[POST /libpod/system/prune][%d] pruneSystemOK  %+v", 200, o.Payload)
 }
-
 func (o *PruneSystemOK) GetPayload() *PruneSystemOKBody {
 	return o.Payload
 }
@@ -86,7 +85,7 @@ func NewPruneSystemBadRequest() *PruneSystemBadRequest {
 	return &PruneSystemBadRequest{}
 }
 
-/*PruneSystemBadRequest handles this case with default header values.
+/* PruneSystemBadRequest describes a response with status code 400, with default header values.
 
 Bad parameter in request
 */
@@ -97,7 +96,6 @@ type PruneSystemBadRequest struct {
 func (o *PruneSystemBadRequest) Error() string {
 	return fmt.Sprintf("[POST /libpod/system/prune][%d] pruneSystemBadRequest  %+v", 400, o.Payload)
 }
-
 func (o *PruneSystemBadRequest) GetPayload() *PruneSystemBadRequestBody {
 	return o.Payload
 }
@@ -119,7 +117,7 @@ func NewPruneSystemInternalServerError() *PruneSystemInternalServerError {
 	return &PruneSystemInternalServerError{}
 }
 
-/*PruneSystemInternalServerError handles this case with default header values.
+/* PruneSystemInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -130,7 +128,6 @@ type PruneSystemInternalServerError struct {
 func (o *PruneSystemInternalServerError) Error() string {
 	return fmt.Sprintf("[POST /libpod/system/prune][%d] pruneSystemInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *PruneSystemInternalServerError) GetPayload() *PruneSystemInternalServerErrorBody {
 	return o.Payload
 }
@@ -153,9 +150,11 @@ swagger:model PruneSystemBadRequestBody
 type PruneSystemBadRequestBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -164,6 +163,11 @@ type PruneSystemBadRequestBody struct {
 
 // Validate validates this prune system bad request body
 func (o *PruneSystemBadRequestBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this prune system bad request body based on context it is used
+func (o *PruneSystemBadRequestBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -191,9 +195,11 @@ swagger:model PruneSystemInternalServerErrorBody
 type PruneSystemInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -202,6 +208,11 @@ type PruneSystemInternalServerErrorBody struct {
 
 // Validate validates this prune system internal server error body
 func (o *PruneSystemInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this prune system internal server error body based on context it is used
+func (o *PruneSystemInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -270,7 +281,6 @@ func (o *PruneSystemOKBody) Validate(formats strfmt.Registry) error {
 }
 
 func (o *PruneSystemOKBody) validatePodPruneReport(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.PodPruneReport) { // not required
 		return nil
 	}
@@ -295,7 +305,6 @@ func (o *PruneSystemOKBody) validatePodPruneReport(formats strfmt.Registry) erro
 }
 
 func (o *PruneSystemOKBody) validateReport(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Report) { // not required
 		return nil
 	}
@@ -313,7 +322,6 @@ func (o *PruneSystemOKBody) validateReport(formats strfmt.Registry) error {
 }
 
 func (o *PruneSystemOKBody) validateVolumePruneReport(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.VolumePruneReport) { // not required
 		return nil
 	}
@@ -325,6 +333,78 @@ func (o *PruneSystemOKBody) validateVolumePruneReport(formats strfmt.Registry) e
 
 		if o.VolumePruneReport[i] != nil {
 			if err := o.VolumePruneReport[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("pruneSystemOK" + "." + "VolumePruneReport" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this prune system o k body based on the context it is used
+func (o *PruneSystemOKBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidatePodPruneReport(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateReport(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateVolumePruneReport(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *PruneSystemOKBody) contextValidatePodPruneReport(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.PodPruneReport); i++ {
+
+		if o.PodPruneReport[i] != nil {
+			if err := o.PodPruneReport[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("pruneSystemOK" + "." + "PodPruneReport" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *PruneSystemOKBody) contextValidateReport(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Report != nil {
+		if err := o.Report.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("pruneSystemOK" + "." + "Report")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *PruneSystemOKBody) contextValidateVolumePruneReport(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.VolumePruneReport); i++ {
+
+		if o.VolumePruneReport[i] != nil {
+			if err := o.VolumePruneReport[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("pruneSystemOK" + "." + "VolumePruneReport" + "." + strconv.Itoa(i))
 				}
@@ -372,6 +452,11 @@ func (o *PruneSystemOKBodyPodPruneReportItems0) Validate(formats strfmt.Registry
 	return nil
 }
 
+// ContextValidate validates this prune system o k body pod prune report items0 based on context it is used
+func (o *PruneSystemOKBodyPodPruneReportItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *PruneSystemOKBodyPodPruneReportItems0) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -407,6 +492,11 @@ func (o *PruneSystemOKBodyReport) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
+// ContextValidate validates this prune system o k body report based on context it is used
+func (o *PruneSystemOKBodyReport) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *PruneSystemOKBodyReport) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -439,6 +529,11 @@ type PruneSystemOKBodyVolumePruneReportItems0 struct {
 
 // Validate validates this prune system o k body volume prune report items0
 func (o *PruneSystemOKBodyVolumePruneReportItems0) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this prune system o k body volume prune report items0 based on context it is used
+func (o *PruneSystemOKBodyVolumePruneReportItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

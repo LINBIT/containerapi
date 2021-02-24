@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"strconv"
@@ -54,7 +55,6 @@ func (o *LibpodCreateContainerReader) ReadResponse(response runtime.ClientRespon
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -65,7 +65,7 @@ func NewLibpodCreateContainerCreated() *LibpodCreateContainerCreated {
 	return &LibpodCreateContainerCreated{}
 }
 
-/*LibpodCreateContainerCreated handles this case with default header values.
+/* LibpodCreateContainerCreated describes a response with status code 201, with default header values.
 
 Create container
 */
@@ -76,7 +76,6 @@ type LibpodCreateContainerCreated struct {
 func (o *LibpodCreateContainerCreated) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/create][%d] libpodCreateContainerCreated  %+v", 201, o.Payload)
 }
-
 func (o *LibpodCreateContainerCreated) GetPayload() *LibpodCreateContainerCreatedBody {
 	return o.Payload
 }
@@ -98,7 +97,7 @@ func NewLibpodCreateContainerBadRequest() *LibpodCreateContainerBadRequest {
 	return &LibpodCreateContainerBadRequest{}
 }
 
-/*LibpodCreateContainerBadRequest handles this case with default header values.
+/* LibpodCreateContainerBadRequest describes a response with status code 400, with default header values.
 
 Bad parameter in request
 */
@@ -109,7 +108,6 @@ type LibpodCreateContainerBadRequest struct {
 func (o *LibpodCreateContainerBadRequest) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/create][%d] libpodCreateContainerBadRequest  %+v", 400, o.Payload)
 }
-
 func (o *LibpodCreateContainerBadRequest) GetPayload() *LibpodCreateContainerBadRequestBody {
 	return o.Payload
 }
@@ -131,7 +129,7 @@ func NewLibpodCreateContainerNotFound() *LibpodCreateContainerNotFound {
 	return &LibpodCreateContainerNotFound{}
 }
 
-/*LibpodCreateContainerNotFound handles this case with default header values.
+/* LibpodCreateContainerNotFound describes a response with status code 404, with default header values.
 
 No such container
 */
@@ -142,7 +140,6 @@ type LibpodCreateContainerNotFound struct {
 func (o *LibpodCreateContainerNotFound) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/create][%d] libpodCreateContainerNotFound  %+v", 404, o.Payload)
 }
-
 func (o *LibpodCreateContainerNotFound) GetPayload() *LibpodCreateContainerNotFoundBody {
 	return o.Payload
 }
@@ -164,7 +161,7 @@ func NewLibpodCreateContainerConflict() *LibpodCreateContainerConflict {
 	return &LibpodCreateContainerConflict{}
 }
 
-/*LibpodCreateContainerConflict handles this case with default header values.
+/* LibpodCreateContainerConflict describes a response with status code 409, with default header values.
 
 Conflict error in operation
 */
@@ -175,7 +172,6 @@ type LibpodCreateContainerConflict struct {
 func (o *LibpodCreateContainerConflict) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/create][%d] libpodCreateContainerConflict  %+v", 409, o.Payload)
 }
-
 func (o *LibpodCreateContainerConflict) GetPayload() *LibpodCreateContainerConflictBody {
 	return o.Payload
 }
@@ -197,7 +193,7 @@ func NewLibpodCreateContainerInternalServerError() *LibpodCreateContainerInterna
 	return &LibpodCreateContainerInternalServerError{}
 }
 
-/*LibpodCreateContainerInternalServerError handles this case with default header values.
+/* LibpodCreateContainerInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -208,7 +204,6 @@ type LibpodCreateContainerInternalServerError struct {
 func (o *LibpodCreateContainerInternalServerError) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/create][%d] libpodCreateContainerInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodCreateContainerInternalServerError) GetPayload() *LibpodCreateContainerInternalServerErrorBody {
 	return o.Payload
 }
@@ -231,9 +226,11 @@ swagger:model LibpodCreateContainerBadRequestBody
 type LibpodCreateContainerBadRequestBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -242,6 +239,11 @@ type LibpodCreateContainerBadRequestBody struct {
 
 // Validate validates this libpod create container bad request body
 func (o *LibpodCreateContainerBadRequestBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod create container bad request body based on context it is used
+func (o *LibpodCreateContainerBadRequestBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -808,7 +810,6 @@ func (o *LibpodCreateContainerBody) Validate(formats strfmt.Registry) error {
 }
 
 func (o *LibpodCreateContainerBody) validateDevices(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Devices) { // not required
 		return nil
 	}
@@ -833,7 +834,6 @@ func (o *LibpodCreateContainerBody) validateDevices(formats strfmt.Registry) err
 }
 
 func (o *LibpodCreateContainerBody) validateMounts(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Mounts) { // not required
 		return nil
 	}
@@ -858,7 +858,6 @@ func (o *LibpodCreateContainerBody) validateMounts(formats strfmt.Registry) erro
 }
 
 func (o *LibpodCreateContainerBody) validateOverlayVolumes(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.OverlayVolumes) { // not required
 		return nil
 	}
@@ -883,7 +882,6 @@ func (o *LibpodCreateContainerBody) validateOverlayVolumes(formats strfmt.Regist
 }
 
 func (o *LibpodCreateContainerBody) validatePortMappings(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.PortMappings) { // not required
 		return nil
 	}
@@ -908,7 +906,6 @@ func (o *LibpodCreateContainerBody) validatePortMappings(formats strfmt.Registry
 }
 
 func (o *LibpodCreateContainerBody) validateRlimits(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Rlimits) { // not required
 		return nil
 	}
@@ -933,7 +930,6 @@ func (o *LibpodCreateContainerBody) validateRlimits(formats strfmt.Registry) err
 }
 
 func (o *LibpodCreateContainerBody) validateThrottleReadBpsDevice(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.ThrottleReadBpsDevice) { // not required
 		return nil
 	}
@@ -955,7 +951,6 @@ func (o *LibpodCreateContainerBody) validateThrottleReadBpsDevice(formats strfmt
 }
 
 func (o *LibpodCreateContainerBody) validateThrottleReadIOPSDevice(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.ThrottleReadIOPSDevice) { // not required
 		return nil
 	}
@@ -977,7 +972,6 @@ func (o *LibpodCreateContainerBody) validateThrottleReadIOPSDevice(formats strfm
 }
 
 func (o *LibpodCreateContainerBody) validateThrottleWriteBpsDevice(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.ThrottleWriteBpsDevice) { // not required
 		return nil
 	}
@@ -999,7 +993,6 @@ func (o *LibpodCreateContainerBody) validateThrottleWriteBpsDevice(formats strfm
 }
 
 func (o *LibpodCreateContainerBody) validateThrottleWriteIOPSDevice(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.ThrottleWriteIOPSDevice) { // not required
 		return nil
 	}
@@ -1021,7 +1014,6 @@ func (o *LibpodCreateContainerBody) validateThrottleWriteIOPSDevice(formats strf
 }
 
 func (o *LibpodCreateContainerBody) validateVolumes(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Volumes) { // not required
 		return nil
 	}
@@ -1046,7 +1038,6 @@ func (o *LibpodCreateContainerBody) validateVolumes(formats strfmt.Registry) err
 }
 
 func (o *LibpodCreateContainerBody) validateWeightDevice(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.WeightDevice) { // not required
 		return nil
 	}
@@ -1068,7 +1059,6 @@ func (o *LibpodCreateContainerBody) validateWeightDevice(formats strfmt.Registry
 }
 
 func (o *LibpodCreateContainerBody) validateCgroupns(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Cgroupns) { // not required
 		return nil
 	}
@@ -1086,7 +1076,6 @@ func (o *LibpodCreateContainerBody) validateCgroupns(formats strfmt.Registry) er
 }
 
 func (o *LibpodCreateContainerBody) validateHealthconfig(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Healthconfig) { // not required
 		return nil
 	}
@@ -1104,7 +1093,6 @@ func (o *LibpodCreateContainerBody) validateHealthconfig(formats strfmt.Registry
 }
 
 func (o *LibpodCreateContainerBody) validateIdmappings(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Idmappings) { // not required
 		return nil
 	}
@@ -1122,7 +1110,6 @@ func (o *LibpodCreateContainerBody) validateIdmappings(formats strfmt.Registry) 
 }
 
 func (o *LibpodCreateContainerBody) validateIpcns(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Ipcns) { // not required
 		return nil
 	}
@@ -1140,7 +1127,6 @@ func (o *LibpodCreateContainerBody) validateIpcns(formats strfmt.Registry) error
 }
 
 func (o *LibpodCreateContainerBody) validateLogConfiguration(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.LogConfiguration) { // not required
 		return nil
 	}
@@ -1158,7 +1144,6 @@ func (o *LibpodCreateContainerBody) validateLogConfiguration(formats strfmt.Regi
 }
 
 func (o *LibpodCreateContainerBody) validateNetns(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Netns) { // not required
 		return nil
 	}
@@ -1176,7 +1161,6 @@ func (o *LibpodCreateContainerBody) validateNetns(formats strfmt.Registry) error
 }
 
 func (o *LibpodCreateContainerBody) validatePidns(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Pidns) { // not required
 		return nil
 	}
@@ -1194,7 +1178,6 @@ func (o *LibpodCreateContainerBody) validatePidns(formats strfmt.Registry) error
 }
 
 func (o *LibpodCreateContainerBody) validateResourceLimits(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.ResourceLimits) { // not required
 		return nil
 	}
@@ -1212,7 +1195,6 @@ func (o *LibpodCreateContainerBody) validateResourceLimits(formats strfmt.Regist
 }
 
 func (o *LibpodCreateContainerBody) validateUserns(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Userns) { // not required
 		return nil
 	}
@@ -1230,13 +1212,429 @@ func (o *LibpodCreateContainerBody) validateUserns(formats strfmt.Registry) erro
 }
 
 func (o *LibpodCreateContainerBody) validateUtsns(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Utsns) { // not required
 		return nil
 	}
 
 	if o.Utsns != nil {
 		if err := o.Utsns.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("create" + "." + "utsns")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this libpod create container body based on the context it is used
+func (o *LibpodCreateContainerBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidateDevices(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateMounts(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateOverlayVolumes(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidatePortMappings(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateRlimits(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateThrottleReadBpsDevice(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateThrottleReadIOPSDevice(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateThrottleWriteBpsDevice(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateThrottleWriteIOPSDevice(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateVolumes(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateWeightDevice(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateCgroupns(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateHealthconfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateIdmappings(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateIpcns(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateLogConfiguration(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateNetns(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidatePidns(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateResourceLimits(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateUserns(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateUtsns(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *LibpodCreateContainerBody) contextValidateDevices(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.Devices); i++ {
+
+		if o.Devices[i] != nil {
+			if err := o.Devices[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("create" + "." + "devices" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerBody) contextValidateMounts(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.Mounts); i++ {
+
+		if o.Mounts[i] != nil {
+			if err := o.Mounts[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("create" + "." + "mounts" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerBody) contextValidateOverlayVolumes(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.OverlayVolumes); i++ {
+
+		if o.OverlayVolumes[i] != nil {
+			if err := o.OverlayVolumes[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("create" + "." + "overlay_volumes" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerBody) contextValidatePortMappings(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.PortMappings); i++ {
+
+		if o.PortMappings[i] != nil {
+			if err := o.PortMappings[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("create" + "." + "portmappings" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerBody) contextValidateRlimits(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.Rlimits); i++ {
+
+		if o.Rlimits[i] != nil {
+			if err := o.Rlimits[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("create" + "." + "r_limits" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerBody) contextValidateThrottleReadBpsDevice(ctx context.Context, formats strfmt.Registry) error {
+
+	for k := range o.ThrottleReadBpsDevice {
+
+		if val, ok := o.ThrottleReadBpsDevice[k]; ok {
+			if err := val.ContextValidate(ctx, formats); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerBody) contextValidateThrottleReadIOPSDevice(ctx context.Context, formats strfmt.Registry) error {
+
+	for k := range o.ThrottleReadIOPSDevice {
+
+		if val, ok := o.ThrottleReadIOPSDevice[k]; ok {
+			if err := val.ContextValidate(ctx, formats); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerBody) contextValidateThrottleWriteBpsDevice(ctx context.Context, formats strfmt.Registry) error {
+
+	for k := range o.ThrottleWriteBpsDevice {
+
+		if val, ok := o.ThrottleWriteBpsDevice[k]; ok {
+			if err := val.ContextValidate(ctx, formats); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerBody) contextValidateThrottleWriteIOPSDevice(ctx context.Context, formats strfmt.Registry) error {
+
+	for k := range o.ThrottleWriteIOPSDevice {
+
+		if val, ok := o.ThrottleWriteIOPSDevice[k]; ok {
+			if err := val.ContextValidate(ctx, formats); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerBody) contextValidateVolumes(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.Volumes); i++ {
+
+		if o.Volumes[i] != nil {
+			if err := o.Volumes[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("create" + "." + "volumes" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerBody) contextValidateWeightDevice(ctx context.Context, formats strfmt.Registry) error {
+
+	for k := range o.WeightDevice {
+
+		if val, ok := o.WeightDevice[k]; ok {
+			if err := val.ContextValidate(ctx, formats); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerBody) contextValidateCgroupns(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Cgroupns != nil {
+		if err := o.Cgroupns.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("create" + "." + "cgroupns")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerBody) contextValidateHealthconfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Healthconfig != nil {
+		if err := o.Healthconfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("create" + "." + "healthconfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerBody) contextValidateIdmappings(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Idmappings != nil {
+		if err := o.Idmappings.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("create" + "." + "idmappings")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerBody) contextValidateIpcns(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Ipcns != nil {
+		if err := o.Ipcns.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("create" + "." + "ipcns")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerBody) contextValidateLogConfiguration(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.LogConfiguration != nil {
+		if err := o.LogConfiguration.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("create" + "." + "log_configuration")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerBody) contextValidateNetns(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Netns != nil {
+		if err := o.Netns.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("create" + "." + "netns")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerBody) contextValidatePidns(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Pidns != nil {
+		if err := o.Pidns.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("create" + "." + "pidns")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerBody) contextValidateResourceLimits(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.ResourceLimits != nil {
+		if err := o.ResourceLimits.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("create" + "." + "resource_limits")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerBody) contextValidateUserns(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Userns != nil {
+		if err := o.Userns.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("create" + "." + "userns")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerBody) contextValidateUtsns(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Utsns != nil {
+		if err := o.Utsns.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("create" + "." + "utsns")
 			}
@@ -1271,9 +1669,11 @@ swagger:model LibpodCreateContainerConflictBody
 type LibpodCreateContainerConflictBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -1282,6 +1682,11 @@ type LibpodCreateContainerConflictBody struct {
 
 // Validate validates this libpod create container conflict body
 func (o *LibpodCreateContainerConflictBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod create container conflict body based on context it is used
+func (o *LibpodCreateContainerConflictBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -1320,6 +1725,11 @@ func (o *LibpodCreateContainerCreatedBody) Validate(formats strfmt.Registry) err
 	return nil
 }
 
+// ContextValidate validates this libpod create container created body based on context it is used
+func (o *LibpodCreateContainerCreatedBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodCreateContainerCreatedBody) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -1344,9 +1754,11 @@ swagger:model LibpodCreateContainerInternalServerErrorBody
 type LibpodCreateContainerInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -1355,6 +1767,11 @@ type LibpodCreateContainerInternalServerErrorBody struct {
 
 // Validate validates this libpod create container internal server error body
 func (o *LibpodCreateContainerInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod create container internal server error body based on context it is used
+func (o *LibpodCreateContainerInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -1382,9 +1799,11 @@ swagger:model LibpodCreateContainerNotFoundBody
 type LibpodCreateContainerNotFoundBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -1393,6 +1812,11 @@ type LibpodCreateContainerNotFoundBody struct {
 
 // Validate validates this libpod create container not found body
 func (o *LibpodCreateContainerNotFoundBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod create container not found body based on context it is used
+func (o *LibpodCreateContainerNotFoundBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -1428,6 +1852,11 @@ type LibpodCreateContainerParamsBodyCgroupns struct {
 
 // Validate validates this libpod create container params body cgroupns
 func (o *LibpodCreateContainerParamsBodyCgroupns) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod create container params body cgroupns based on context it is used
+func (o *LibpodCreateContainerParamsBodyCgroupns) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -1486,6 +1915,11 @@ func (o *LibpodCreateContainerParamsBodyDevicesItems0) Validate(formats strfmt.R
 	return nil
 }
 
+// ContextValidate validates this libpod create container params body devices items0 based on context it is used
+func (o *LibpodCreateContainerParamsBodyDevicesItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodCreateContainerParamsBodyDevicesItems0) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -1541,6 +1975,11 @@ type LibpodCreateContainerParamsBodyHealthconfig struct {
 
 // Validate validates this libpod create container params body healthconfig
 func (o *LibpodCreateContainerParamsBodyHealthconfig) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod create container params body healthconfig based on context it is used
+func (o *LibpodCreateContainerParamsBodyHealthconfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -1618,7 +2057,6 @@ func (o *LibpodCreateContainerParamsBodyIdmappings) Validate(formats strfmt.Regi
 }
 
 func (o *LibpodCreateContainerParamsBodyIdmappings) validateGIDMap(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.GIDMap) { // not required
 		return nil
 	}
@@ -1643,7 +2081,6 @@ func (o *LibpodCreateContainerParamsBodyIdmappings) validateGIDMap(formats strfm
 }
 
 func (o *LibpodCreateContainerParamsBodyIdmappings) validateUIDMap(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.UIDMap) { // not required
 		return nil
 	}
@@ -1668,13 +2105,84 @@ func (o *LibpodCreateContainerParamsBodyIdmappings) validateUIDMap(formats strfm
 }
 
 func (o *LibpodCreateContainerParamsBodyIdmappings) validateAutoUserNsOpts(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.AutoUserNsOpts) { // not required
 		return nil
 	}
 
 	if o.AutoUserNsOpts != nil {
 		if err := o.AutoUserNsOpts.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("create" + "." + "idmappings" + "." + "AutoUserNsOpts")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this libpod create container params body idmappings based on the context it is used
+func (o *LibpodCreateContainerParamsBodyIdmappings) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidateGIDMap(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateUIDMap(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateAutoUserNsOpts(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *LibpodCreateContainerParamsBodyIdmappings) contextValidateGIDMap(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.GIDMap); i++ {
+
+		if o.GIDMap[i] != nil {
+			if err := o.GIDMap[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("create" + "." + "idmappings" + "." + "GIDMap" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerParamsBodyIdmappings) contextValidateUIDMap(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.UIDMap); i++ {
+
+		if o.UIDMap[i] != nil {
+			if err := o.UIDMap[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("create" + "." + "idmappings" + "." + "UIDMap" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerParamsBodyIdmappings) contextValidateAutoUserNsOpts(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.AutoUserNsOpts != nil {
+		if err := o.AutoUserNsOpts.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("create" + "." + "idmappings" + "." + "AutoUserNsOpts")
 			}
@@ -1751,7 +2259,6 @@ func (o *LibpodCreateContainerParamsBodyIdmappingsAutoUserNsOpts) Validate(forma
 }
 
 func (o *LibpodCreateContainerParamsBodyIdmappingsAutoUserNsOpts) validateAdditionalGIDMappings(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.AdditionalGIDMappings) { // not required
 		return nil
 	}
@@ -1776,7 +2283,6 @@ func (o *LibpodCreateContainerParamsBodyIdmappingsAutoUserNsOpts) validateAdditi
 }
 
 func (o *LibpodCreateContainerParamsBodyIdmappingsAutoUserNsOpts) validateAdditionalUIDMappings(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.AdditionalUIDMappings) { // not required
 		return nil
 	}
@@ -1788,6 +2294,60 @@ func (o *LibpodCreateContainerParamsBodyIdmappingsAutoUserNsOpts) validateAdditi
 
 		if o.AdditionalUIDMappings[i] != nil {
 			if err := o.AdditionalUIDMappings[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("create" + "." + "idmappings" + "." + "AutoUserNsOpts" + "." + "AdditionalUIDMappings" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this libpod create container params body idmappings auto user ns opts based on the context it is used
+func (o *LibpodCreateContainerParamsBodyIdmappingsAutoUserNsOpts) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidateAdditionalGIDMappings(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateAdditionalUIDMappings(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *LibpodCreateContainerParamsBodyIdmappingsAutoUserNsOpts) contextValidateAdditionalGIDMappings(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.AdditionalGIDMappings); i++ {
+
+		if o.AdditionalGIDMappings[i] != nil {
+			if err := o.AdditionalGIDMappings[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("create" + "." + "idmappings" + "." + "AutoUserNsOpts" + "." + "AdditionalGIDMappings" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerParamsBodyIdmappingsAutoUserNsOpts) contextValidateAdditionalUIDMappings(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.AdditionalUIDMappings); i++ {
+
+		if o.AdditionalUIDMappings[i] != nil {
+			if err := o.AdditionalUIDMappings[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("create" + "." + "idmappings" + "." + "AutoUserNsOpts" + "." + "AdditionalUIDMappings" + "." + strconv.Itoa(i))
 				}
@@ -1840,6 +2400,11 @@ func (o *LibpodCreateContainerParamsBodyIdmappingsAutoUserNsOptsAdditionalGIDMap
 	return nil
 }
 
+// ContextValidate validates this libpod create container params body idmappings auto user ns opts additional g ID mappings items0 based on context it is used
+func (o *LibpodCreateContainerParamsBodyIdmappingsAutoUserNsOptsAdditionalGIDMappingsItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodCreateContainerParamsBodyIdmappingsAutoUserNsOptsAdditionalGIDMappingsItems0) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -1877,6 +2442,11 @@ type LibpodCreateContainerParamsBodyIdmappingsAutoUserNsOptsAdditionalUIDMapping
 
 // Validate validates this libpod create container params body idmappings auto user ns opts additional UID mappings items0
 func (o *LibpodCreateContainerParamsBodyIdmappingsAutoUserNsOptsAdditionalUIDMappingsItems0) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod create container params body idmappings auto user ns opts additional UID mappings items0 based on context it is used
+func (o *LibpodCreateContainerParamsBodyIdmappingsAutoUserNsOptsAdditionalUIDMappingsItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -1920,6 +2490,11 @@ func (o *LibpodCreateContainerParamsBodyIdmappingsGIDMapItems0) Validate(formats
 	return nil
 }
 
+// ContextValidate validates this libpod create container params body idmappings g ID map items0 based on context it is used
+func (o *LibpodCreateContainerParamsBodyIdmappingsGIDMapItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodCreateContainerParamsBodyIdmappingsGIDMapItems0) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -1960,6 +2535,11 @@ func (o *LibpodCreateContainerParamsBodyIdmappingsUIDMapItems0) Validate(formats
 	return nil
 }
 
+// ContextValidate validates this libpod create container params body idmappings UID map items0 based on context it is used
+func (o *LibpodCreateContainerParamsBodyIdmappingsUIDMapItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodCreateContainerParamsBodyIdmappingsUIDMapItems0) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -1992,6 +2572,11 @@ type LibpodCreateContainerParamsBodyIpcns struct {
 
 // Validate validates this libpod create container params body ipcns
 func (o *LibpodCreateContainerParamsBodyIpcns) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod create container params body ipcns based on context it is used
+func (o *LibpodCreateContainerParamsBodyIpcns) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -2037,6 +2622,11 @@ func (o *LibpodCreateContainerParamsBodyLogConfiguration) Validate(formats strfm
 	return nil
 }
 
+// ContextValidate validates this libpod create container params body log configuration based on context it is used
+func (o *LibpodCreateContainerParamsBodyLogConfiguration) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodCreateContainerParamsBodyLogConfiguration) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -2078,6 +2668,11 @@ func (o *LibpodCreateContainerParamsBodyMountsItems0) Validate(formats strfmt.Re
 	return nil
 }
 
+// ContextValidate validates this libpod create container params body mounts items0 based on context it is used
+func (o *LibpodCreateContainerParamsBodyMountsItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodCreateContainerParamsBodyMountsItems0) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -2110,6 +2705,11 @@ type LibpodCreateContainerParamsBodyNetns struct {
 
 // Validate validates this libpod create container params body netns
 func (o *LibpodCreateContainerParamsBodyNetns) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod create container params body netns based on context it is used
+func (o *LibpodCreateContainerParamsBodyNetns) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -2149,6 +2749,11 @@ func (o *LibpodCreateContainerParamsBodyOverlayVolumesItems0) Validate(formats s
 	return nil
 }
 
+// ContextValidate validates this libpod create container params body overlay volumes items0 based on context it is used
+func (o *LibpodCreateContainerParamsBodyOverlayVolumesItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodCreateContainerParamsBodyOverlayVolumesItems0) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -2181,6 +2786,11 @@ type LibpodCreateContainerParamsBodyPidns struct {
 
 // Validate validates this libpod create container params body pidns
 func (o *LibpodCreateContainerParamsBodyPidns) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod create container params body pidns based on context it is used
+func (o *LibpodCreateContainerParamsBodyPidns) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -2244,6 +2854,11 @@ func (o *LibpodCreateContainerParamsBodyPortmappingsItems0) Validate(formats str
 	return nil
 }
 
+// ContextValidate validates this libpod create container params body portmappings items0 based on context it is used
+func (o *LibpodCreateContainerParamsBodyPortmappingsItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodCreateContainerParamsBodyPortmappingsItems0) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -2279,6 +2894,11 @@ type LibpodCreateContainerParamsBodyRLimitsItems0 struct {
 
 // Validate validates this libpod create container params body r limits items0
 func (o *LibpodCreateContainerParamsBodyRLimitsItems0) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod create container params body r limits items0 based on context it is used
+func (o *LibpodCreateContainerParamsBodyRLimitsItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -2378,7 +2998,6 @@ func (o *LibpodCreateContainerParamsBodyResourceLimits) Validate(formats strfmt.
 }
 
 func (o *LibpodCreateContainerParamsBodyResourceLimits) validateDevices(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Devices) { // not required
 		return nil
 	}
@@ -2403,7 +3022,6 @@ func (o *LibpodCreateContainerParamsBodyResourceLimits) validateDevices(formats 
 }
 
 func (o *LibpodCreateContainerParamsBodyResourceLimits) validateHugepageLimits(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.HugepageLimits) { // not required
 		return nil
 	}
@@ -2428,7 +3046,6 @@ func (o *LibpodCreateContainerParamsBodyResourceLimits) validateHugepageLimits(f
 }
 
 func (o *LibpodCreateContainerParamsBodyResourceLimits) validateRdma(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Rdma) { // not required
 		return nil
 	}
@@ -2450,7 +3067,6 @@ func (o *LibpodCreateContainerParamsBodyResourceLimits) validateRdma(formats str
 }
 
 func (o *LibpodCreateContainerParamsBodyResourceLimits) validateBlockIO(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.BlockIO) { // not required
 		return nil
 	}
@@ -2468,7 +3084,6 @@ func (o *LibpodCreateContainerParamsBodyResourceLimits) validateBlockIO(formats 
 }
 
 func (o *LibpodCreateContainerParamsBodyResourceLimits) validateCPU(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.CPU) { // not required
 		return nil
 	}
@@ -2486,7 +3101,6 @@ func (o *LibpodCreateContainerParamsBodyResourceLimits) validateCPU(formats strf
 }
 
 func (o *LibpodCreateContainerParamsBodyResourceLimits) validateMemory(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Memory) { // not required
 		return nil
 	}
@@ -2504,7 +3118,6 @@ func (o *LibpodCreateContainerParamsBodyResourceLimits) validateMemory(formats s
 }
 
 func (o *LibpodCreateContainerParamsBodyResourceLimits) validateNetwork(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Network) { // not required
 		return nil
 	}
@@ -2522,13 +3135,175 @@ func (o *LibpodCreateContainerParamsBodyResourceLimits) validateNetwork(formats 
 }
 
 func (o *LibpodCreateContainerParamsBodyResourceLimits) validatePids(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Pids) { // not required
 		return nil
 	}
 
 	if o.Pids != nil {
 		if err := o.Pids.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("create" + "." + "resource_limits" + "." + "pids")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this libpod create container params body resource limits based on the context it is used
+func (o *LibpodCreateContainerParamsBodyResourceLimits) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidateDevices(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateHugepageLimits(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateRdma(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateBlockIO(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateCPU(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateMemory(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateNetwork(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidatePids(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *LibpodCreateContainerParamsBodyResourceLimits) contextValidateDevices(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.Devices); i++ {
+
+		if o.Devices[i] != nil {
+			if err := o.Devices[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("create" + "." + "resource_limits" + "." + "devices" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerParamsBodyResourceLimits) contextValidateHugepageLimits(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.HugepageLimits); i++ {
+
+		if o.HugepageLimits[i] != nil {
+			if err := o.HugepageLimits[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("create" + "." + "resource_limits" + "." + "hugepageLimits" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerParamsBodyResourceLimits) contextValidateRdma(ctx context.Context, formats strfmt.Registry) error {
+
+	for k := range o.Rdma {
+
+		if val, ok := o.Rdma[k]; ok {
+			if err := val.ContextValidate(ctx, formats); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerParamsBodyResourceLimits) contextValidateBlockIO(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.BlockIO != nil {
+		if err := o.BlockIO.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("create" + "." + "resource_limits" + "." + "blockIO")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerParamsBodyResourceLimits) contextValidateCPU(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.CPU != nil {
+		if err := o.CPU.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("create" + "." + "resource_limits" + "." + "cpu")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerParamsBodyResourceLimits) contextValidateMemory(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Memory != nil {
+		if err := o.Memory.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("create" + "." + "resource_limits" + "." + "memory")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerParamsBodyResourceLimits) contextValidateNetwork(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Network != nil {
+		if err := o.Network.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("create" + "." + "resource_limits" + "." + "network")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerParamsBodyResourceLimits) contextValidatePids(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Pids != nil {
+		if err := o.Pids.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("create" + "." + "resource_limits" + "." + "pids")
 			}
@@ -2615,7 +3390,6 @@ func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIO) Validate(formats 
 }
 
 func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIO) validateThrottleReadBpsDevice(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.ThrottleReadBpsDevice) { // not required
 		return nil
 	}
@@ -2640,7 +3414,6 @@ func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIO) validateThrottleR
 }
 
 func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIO) validateThrottleReadIOPSDevice(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.ThrottleReadIOPSDevice) { // not required
 		return nil
 	}
@@ -2665,7 +3438,6 @@ func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIO) validateThrottleR
 }
 
 func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIO) validateThrottleWriteBpsDevice(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.ThrottleWriteBpsDevice) { // not required
 		return nil
 	}
@@ -2690,7 +3462,6 @@ func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIO) validateThrottleW
 }
 
 func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIO) validateThrottleWriteIOPSDevice(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.ThrottleWriteIOPSDevice) { // not required
 		return nil
 	}
@@ -2715,7 +3486,6 @@ func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIO) validateThrottleW
 }
 
 func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIO) validateWeightDevice(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.WeightDevice) { // not required
 		return nil
 	}
@@ -2727,6 +3497,126 @@ func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIO) validateWeightDev
 
 		if o.WeightDevice[i] != nil {
 			if err := o.WeightDevice[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("create" + "." + "resource_limits" + "." + "blockIO" + "." + "weightDevice" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this libpod create container params body resource limits block i o based on the context it is used
+func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIO) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidateThrottleReadBpsDevice(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateThrottleReadIOPSDevice(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateThrottleWriteBpsDevice(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateThrottleWriteIOPSDevice(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.contextValidateWeightDevice(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIO) contextValidateThrottleReadBpsDevice(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.ThrottleReadBpsDevice); i++ {
+
+		if o.ThrottleReadBpsDevice[i] != nil {
+			if err := o.ThrottleReadBpsDevice[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("create" + "." + "resource_limits" + "." + "blockIO" + "." + "throttleReadBpsDevice" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIO) contextValidateThrottleReadIOPSDevice(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.ThrottleReadIOPSDevice); i++ {
+
+		if o.ThrottleReadIOPSDevice[i] != nil {
+			if err := o.ThrottleReadIOPSDevice[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("create" + "." + "resource_limits" + "." + "blockIO" + "." + "throttleReadIOPSDevice" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIO) contextValidateThrottleWriteBpsDevice(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.ThrottleWriteBpsDevice); i++ {
+
+		if o.ThrottleWriteBpsDevice[i] != nil {
+			if err := o.ThrottleWriteBpsDevice[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("create" + "." + "resource_limits" + "." + "blockIO" + "." + "throttleWriteBpsDevice" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIO) contextValidateThrottleWriteIOPSDevice(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.ThrottleWriteIOPSDevice); i++ {
+
+		if o.ThrottleWriteIOPSDevice[i] != nil {
+			if err := o.ThrottleWriteIOPSDevice[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("create" + "." + "resource_limits" + "." + "blockIO" + "." + "throttleWriteIOPSDevice" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIO) contextValidateWeightDevice(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.WeightDevice); i++ {
+
+		if o.WeightDevice[i] != nil {
+			if err := o.WeightDevice[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("create" + "." + "resource_limits" + "." + "blockIO" + "." + "weightDevice" + "." + strconv.Itoa(i))
 				}
@@ -2777,6 +3667,11 @@ func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIOThrottleReadBpsDevi
 	return nil
 }
 
+// ContextValidate validates this libpod create container params body resource limits block i o throttle read bps device items0 based on context it is used
+func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIOThrottleReadBpsDeviceItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIOThrottleReadBpsDeviceItems0) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -2812,6 +3707,11 @@ type LibpodCreateContainerParamsBodyResourceLimitsBlockIOThrottleReadIOPSDeviceI
 
 // Validate validates this libpod create container params body resource limits block i o throttle read i o p s device items0
 func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIOThrottleReadIOPSDeviceItems0) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod create container params body resource limits block i o throttle read i o p s device items0 based on context it is used
+func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIOThrottleReadIOPSDeviceItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -2853,6 +3753,11 @@ func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIOThrottleWriteBpsDev
 	return nil
 }
 
+// ContextValidate validates this libpod create container params body resource limits block i o throttle write bps device items0 based on context it is used
+func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIOThrottleWriteBpsDeviceItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIOThrottleWriteBpsDeviceItems0) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -2888,6 +3793,11 @@ type LibpodCreateContainerParamsBodyResourceLimitsBlockIOThrottleWriteIOPSDevice
 
 // Validate validates this libpod create container params body resource limits block i o throttle write i o p s device items0
 func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIOThrottleWriteIOPSDeviceItems0) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod create container params body resource limits block i o throttle write i o p s device items0 based on context it is used
+func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIOThrottleWriteIOPSDeviceItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -2929,6 +3839,11 @@ type LibpodCreateContainerParamsBodyResourceLimitsBlockIOWeightDeviceItems0 stru
 
 // Validate validates this libpod create container params body resource limits block i o weight device items0
 func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIOWeightDeviceItems0) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod create container params body resource limits block i o weight device items0 based on context it is used
+func (o *LibpodCreateContainerParamsBodyResourceLimitsBlockIOWeightDeviceItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -2982,6 +3897,11 @@ func (o *LibpodCreateContainerParamsBodyResourceLimitsCPU) Validate(formats strf
 	return nil
 }
 
+// ContextValidate validates this libpod create container params body resource limits CPU based on context it is used
+func (o *LibpodCreateContainerParamsBodyResourceLimitsCPU) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodCreateContainerParamsBodyResourceLimitsCPU) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -3027,6 +3947,11 @@ func (o *LibpodCreateContainerParamsBodyResourceLimitsDevicesItems0) Validate(fo
 	return nil
 }
 
+// ContextValidate validates this libpod create container params body resource limits devices items0 based on context it is used
+func (o *LibpodCreateContainerParamsBodyResourceLimitsDevicesItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodCreateContainerParamsBodyResourceLimitsDevicesItems0) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -3060,6 +3985,11 @@ type LibpodCreateContainerParamsBodyResourceLimitsHugepageLimitsItems0 struct {
 
 // Validate validates this libpod create container params body resource limits hugepage limits items0
 func (o *LibpodCreateContainerParamsBodyResourceLimitsHugepageLimitsItems0) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod create container params body resource limits hugepage limits items0 based on context it is used
+func (o *LibpodCreateContainerParamsBodyResourceLimitsHugepageLimitsItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -3116,6 +4046,11 @@ func (o *LibpodCreateContainerParamsBodyResourceLimitsMemory) Validate(formats s
 	return nil
 }
 
+// ContextValidate validates this libpod create container params body resource limits memory based on context it is used
+func (o *LibpodCreateContainerParamsBodyResourceLimitsMemory) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodCreateContainerParamsBodyResourceLimitsMemory) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -3161,7 +4096,6 @@ func (o *LibpodCreateContainerParamsBodyResourceLimitsNetwork) Validate(formats 
 }
 
 func (o *LibpodCreateContainerParamsBodyResourceLimitsNetwork) validatePriorities(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Priorities) { // not required
 		return nil
 	}
@@ -3173,6 +4107,38 @@ func (o *LibpodCreateContainerParamsBodyResourceLimitsNetwork) validatePrioritie
 
 		if o.Priorities[i] != nil {
 			if err := o.Priorities[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("create" + "." + "resource_limits" + "." + "network" + "." + "priorities" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this libpod create container params body resource limits network based on the context it is used
+func (o *LibpodCreateContainerParamsBodyResourceLimitsNetwork) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidatePriorities(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *LibpodCreateContainerParamsBodyResourceLimitsNetwork) contextValidatePriorities(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.Priorities); i++ {
+
+		if o.Priorities[i] != nil {
+			if err := o.Priorities[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("create" + "." + "resource_limits" + "." + "network" + "." + "priorities" + "." + strconv.Itoa(i))
 				}
@@ -3220,6 +4186,11 @@ func (o *LibpodCreateContainerParamsBodyResourceLimitsNetworkPrioritiesItems0) V
 	return nil
 }
 
+// ContextValidate validates this libpod create container params body resource limits network priorities items0 based on context it is used
+func (o *LibpodCreateContainerParamsBodyResourceLimitsNetworkPrioritiesItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodCreateContainerParamsBodyResourceLimitsNetworkPrioritiesItems0) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -3249,6 +4220,11 @@ type LibpodCreateContainerParamsBodyResourceLimitsPids struct {
 
 // Validate validates this libpod create container params body resource limits pids
 func (o *LibpodCreateContainerParamsBodyResourceLimitsPids) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod create container params body resource limits pids based on context it is used
+func (o *LibpodCreateContainerParamsBodyResourceLimitsPids) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -3284,6 +4260,11 @@ type LibpodCreateContainerParamsBodyResourceLimitsRdmaAnon struct {
 
 // Validate validates this libpod create container params body resource limits rdma anon
 func (o *LibpodCreateContainerParamsBodyResourceLimitsRdmaAnon) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod create container params body resource limits rdma anon based on context it is used
+func (o *LibpodCreateContainerParamsBodyResourceLimitsRdmaAnon) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -3325,6 +4306,11 @@ func (o *LibpodCreateContainerParamsBodyThrottleReadBpsDeviceAnon) Validate(form
 	return nil
 }
 
+// ContextValidate validates this libpod create container params body throttle read bps device anon based on context it is used
+func (o *LibpodCreateContainerParamsBodyThrottleReadBpsDeviceAnon) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodCreateContainerParamsBodyThrottleReadBpsDeviceAnon) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -3360,6 +4346,11 @@ type LibpodCreateContainerParamsBodyThrottleReadIOPSDeviceAnon struct {
 
 // Validate validates this libpod create container params body throttle read i o p s device anon
 func (o *LibpodCreateContainerParamsBodyThrottleReadIOPSDeviceAnon) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod create container params body throttle read i o p s device anon based on context it is used
+func (o *LibpodCreateContainerParamsBodyThrottleReadIOPSDeviceAnon) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -3401,6 +4392,11 @@ func (o *LibpodCreateContainerParamsBodyThrottleWriteBpsDeviceAnon) Validate(for
 	return nil
 }
 
+// ContextValidate validates this libpod create container params body throttle write bps device anon based on context it is used
+func (o *LibpodCreateContainerParamsBodyThrottleWriteBpsDeviceAnon) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodCreateContainerParamsBodyThrottleWriteBpsDeviceAnon) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -3439,6 +4435,11 @@ func (o *LibpodCreateContainerParamsBodyThrottleWriteIOPSDeviceAnon) Validate(fo
 	return nil
 }
 
+// ContextValidate validates this libpod create container params body throttle write i o p s device anon based on context it is used
+func (o *LibpodCreateContainerParamsBodyThrottleWriteIOPSDeviceAnon) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodCreateContainerParamsBodyThrottleWriteIOPSDeviceAnon) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -3474,6 +4475,11 @@ func (o *LibpodCreateContainerParamsBodyUserns) Validate(formats strfmt.Registry
 	return nil
 }
 
+// ContextValidate validates this libpod create container params body userns based on context it is used
+func (o *LibpodCreateContainerParamsBodyUserns) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodCreateContainerParamsBodyUserns) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -3506,6 +4512,11 @@ type LibpodCreateContainerParamsBodyUtsns struct {
 
 // Validate validates this libpod create container params body utsns
 func (o *LibpodCreateContainerParamsBodyUtsns) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod create container params body utsns based on context it is used
+func (o *LibpodCreateContainerParamsBodyUtsns) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -3551,6 +4562,11 @@ func (o *LibpodCreateContainerParamsBodyVolumesItems0) Validate(formats strfmt.R
 	return nil
 }
 
+// ContextValidate validates this libpod create container params body volumes items0 based on context it is used
+func (o *LibpodCreateContainerParamsBodyVolumesItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *LibpodCreateContainerParamsBodyVolumesItems0) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -3589,6 +4605,11 @@ type LibpodCreateContainerParamsBodyWeightDeviceAnon struct {
 
 // Validate validates this libpod create container params body weight device anon
 func (o *LibpodCreateContainerParamsBodyWeightDeviceAnon) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod create container params body weight device anon based on context it is used
+func (o *LibpodCreateContainerParamsBodyWeightDeviceAnon) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

@@ -17,93 +17,58 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// NewLibpodListContainersParams creates a new LibpodListContainersParams object
-// with the default values initialized.
+// NewLibpodListContainersParams creates a new LibpodListContainersParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodListContainersParams() *LibpodListContainersParams {
-	var (
-		allDefault  = bool(false)
-		podDefault  = bool(false)
-		sizeDefault = bool(false)
-		syncDefault = bool(false)
-	)
 	return &LibpodListContainersParams{
-		All:  &allDefault,
-		Pod:  &podDefault,
-		Size: &sizeDefault,
-		Sync: &syncDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodListContainersParamsWithTimeout creates a new LibpodListContainersParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodListContainersParamsWithTimeout(timeout time.Duration) *LibpodListContainersParams {
-	var (
-		allDefault  = bool(false)
-		podDefault  = bool(false)
-		sizeDefault = bool(false)
-		syncDefault = bool(false)
-	)
 	return &LibpodListContainersParams{
-		All:  &allDefault,
-		Pod:  &podDefault,
-		Size: &sizeDefault,
-		Sync: &syncDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodListContainersParamsWithContext creates a new LibpodListContainersParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodListContainersParamsWithContext(ctx context.Context) *LibpodListContainersParams {
-	var (
-		allDefault  = bool(false)
-		podDefault  = bool(false)
-		sizeDefault = bool(false)
-		syncDefault = bool(false)
-	)
 	return &LibpodListContainersParams{
-		All:  &allDefault,
-		Pod:  &podDefault,
-		Size: &sizeDefault,
-		Sync: &syncDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodListContainersParamsWithHTTPClient creates a new LibpodListContainersParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodListContainersParamsWithHTTPClient(client *http.Client) *LibpodListContainersParams {
-	var (
-		allDefault  = bool(false)
-		podDefault  = bool(false)
-		sizeDefault = bool(false)
-		syncDefault = bool(false)
-	)
 	return &LibpodListContainersParams{
-		All:        &allDefault,
-		Pod:        &podDefault,
-		Size:       &sizeDefault,
-		Sync:       &syncDefault,
 		HTTPClient: client,
 	}
 }
 
-/*LibpodListContainersParams contains all the parameters to send to the API endpoint
-for the libpod list containers operation typically these are written to a http.Request
+/* LibpodListContainersParams contains all the parameters to send to the API endpoint
+   for the libpod list containers operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodListContainersParams struct {
 
-	/*All
-	  Return all containers. By default, only running containers are shown
+	/* All.
 
+	   Return all containers. By default, only running containers are shown
 	*/
 	All *bool
-	/*Filters
-	  A JSON encoded value of the filters (a `map[string][]string`) to process on the containers list. Available filters:
+
+	/* Filters.
+
+	     A JSON encoded value of the filters (a `map[string][]string`) to process on the containers list. Available filters:
 	- `ancestor`=(`<image-name>[:<tag>]`, `<image id>`, or `<image@digest>`)
 	- `before`=(`<container id>` or `<container name>`)
 	- `expose`=(`<port>[/<proto>]` or `<startport-endport>/[<proto>]`)
@@ -119,33 +84,71 @@ type LibpodListContainersParams struct {
 	- `status`=(`created`, `restarting`, `running`, `removing`, `paused`, `exited` or `dead`)
 	- `volume`=(`<volume name>` or `<mount point destination>`)
 
-
 	*/
 	Filters *string
-	/*Limit
-	  Return this number of most recently created containers, including non-running ones.
 
+	/* Limit.
+
+	   Return this number of most recently created containers, including non-running ones.
 	*/
 	Limit *int64
-	/*Pod
-	  Ignored. Previously included details on pod name and ID that are currently included by default.
 
+	/* Pod.
+
+	   Ignored. Previously included details on pod name and ID that are currently included by default.
 	*/
 	Pod *bool
-	/*Size
-	  Return the size of container as fields SizeRw and SizeRootFs.
 
+	/* Size.
+
+	   Return the size of container as fields SizeRw and SizeRootFs.
 	*/
 	Size *bool
-	/*Sync
-	  Sync container state with OCI runtime
 
+	/* Sync.
+
+	   Sync container state with OCI runtime
 	*/
 	Sync *bool
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod list containers params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodListContainersParams) WithDefaults() *LibpodListContainersParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod list containers params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodListContainersParams) SetDefaults() {
+	var (
+		allDefault = bool(false)
+
+		podDefault = bool(false)
+
+		sizeDefault = bool(false)
+
+		syncDefault = bool(false)
+	)
+
+	val := LibpodListContainersParams{
+		All:  &allDefault,
+		Pod:  &podDefault,
+		Size: &sizeDefault,
+		Sync: &syncDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the libpod list containers params
@@ -259,96 +262,102 @@ func (o *LibpodListContainersParams) WriteToRequest(r runtime.ClientRequest, reg
 
 		// query param all
 		var qrAll bool
+
 		if o.All != nil {
 			qrAll = *o.All
 		}
 		qAll := swag.FormatBool(qrAll)
 		if qAll != "" {
+
 			if err := r.SetQueryParam("all", qAll); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Filters != nil {
 
 		// query param filters
 		var qrFilters string
+
 		if o.Filters != nil {
 			qrFilters = *o.Filters
 		}
 		qFilters := qrFilters
 		if qFilters != "" {
+
 			if err := r.SetQueryParam("filters", qFilters); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Limit != nil {
 
 		// query param limit
 		var qrLimit int64
+
 		if o.Limit != nil {
 			qrLimit = *o.Limit
 		}
 		qLimit := swag.FormatInt64(qrLimit)
 		if qLimit != "" {
+
 			if err := r.SetQueryParam("limit", qLimit); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Pod != nil {
 
 		// query param pod
 		var qrPod bool
+
 		if o.Pod != nil {
 			qrPod = *o.Pod
 		}
 		qPod := swag.FormatBool(qrPod)
 		if qPod != "" {
+
 			if err := r.SetQueryParam("pod", qPod); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Size != nil {
 
 		// query param size
 		var qrSize bool
+
 		if o.Size != nil {
 			qrSize = *o.Size
 		}
 		qSize := swag.FormatBool(qrSize)
 		if qSize != "" {
+
 			if err := r.SetQueryParam("size", qSize); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Sync != nil {
 
 		// query param sync
 		var qrSync bool
+
 		if o.Sync != nil {
 			qrSync = *o.Sync
 		}
 		qSync := swag.FormatBool(qrSync)
 		if qSync != "" {
+
 			if err := r.SetQueryParam("sync", qSync); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if len(res) > 0 {

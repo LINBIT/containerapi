@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"strconv"
@@ -36,7 +37,6 @@ func (o *LibpodPlayKubeReader) ReadResponse(response runtime.ClientResponse, con
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -47,7 +47,7 @@ func NewLibpodPlayKubeOK() *LibpodPlayKubeOK {
 	return &LibpodPlayKubeOK{}
 }
 
-/*LibpodPlayKubeOK handles this case with default header values.
+/* LibpodPlayKubeOK describes a response with status code 200, with default header values.
 
 PlayKube response
 */
@@ -58,7 +58,6 @@ type LibpodPlayKubeOK struct {
 func (o *LibpodPlayKubeOK) Error() string {
 	return fmt.Sprintf("[POST /libpod/play/kube][%d] libpodPlayKubeOK  %+v", 200, o.Payload)
 }
-
 func (o *LibpodPlayKubeOK) GetPayload() *LibpodPlayKubeOKBody {
 	return o.Payload
 }
@@ -80,7 +79,7 @@ func NewLibpodPlayKubeInternalServerError() *LibpodPlayKubeInternalServerError {
 	return &LibpodPlayKubeInternalServerError{}
 }
 
-/*LibpodPlayKubeInternalServerError handles this case with default header values.
+/* LibpodPlayKubeInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -91,7 +90,6 @@ type LibpodPlayKubeInternalServerError struct {
 func (o *LibpodPlayKubeInternalServerError) Error() string {
 	return fmt.Sprintf("[POST /libpod/play/kube][%d] libpodPlayKubeInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodPlayKubeInternalServerError) GetPayload() *LibpodPlayKubeInternalServerErrorBody {
 	return o.Payload
 }
@@ -114,9 +112,11 @@ swagger:model LibpodPlayKubeInternalServerErrorBody
 type LibpodPlayKubeInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -125,6 +125,11 @@ type LibpodPlayKubeInternalServerErrorBody struct {
 
 // Validate validates this libpod play kube internal server error body
 func (o *LibpodPlayKubeInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod play kube internal server error body based on context it is used
+func (o *LibpodPlayKubeInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -170,7 +175,6 @@ func (o *LibpodPlayKubeOKBody) Validate(formats strfmt.Registry) error {
 }
 
 func (o *LibpodPlayKubeOKBody) validatePods(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Pods) { // not required
 		return nil
 	}
@@ -182,6 +186,38 @@ func (o *LibpodPlayKubeOKBody) validatePods(formats strfmt.Registry) error {
 
 		if o.Pods[i] != nil {
 			if err := o.Pods[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("libpodPlayKubeOK" + "." + "Pods" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this libpod play kube o k body based on the context it is used
+func (o *LibpodPlayKubeOKBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidatePods(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *LibpodPlayKubeOKBody) contextValidatePods(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.Pods); i++ {
+
+		if o.Pods[i] != nil {
+			if err := o.Pods[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("libpodPlayKubeOK" + "." + "Pods" + "." + strconv.Itoa(i))
 				}
@@ -229,6 +265,11 @@ type LibpodPlayKubeOKBodyPodsItems0 struct {
 
 // Validate validates this libpod play kube o k body pods items0
 func (o *LibpodPlayKubeOKBodyPodsItems0) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod play kube o k body pods items0 based on context it is used
+func (o *LibpodPlayKubeOKBodyPodsItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

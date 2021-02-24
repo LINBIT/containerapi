@@ -17,99 +17,121 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// NewLibpodRestoreContainerParams creates a new LibpodRestoreContainerParams object
-// with the default values initialized.
+// NewLibpodRestoreContainerParams creates a new LibpodRestoreContainerParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodRestoreContainerParams() *LibpodRestoreContainerParams {
-	var ()
 	return &LibpodRestoreContainerParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodRestoreContainerParamsWithTimeout creates a new LibpodRestoreContainerParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodRestoreContainerParamsWithTimeout(timeout time.Duration) *LibpodRestoreContainerParams {
-	var ()
 	return &LibpodRestoreContainerParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodRestoreContainerParamsWithContext creates a new LibpodRestoreContainerParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodRestoreContainerParamsWithContext(ctx context.Context) *LibpodRestoreContainerParams {
-	var ()
 	return &LibpodRestoreContainerParams{
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodRestoreContainerParamsWithHTTPClient creates a new LibpodRestoreContainerParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodRestoreContainerParamsWithHTTPClient(client *http.Client) *LibpodRestoreContainerParams {
-	var ()
 	return &LibpodRestoreContainerParams{
 		HTTPClient: client,
 	}
 }
 
-/*LibpodRestoreContainerParams contains all the parameters to send to the API endpoint
-for the libpod restore container operation typically these are written to a http.Request
+/* LibpodRestoreContainerParams contains all the parameters to send to the API endpoint
+   for the libpod restore container operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodRestoreContainerParams struct {
 
-	/*IgnoreRootFS
-	  do not include root file-system changes when exporting
+	/* IgnoreRootFS.
 
+	   do not include root file-system changes when exporting
 	*/
 	IgnoreRootFS *bool
-	/*IgnoreStaticIP
-	  ignore IP address if set statically
 
+	/* IgnoreStaticIP.
+
+	   ignore IP address if set statically
 	*/
 	IgnoreStaticIP *bool
-	/*IgnoreStaticMAC
-	  ignore MAC address if set statically
 
+	/* IgnoreStaticMAC.
+
+	   ignore MAC address if set statically
 	*/
 	IgnoreStaticMAC *bool
-	/*Import
-	  import the restore from a checkpoint tar.gz
 
+	/* Import.
+
+	   import the restore from a checkpoint tar.gz
 	*/
 	Import *bool
-	/*Keep
-	  keep all temporary checkpoint files
 
+	/* Keep.
+
+	   keep all temporary checkpoint files
 	*/
 	Keep *bool
-	/*LeaveRunning
-	  leave the container running after writing checkpoint to disk
 
+	/* LeaveRunning.
+
+	   leave the container running after writing checkpoint to disk
 	*/
 	LeaveRunning *bool
-	/*Name
-	  the name of the container when restored from a tar. can only be used with import
 
-	*/
-	QueryName *string
-	/*Name
-	  the name or id of the container
+	/* Name.
 
+	   the name or id of the container
 	*/
 	PathName string
-	/*TCPEstablished
-	  checkpoint a container with established TCP connections
 
+	/* Name.
+
+	   the name of the container when restored from a tar. can only be used with import
+	*/
+	QueryName *string
+
+	/* TCPEstablished.
+
+	   checkpoint a container with established TCP connections
 	*/
 	TCPEstablished *bool
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod restore container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodRestoreContainerParams) WithDefaults() *LibpodRestoreContainerParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod restore container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodRestoreContainerParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the libpod restore container params
@@ -211,17 +233,6 @@ func (o *LibpodRestoreContainerParams) SetLeaveRunning(leaveRunning *bool) {
 	o.LeaveRunning = leaveRunning
 }
 
-// WithQueryName adds the name to the libpod restore container params
-func (o *LibpodRestoreContainerParams) WithQueryName(name *string) *LibpodRestoreContainerParams {
-	o.SetQueryName(name)
-	return o
-}
-
-// SetQueryName adds the name to the libpod restore container params
-func (o *LibpodRestoreContainerParams) SetQueryName(name *string) {
-	o.QueryName = name
-}
-
 // WithPathName adds the name to the libpod restore container params
 func (o *LibpodRestoreContainerParams) WithPathName(name string) *LibpodRestoreContainerParams {
 	o.SetPathName(name)
@@ -231,6 +242,17 @@ func (o *LibpodRestoreContainerParams) WithPathName(name string) *LibpodRestoreC
 // SetPathName adds the name to the libpod restore container params
 func (o *LibpodRestoreContainerParams) SetPathName(name string) {
 	o.PathName = name
+}
+
+// WithQueryName adds the name to the libpod restore container params
+func (o *LibpodRestoreContainerParams) WithQueryName(name *string) *LibpodRestoreContainerParams {
+	o.SetQueryName(name)
+	return o
+}
+
+// SetQueryName adds the name to the libpod restore container params
+func (o *LibpodRestoreContainerParams) SetQueryName(name *string) {
+	o.QueryName = name
 }
 
 // WithTCPEstablished adds the tCPEstablished to the libpod restore container params
@@ -256,112 +278,102 @@ func (o *LibpodRestoreContainerParams) WriteToRequest(r runtime.ClientRequest, r
 
 		// query param ignoreRootFS
 		var qrIgnoreRootFS bool
+
 		if o.IgnoreRootFS != nil {
 			qrIgnoreRootFS = *o.IgnoreRootFS
 		}
 		qIgnoreRootFS := swag.FormatBool(qrIgnoreRootFS)
 		if qIgnoreRootFS != "" {
+
 			if err := r.SetQueryParam("ignoreRootFS", qIgnoreRootFS); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.IgnoreStaticIP != nil {
 
 		// query param ignoreStaticIP
 		var qrIgnoreStaticIP bool
+
 		if o.IgnoreStaticIP != nil {
 			qrIgnoreStaticIP = *o.IgnoreStaticIP
 		}
 		qIgnoreStaticIP := swag.FormatBool(qrIgnoreStaticIP)
 		if qIgnoreStaticIP != "" {
+
 			if err := r.SetQueryParam("ignoreStaticIP", qIgnoreStaticIP); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.IgnoreStaticMAC != nil {
 
 		// query param ignoreStaticMAC
 		var qrIgnoreStaticMAC bool
+
 		if o.IgnoreStaticMAC != nil {
 			qrIgnoreStaticMAC = *o.IgnoreStaticMAC
 		}
 		qIgnoreStaticMAC := swag.FormatBool(qrIgnoreStaticMAC)
 		if qIgnoreStaticMAC != "" {
+
 			if err := r.SetQueryParam("ignoreStaticMAC", qIgnoreStaticMAC); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Import != nil {
 
 		// query param import
 		var qrImport bool
+
 		if o.Import != nil {
 			qrImport = *o.Import
 		}
 		qImport := swag.FormatBool(qrImport)
 		if qImport != "" {
+
 			if err := r.SetQueryParam("import", qImport); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Keep != nil {
 
 		// query param keep
 		var qrKeep bool
+
 		if o.Keep != nil {
 			qrKeep = *o.Keep
 		}
 		qKeep := swag.FormatBool(qrKeep)
 		if qKeep != "" {
+
 			if err := r.SetQueryParam("keep", qKeep); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.LeaveRunning != nil {
 
 		// query param leaveRunning
 		var qrLeaveRunning bool
+
 		if o.LeaveRunning != nil {
 			qrLeaveRunning = *o.LeaveRunning
 		}
 		qLeaveRunning := swag.FormatBool(qrLeaveRunning)
 		if qLeaveRunning != "" {
+
 			if err := r.SetQueryParam("leaveRunning", qLeaveRunning); err != nil {
 				return err
 			}
 		}
-
-	}
-
-	if o.QueryName != nil {
-
-		// query param name
-		var qrName string
-		if o.QueryName != nil {
-			qrName = *o.QueryName
-		}
-		qName := qrName
-		if qName != "" {
-			if err := r.SetQueryParam("name", qName); err != nil {
-				return err
-			}
-		}
-
 	}
 
 	// path param name
@@ -369,20 +381,38 @@ func (o *LibpodRestoreContainerParams) WriteToRequest(r runtime.ClientRequest, r
 		return err
 	}
 
+	if o.QueryName != nil {
+
+		// query param name
+		var qrName string
+
+		if o.QueryName != nil {
+			qrName = *o.QueryName
+		}
+		qName := qrName
+		if qName != "" {
+
+			if err := r.SetQueryParam("name", qName); err != nil {
+				return err
+			}
+		}
+	}
+
 	if o.TCPEstablished != nil {
 
 		// query param tcpEstablished
 		var qrTCPEstablished bool
+
 		if o.TCPEstablished != nil {
 			qrTCPEstablished = *o.TCPEstablished
 		}
 		qTCPEstablished := swag.FormatBool(qrTCPEstablished)
 		if qTCPEstablished != "" {
+
 			if err := r.SetQueryParam("tcpEstablished", qTCPEstablished); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if len(res) > 0 {

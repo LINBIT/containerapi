@@ -16,52 +16,66 @@ import (
 	"github.com/go-openapi/strfmt"
 )
 
-// NewPruneSystemParams creates a new PruneSystemParams object
-// with the default values initialized.
+// NewPruneSystemParams creates a new PruneSystemParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewPruneSystemParams() *PruneSystemParams {
-
 	return &PruneSystemParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewPruneSystemParamsWithTimeout creates a new PruneSystemParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewPruneSystemParamsWithTimeout(timeout time.Duration) *PruneSystemParams {
-
 	return &PruneSystemParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewPruneSystemParamsWithContext creates a new PruneSystemParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewPruneSystemParamsWithContext(ctx context.Context) *PruneSystemParams {
-
 	return &PruneSystemParams{
-
 		Context: ctx,
 	}
 }
 
 // NewPruneSystemParamsWithHTTPClient creates a new PruneSystemParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewPruneSystemParamsWithHTTPClient(client *http.Client) *PruneSystemParams {
-
 	return &PruneSystemParams{
 		HTTPClient: client,
 	}
 }
 
-/*PruneSystemParams contains all the parameters to send to the API endpoint
-for the prune system operation typically these are written to a http.Request
+/* PruneSystemParams contains all the parameters to send to the API endpoint
+   for the prune system operation.
+
+   Typically these are written to a http.Request.
 */
 type PruneSystemParams struct {
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the prune system params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PruneSystemParams) WithDefaults() *PruneSystemParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the prune system params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PruneSystemParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the prune system params

@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -52,7 +53,6 @@ func (o *LibpodPutArchiveReader) ReadResponse(response runtime.ClientResponse, c
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -63,7 +63,7 @@ func NewLibpodPutArchiveOK() *LibpodPutArchiveOK {
 	return &LibpodPutArchiveOK{}
 }
 
-/*LibpodPutArchiveOK handles this case with default header values.
+/* LibpodPutArchiveOK describes a response with status code 200, with default header values.
 
 no error
 */
@@ -84,7 +84,7 @@ func NewLibpodPutArchiveBadRequest() *LibpodPutArchiveBadRequest {
 	return &LibpodPutArchiveBadRequest{}
 }
 
-/*LibpodPutArchiveBadRequest handles this case with default header values.
+/* LibpodPutArchiveBadRequest describes a response with status code 400, with default header values.
 
 Bad parameter in request
 */
@@ -95,7 +95,6 @@ type LibpodPutArchiveBadRequest struct {
 func (o *LibpodPutArchiveBadRequest) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/copy][%d] libpodPutArchiveBadRequest  %+v", 400, o.Payload)
 }
-
 func (o *LibpodPutArchiveBadRequest) GetPayload() *LibpodPutArchiveBadRequestBody {
 	return o.Payload
 }
@@ -117,7 +116,7 @@ func NewLibpodPutArchiveForbidden() *LibpodPutArchiveForbidden {
 	return &LibpodPutArchiveForbidden{}
 }
 
-/*LibpodPutArchiveForbidden handles this case with default header values.
+/* LibpodPutArchiveForbidden describes a response with status code 403, with default header values.
 
 the container rootfs is read-only
 */
@@ -138,7 +137,7 @@ func NewLibpodPutArchiveNotFound() *LibpodPutArchiveNotFound {
 	return &LibpodPutArchiveNotFound{}
 }
 
-/*LibpodPutArchiveNotFound handles this case with default header values.
+/* LibpodPutArchiveNotFound describes a response with status code 404, with default header values.
 
 No such container
 */
@@ -149,7 +148,6 @@ type LibpodPutArchiveNotFound struct {
 func (o *LibpodPutArchiveNotFound) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/copy][%d] libpodPutArchiveNotFound  %+v", 404, o.Payload)
 }
-
 func (o *LibpodPutArchiveNotFound) GetPayload() *LibpodPutArchiveNotFoundBody {
 	return o.Payload
 }
@@ -171,7 +169,7 @@ func NewLibpodPutArchiveInternalServerError() *LibpodPutArchiveInternalServerErr
 	return &LibpodPutArchiveInternalServerError{}
 }
 
-/*LibpodPutArchiveInternalServerError handles this case with default header values.
+/* LibpodPutArchiveInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -182,7 +180,6 @@ type LibpodPutArchiveInternalServerError struct {
 func (o *LibpodPutArchiveInternalServerError) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/copy][%d] libpodPutArchiveInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodPutArchiveInternalServerError) GetPayload() *LibpodPutArchiveInternalServerErrorBody {
 	return o.Payload
 }
@@ -205,9 +202,11 @@ swagger:model LibpodPutArchiveBadRequestBody
 type LibpodPutArchiveBadRequestBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -216,6 +215,11 @@ type LibpodPutArchiveBadRequestBody struct {
 
 // Validate validates this libpod put archive bad request body
 func (o *LibpodPutArchiveBadRequestBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod put archive bad request body based on context it is used
+func (o *LibpodPutArchiveBadRequestBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -243,9 +247,11 @@ swagger:model LibpodPutArchiveInternalServerErrorBody
 type LibpodPutArchiveInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -254,6 +260,11 @@ type LibpodPutArchiveInternalServerErrorBody struct {
 
 // Validate validates this libpod put archive internal server error body
 func (o *LibpodPutArchiveInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod put archive internal server error body based on context it is used
+func (o *LibpodPutArchiveInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -281,9 +292,11 @@ swagger:model LibpodPutArchiveNotFoundBody
 type LibpodPutArchiveNotFoundBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -292,6 +305,11 @@ type LibpodPutArchiveNotFoundBody struct {
 
 // Validate validates this libpod put archive not found body
 func (o *LibpodPutArchiveNotFoundBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod put archive not found body based on context it is used
+func (o *LibpodPutArchiveNotFoundBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -46,7 +47,6 @@ func (o *LibpodKillContainerReader) ReadResponse(response runtime.ClientResponse
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -57,7 +57,7 @@ func NewLibpodKillContainerNoContent() *LibpodKillContainerNoContent {
 	return &LibpodKillContainerNoContent{}
 }
 
-/*LibpodKillContainerNoContent handles this case with default header values.
+/* LibpodKillContainerNoContent describes a response with status code 204, with default header values.
 
 no error
 */
@@ -78,7 +78,7 @@ func NewLibpodKillContainerNotFound() *LibpodKillContainerNotFound {
 	return &LibpodKillContainerNotFound{}
 }
 
-/*LibpodKillContainerNotFound handles this case with default header values.
+/* LibpodKillContainerNotFound describes a response with status code 404, with default header values.
 
 No such container
 */
@@ -89,7 +89,6 @@ type LibpodKillContainerNotFound struct {
 func (o *LibpodKillContainerNotFound) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/kill][%d] libpodKillContainerNotFound  %+v", 404, o.Payload)
 }
-
 func (o *LibpodKillContainerNotFound) GetPayload() *LibpodKillContainerNotFoundBody {
 	return o.Payload
 }
@@ -111,7 +110,7 @@ func NewLibpodKillContainerConflict() *LibpodKillContainerConflict {
 	return &LibpodKillContainerConflict{}
 }
 
-/*LibpodKillContainerConflict handles this case with default header values.
+/* LibpodKillContainerConflict describes a response with status code 409, with default header values.
 
 Conflict error in operation
 */
@@ -122,7 +121,6 @@ type LibpodKillContainerConflict struct {
 func (o *LibpodKillContainerConflict) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/kill][%d] libpodKillContainerConflict  %+v", 409, o.Payload)
 }
-
 func (o *LibpodKillContainerConflict) GetPayload() *LibpodKillContainerConflictBody {
 	return o.Payload
 }
@@ -144,7 +142,7 @@ func NewLibpodKillContainerInternalServerError() *LibpodKillContainerInternalSer
 	return &LibpodKillContainerInternalServerError{}
 }
 
-/*LibpodKillContainerInternalServerError handles this case with default header values.
+/* LibpodKillContainerInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -155,7 +153,6 @@ type LibpodKillContainerInternalServerError struct {
 func (o *LibpodKillContainerInternalServerError) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/kill][%d] libpodKillContainerInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodKillContainerInternalServerError) GetPayload() *LibpodKillContainerInternalServerErrorBody {
 	return o.Payload
 }
@@ -178,9 +175,11 @@ swagger:model LibpodKillContainerConflictBody
 type LibpodKillContainerConflictBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -189,6 +188,11 @@ type LibpodKillContainerConflictBody struct {
 
 // Validate validates this libpod kill container conflict body
 func (o *LibpodKillContainerConflictBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod kill container conflict body based on context it is used
+func (o *LibpodKillContainerConflictBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -216,9 +220,11 @@ swagger:model LibpodKillContainerInternalServerErrorBody
 type LibpodKillContainerInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -227,6 +233,11 @@ type LibpodKillContainerInternalServerErrorBody struct {
 
 // Validate validates this libpod kill container internal server error body
 func (o *LibpodKillContainerInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod kill container internal server error body based on context it is used
+func (o *LibpodKillContainerInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -254,9 +265,11 @@ swagger:model LibpodKillContainerNotFoundBody
 type LibpodKillContainerNotFoundBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -265,6 +278,11 @@ type LibpodKillContainerNotFoundBody struct {
 
 // Validate validates this libpod kill container not found body
 func (o *LibpodKillContainerNotFoundBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod kill container not found body based on context it is used
+func (o *LibpodKillContainerNotFoundBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

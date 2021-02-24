@@ -16,59 +16,73 @@ import (
 	"github.com/go-openapi/strfmt"
 )
 
-// NewLibpodUnmountContainerParams creates a new LibpodUnmountContainerParams object
-// with the default values initialized.
+// NewLibpodUnmountContainerParams creates a new LibpodUnmountContainerParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodUnmountContainerParams() *LibpodUnmountContainerParams {
-	var ()
 	return &LibpodUnmountContainerParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodUnmountContainerParamsWithTimeout creates a new LibpodUnmountContainerParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodUnmountContainerParamsWithTimeout(timeout time.Duration) *LibpodUnmountContainerParams {
-	var ()
 	return &LibpodUnmountContainerParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodUnmountContainerParamsWithContext creates a new LibpodUnmountContainerParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodUnmountContainerParamsWithContext(ctx context.Context) *LibpodUnmountContainerParams {
-	var ()
 	return &LibpodUnmountContainerParams{
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodUnmountContainerParamsWithHTTPClient creates a new LibpodUnmountContainerParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodUnmountContainerParamsWithHTTPClient(client *http.Client) *LibpodUnmountContainerParams {
-	var ()
 	return &LibpodUnmountContainerParams{
 		HTTPClient: client,
 	}
 }
 
-/*LibpodUnmountContainerParams contains all the parameters to send to the API endpoint
-for the libpod unmount container operation typically these are written to a http.Request
+/* LibpodUnmountContainerParams contains all the parameters to send to the API endpoint
+   for the libpod unmount container operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodUnmountContainerParams struct {
 
-	/*Name
-	  the name or ID of the container
+	/* Name.
 
+	   the name or ID of the container
 	*/
 	Name string
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod unmount container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodUnmountContainerParams) WithDefaults() *LibpodUnmountContainerParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod unmount container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodUnmountContainerParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the libpod unmount container params

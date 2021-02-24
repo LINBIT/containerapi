@@ -17,114 +17,131 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// NewLibpodLogsFromContainerParams creates a new LibpodLogsFromContainerParams object
-// with the default values initialized.
+// NewLibpodLogsFromContainerParams creates a new LibpodLogsFromContainerParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodLogsFromContainerParams() *LibpodLogsFromContainerParams {
-	var (
-		tailDefault       = string("all")
-		timestampsDefault = bool(false)
-	)
 	return &LibpodLogsFromContainerParams{
-		Tail:       &tailDefault,
-		Timestamps: &timestampsDefault,
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodLogsFromContainerParamsWithTimeout creates a new LibpodLogsFromContainerParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodLogsFromContainerParamsWithTimeout(timeout time.Duration) *LibpodLogsFromContainerParams {
-	var (
-		tailDefault       = string("all")
-		timestampsDefault = bool(false)
-	)
 	return &LibpodLogsFromContainerParams{
-		Tail:       &tailDefault,
-		Timestamps: &timestampsDefault,
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodLogsFromContainerParamsWithContext creates a new LibpodLogsFromContainerParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodLogsFromContainerParamsWithContext(ctx context.Context) *LibpodLogsFromContainerParams {
-	var (
-		tailDefault       = string("all")
-		timestampsDefault = bool(false)
-	)
 	return &LibpodLogsFromContainerParams{
-		Tail:       &tailDefault,
-		Timestamps: &timestampsDefault,
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodLogsFromContainerParamsWithHTTPClient creates a new LibpodLogsFromContainerParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodLogsFromContainerParamsWithHTTPClient(client *http.Client) *LibpodLogsFromContainerParams {
-	var (
-		tailDefault       = string("all")
-		timestampsDefault = bool(false)
-	)
 	return &LibpodLogsFromContainerParams{
-		Tail:       &tailDefault,
-		Timestamps: &timestampsDefault,
 		HTTPClient: client,
 	}
 }
 
-/*LibpodLogsFromContainerParams contains all the parameters to send to the API endpoint
-for the libpod logs from container operation typically these are written to a http.Request
+/* LibpodLogsFromContainerParams contains all the parameters to send to the API endpoint
+   for the libpod logs from container operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodLogsFromContainerParams struct {
 
-	/*Follow
-	  Keep connection after returning logs.
+	/* Follow.
 
+	   Keep connection after returning logs.
 	*/
 	Follow *bool
-	/*Name
-	  the name or ID of the container
 
+	/* Name.
+
+	   the name or ID of the container
 	*/
 	Name string
-	/*Since
-	  Only return logs since this time, as a UNIX timestamp
 
+	/* Since.
+
+	   Only return logs since this time, as a UNIX timestamp
 	*/
 	Since *string
-	/*Stderr
-	  Return logs from stderr
 
+	/* Stderr.
+
+	   Return logs from stderr
 	*/
 	Stderr *bool
-	/*Stdout
-	  Return logs from stdout
 
+	/* Stdout.
+
+	   Return logs from stdout
 	*/
 	Stdout *bool
-	/*Tail
-	  Only return this number of log lines from the end of the logs
 
+	/* Tail.
+
+	   Only return this number of log lines from the end of the logs
+
+	   Default: "all"
 	*/
 	Tail *string
-	/*Timestamps
-	  Add timestamps to every log line
 
+	/* Timestamps.
+
+	   Add timestamps to every log line
 	*/
 	Timestamps *bool
-	/*Until
-	  Only return logs before this time, as a UNIX timestamp
 
+	/* Until.
+
+	   Only return logs before this time, as a UNIX timestamp
 	*/
 	Until *string
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod logs from container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodLogsFromContainerParams) WithDefaults() *LibpodLogsFromContainerParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod logs from container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodLogsFromContainerParams) SetDefaults() {
+	var (
+		tailDefault = string("all")
+
+		timestampsDefault = bool(false)
+	)
+
+	val := LibpodLogsFromContainerParams{
+		Tail:       &tailDefault,
+		Timestamps: &timestampsDefault,
+	}
+
+	val.timeout = o.timeout
+	val.Context = o.Context
+	val.HTTPClient = o.HTTPClient
+	*o = val
 }
 
 // WithTimeout adds the timeout to the libpod logs from container params
@@ -260,16 +277,17 @@ func (o *LibpodLogsFromContainerParams) WriteToRequest(r runtime.ClientRequest, 
 
 		// query param follow
 		var qrFollow bool
+
 		if o.Follow != nil {
 			qrFollow = *o.Follow
 		}
 		qFollow := swag.FormatBool(qrFollow)
 		if qFollow != "" {
+
 			if err := r.SetQueryParam("follow", qFollow); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// path param name
@@ -281,96 +299,102 @@ func (o *LibpodLogsFromContainerParams) WriteToRequest(r runtime.ClientRequest, 
 
 		// query param since
 		var qrSince string
+
 		if o.Since != nil {
 			qrSince = *o.Since
 		}
 		qSince := qrSince
 		if qSince != "" {
+
 			if err := r.SetQueryParam("since", qSince); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Stderr != nil {
 
 		// query param stderr
 		var qrStderr bool
+
 		if o.Stderr != nil {
 			qrStderr = *o.Stderr
 		}
 		qStderr := swag.FormatBool(qrStderr)
 		if qStderr != "" {
+
 			if err := r.SetQueryParam("stderr", qStderr); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Stdout != nil {
 
 		// query param stdout
 		var qrStdout bool
+
 		if o.Stdout != nil {
 			qrStdout = *o.Stdout
 		}
 		qStdout := swag.FormatBool(qrStdout)
 		if qStdout != "" {
+
 			if err := r.SetQueryParam("stdout", qStdout); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Tail != nil {
 
 		// query param tail
 		var qrTail string
+
 		if o.Tail != nil {
 			qrTail = *o.Tail
 		}
 		qTail := qrTail
 		if qTail != "" {
+
 			if err := r.SetQueryParam("tail", qTail); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Timestamps != nil {
 
 		// query param timestamps
 		var qrTimestamps bool
+
 		if o.Timestamps != nil {
 			qrTimestamps = *o.Timestamps
 		}
 		qTimestamps := swag.FormatBool(qrTimestamps)
 		if qTimestamps != "" {
+
 			if err := r.SetQueryParam("timestamps", qTimestamps); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Until != nil {
 
 		// query param until
 		var qrUntil string
+
 		if o.Until != nil {
 			qrUntil = *o.Until
 		}
 		qUntil := qrUntil
 		if qUntil != "" {
+
 			if err := r.SetQueryParam("until", qUntil); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if len(res) > 0 {

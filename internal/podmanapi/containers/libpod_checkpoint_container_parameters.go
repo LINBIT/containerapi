@@ -17,84 +17,103 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// NewLibpodCheckpointContainerParams creates a new LibpodCheckpointContainerParams object
-// with the default values initialized.
+// NewLibpodCheckpointContainerParams creates a new LibpodCheckpointContainerParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodCheckpointContainerParams() *LibpodCheckpointContainerParams {
-	var ()
 	return &LibpodCheckpointContainerParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodCheckpointContainerParamsWithTimeout creates a new LibpodCheckpointContainerParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodCheckpointContainerParamsWithTimeout(timeout time.Duration) *LibpodCheckpointContainerParams {
-	var ()
 	return &LibpodCheckpointContainerParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodCheckpointContainerParamsWithContext creates a new LibpodCheckpointContainerParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodCheckpointContainerParamsWithContext(ctx context.Context) *LibpodCheckpointContainerParams {
-	var ()
 	return &LibpodCheckpointContainerParams{
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodCheckpointContainerParamsWithHTTPClient creates a new LibpodCheckpointContainerParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodCheckpointContainerParamsWithHTTPClient(client *http.Client) *LibpodCheckpointContainerParams {
-	var ()
 	return &LibpodCheckpointContainerParams{
 		HTTPClient: client,
 	}
 }
 
-/*LibpodCheckpointContainerParams contains all the parameters to send to the API endpoint
-for the libpod checkpoint container operation typically these are written to a http.Request
+/* LibpodCheckpointContainerParams contains all the parameters to send to the API endpoint
+   for the libpod checkpoint container operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodCheckpointContainerParams struct {
 
-	/*Export
-	  export the checkpoint image to a tar.gz
+	/* Export.
 
+	   export the checkpoint image to a tar.gz
 	*/
 	Export *bool
-	/*IgnoreRootFS
-	  do not include root file-system changes when exporting
 
+	/* IgnoreRootFS.
+
+	   do not include root file-system changes when exporting
 	*/
 	IgnoreRootFS *bool
-	/*Keep
-	  keep all temporary checkpoint files
 
+	/* Keep.
+
+	   keep all temporary checkpoint files
 	*/
 	Keep *bool
-	/*LeaveRunning
-	  leave the container running after writing checkpoint to disk
 
+	/* LeaveRunning.
+
+	   leave the container running after writing checkpoint to disk
 	*/
 	LeaveRunning *bool
-	/*Name
-	  the name or ID of the container
 
+	/* Name.
+
+	   the name or ID of the container
 	*/
 	Name string
-	/*TCPEstablished
-	  checkpoint a container with established TCP connections
 
+	/* TCPEstablished.
+
+	   checkpoint a container with established TCP connections
 	*/
 	TCPEstablished *bool
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod checkpoint container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodCheckpointContainerParams) WithDefaults() *LibpodCheckpointContainerParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod checkpoint container params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodCheckpointContainerParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the libpod checkpoint container params
@@ -208,64 +227,68 @@ func (o *LibpodCheckpointContainerParams) WriteToRequest(r runtime.ClientRequest
 
 		// query param export
 		var qrExport bool
+
 		if o.Export != nil {
 			qrExport = *o.Export
 		}
 		qExport := swag.FormatBool(qrExport)
 		if qExport != "" {
+
 			if err := r.SetQueryParam("export", qExport); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.IgnoreRootFS != nil {
 
 		// query param ignoreRootFS
 		var qrIgnoreRootFS bool
+
 		if o.IgnoreRootFS != nil {
 			qrIgnoreRootFS = *o.IgnoreRootFS
 		}
 		qIgnoreRootFS := swag.FormatBool(qrIgnoreRootFS)
 		if qIgnoreRootFS != "" {
+
 			if err := r.SetQueryParam("ignoreRootFS", qIgnoreRootFS); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.Keep != nil {
 
 		// query param keep
 		var qrKeep bool
+
 		if o.Keep != nil {
 			qrKeep = *o.Keep
 		}
 		qKeep := swag.FormatBool(qrKeep)
 		if qKeep != "" {
+
 			if err := r.SetQueryParam("keep", qKeep); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if o.LeaveRunning != nil {
 
 		// query param leaveRunning
 		var qrLeaveRunning bool
+
 		if o.LeaveRunning != nil {
 			qrLeaveRunning = *o.LeaveRunning
 		}
 		qLeaveRunning := swag.FormatBool(qrLeaveRunning)
 		if qLeaveRunning != "" {
+
 			if err := r.SetQueryParam("leaveRunning", qLeaveRunning); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	// path param name
@@ -277,16 +300,17 @@ func (o *LibpodCheckpointContainerParams) WriteToRequest(r runtime.ClientRequest
 
 		// query param tcpEstablished
 		var qrTCPEstablished bool
+
 		if o.TCPEstablished != nil {
 			qrTCPEstablished = *o.TCPEstablished
 		}
 		qTCPEstablished := swag.FormatBool(qrTCPEstablished)
 		if qTCPEstablished != "" {
+
 			if err := r.SetQueryParam("tcpEstablished", qTCPEstablished); err != nil {
 				return err
 			}
 		}
-
 	}
 
 	if len(res) > 0 {

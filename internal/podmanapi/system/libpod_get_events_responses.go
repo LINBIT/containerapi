@@ -6,6 +6,7 @@ package system
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -34,7 +35,6 @@ func (o *LibpodGetEventsReader) ReadResponse(response runtime.ClientResponse, co
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -45,7 +45,7 @@ func NewLibpodGetEventsOK() *LibpodGetEventsOK {
 	return &LibpodGetEventsOK{}
 }
 
-/*LibpodGetEventsOK handles this case with default header values.
+/* LibpodGetEventsOK describes a response with status code 200, with default header values.
 
 returns a string of json data describing an event
 */
@@ -66,7 +66,7 @@ func NewLibpodGetEventsInternalServerError() *LibpodGetEventsInternalServerError
 	return &LibpodGetEventsInternalServerError{}
 }
 
-/*LibpodGetEventsInternalServerError handles this case with default header values.
+/* LibpodGetEventsInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -77,7 +77,6 @@ type LibpodGetEventsInternalServerError struct {
 func (o *LibpodGetEventsInternalServerError) Error() string {
 	return fmt.Sprintf("[GET /libpod/events][%d] libpodGetEventsInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodGetEventsInternalServerError) GetPayload() *LibpodGetEventsInternalServerErrorBody {
 	return o.Payload
 }
@@ -100,9 +99,11 @@ swagger:model LibpodGetEventsInternalServerErrorBody
 type LibpodGetEventsInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -111,6 +112,11 @@ type LibpodGetEventsInternalServerErrorBody struct {
 
 // Validate validates this libpod get events internal server error body
 func (o *LibpodGetEventsInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod get events internal server error body based on context it is used
+func (o *LibpodGetEventsInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

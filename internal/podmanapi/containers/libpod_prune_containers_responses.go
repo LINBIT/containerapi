@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -34,7 +35,6 @@ func (o *LibpodPruneContainersReader) ReadResponse(response runtime.ClientRespon
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -45,7 +45,7 @@ func NewLibpodPruneContainersOK() *LibpodPruneContainersOK {
 	return &LibpodPruneContainersOK{}
 }
 
-/*LibpodPruneContainersOK handles this case with default header values.
+/* LibpodPruneContainersOK describes a response with status code 200, with default header values.
 
 Prune containers
 */
@@ -56,7 +56,6 @@ type LibpodPruneContainersOK struct {
 func (o *LibpodPruneContainersOK) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/prune][%d] libpodPruneContainersOK  %+v", 200, o.Payload)
 }
-
 func (o *LibpodPruneContainersOK) GetPayload() []*LibpodPruneContainersOKBodyItems0 {
 	return o.Payload
 }
@@ -76,7 +75,7 @@ func NewLibpodPruneContainersInternalServerError() *LibpodPruneContainersInterna
 	return &LibpodPruneContainersInternalServerError{}
 }
 
-/*LibpodPruneContainersInternalServerError handles this case with default header values.
+/* LibpodPruneContainersInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -87,7 +86,6 @@ type LibpodPruneContainersInternalServerError struct {
 func (o *LibpodPruneContainersInternalServerError) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/prune][%d] libpodPruneContainersInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodPruneContainersInternalServerError) GetPayload() *LibpodPruneContainersInternalServerErrorBody {
 	return o.Payload
 }
@@ -110,9 +108,11 @@ swagger:model LibpodPruneContainersInternalServerErrorBody
 type LibpodPruneContainersInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -121,6 +121,11 @@ type LibpodPruneContainersInternalServerErrorBody struct {
 
 // Validate validates this libpod prune containers internal server error body
 func (o *LibpodPruneContainersInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod prune containers internal server error body based on context it is used
+func (o *LibpodPruneContainersInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -159,6 +164,11 @@ type LibpodPruneContainersOKBodyItems0 struct {
 
 // Validate validates this libpod prune containers o k body items0
 func (o *LibpodPruneContainersOKBodyItems0) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod prune containers o k body items0 based on context it is used
+func (o *LibpodPruneContainersOKBodyItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

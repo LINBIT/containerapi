@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -40,7 +41,6 @@ func (o *LibpodRestartContainerReader) ReadResponse(response runtime.ClientRespo
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -51,7 +51,7 @@ func NewLibpodRestartContainerNoContent() *LibpodRestartContainerNoContent {
 	return &LibpodRestartContainerNoContent{}
 }
 
-/*LibpodRestartContainerNoContent handles this case with default header values.
+/* LibpodRestartContainerNoContent describes a response with status code 204, with default header values.
 
 no error
 */
@@ -72,7 +72,7 @@ func NewLibpodRestartContainerNotFound() *LibpodRestartContainerNotFound {
 	return &LibpodRestartContainerNotFound{}
 }
 
-/*LibpodRestartContainerNotFound handles this case with default header values.
+/* LibpodRestartContainerNotFound describes a response with status code 404, with default header values.
 
 No such container
 */
@@ -83,7 +83,6 @@ type LibpodRestartContainerNotFound struct {
 func (o *LibpodRestartContainerNotFound) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/restart][%d] libpodRestartContainerNotFound  %+v", 404, o.Payload)
 }
-
 func (o *LibpodRestartContainerNotFound) GetPayload() *LibpodRestartContainerNotFoundBody {
 	return o.Payload
 }
@@ -105,7 +104,7 @@ func NewLibpodRestartContainerInternalServerError() *LibpodRestartContainerInter
 	return &LibpodRestartContainerInternalServerError{}
 }
 
-/*LibpodRestartContainerInternalServerError handles this case with default header values.
+/* LibpodRestartContainerInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -116,7 +115,6 @@ type LibpodRestartContainerInternalServerError struct {
 func (o *LibpodRestartContainerInternalServerError) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/restart][%d] libpodRestartContainerInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodRestartContainerInternalServerError) GetPayload() *LibpodRestartContainerInternalServerErrorBody {
 	return o.Payload
 }
@@ -139,9 +137,11 @@ swagger:model LibpodRestartContainerInternalServerErrorBody
 type LibpodRestartContainerInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -150,6 +150,11 @@ type LibpodRestartContainerInternalServerErrorBody struct {
 
 // Validate validates this libpod restart container internal server error body
 func (o *LibpodRestartContainerInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod restart container internal server error body based on context it is used
+func (o *LibpodRestartContainerInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -177,9 +182,11 @@ swagger:model LibpodRestartContainerNotFoundBody
 type LibpodRestartContainerNotFoundBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -188,6 +195,11 @@ type LibpodRestartContainerNotFoundBody struct {
 
 // Validate validates this libpod restart container not found body
 func (o *LibpodRestartContainerNotFoundBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod restart container not found body based on context it is used
+func (o *LibpodRestartContainerNotFoundBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

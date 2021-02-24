@@ -26,69 +26,72 @@ type Client struct {
 	formats   strfmt.Registry
 }
 
+// ClientOption is the option for Client methods
+type ClientOption func(*runtime.ClientOperation)
+
 // ClientService is the interface for Client methods
 type ClientService interface {
-	ChangesContainer(params *ChangesContainerParams) (*ChangesContainerOK, error)
+	ChangesContainer(params *ChangesContainerParams, opts ...ClientOption) (*ChangesContainerOK, error)
 
-	LibpodAttachContainer(params *LibpodAttachContainerParams) error
+	LibpodAttachContainer(params *LibpodAttachContainerParams, opts ...ClientOption) error
 
-	LibpodCheckpointContainer(params *LibpodCheckpointContainerParams) (*LibpodCheckpointContainerOK, error)
+	LibpodCheckpointContainer(params *LibpodCheckpointContainerParams, opts ...ClientOption) (*LibpodCheckpointContainerOK, error)
 
-	LibpodCommitContainer(params *LibpodCommitContainerParams) (*LibpodCommitContainerCreated, error)
+	LibpodCommitContainer(params *LibpodCommitContainerParams, opts ...ClientOption) (*LibpodCommitContainerCreated, error)
 
-	LibpodContainerExists(params *LibpodContainerExistsParams) (*LibpodContainerExistsNoContent, error)
+	LibpodContainerExists(params *LibpodContainerExistsParams, opts ...ClientOption) (*LibpodContainerExistsNoContent, error)
 
-	LibpodCreateContainer(params *LibpodCreateContainerParams) (*LibpodCreateContainerCreated, error)
+	LibpodCreateContainer(params *LibpodCreateContainerParams, opts ...ClientOption) (*LibpodCreateContainerCreated, error)
 
-	LibpodExportContainer(params *LibpodExportContainerParams) (*LibpodExportContainerOK, error)
+	LibpodExportContainer(params *LibpodExportContainerParams, opts ...ClientOption) (*LibpodExportContainerOK, error)
 
-	LibpodGenerateKube(params *LibpodGenerateKubeParams, writer io.Writer) (*LibpodGenerateKubeOK, error)
+	LibpodGenerateKube(params *LibpodGenerateKubeParams, writer io.Writer, opts ...ClientOption) (*LibpodGenerateKubeOK, error)
 
-	LibpodGetContainer(params *LibpodGetContainerParams) (*LibpodGetContainerOK, error)
+	LibpodGetContainer(params *LibpodGetContainerParams, opts ...ClientOption) (*LibpodGetContainerOK, error)
 
-	LibpodInitContainer(params *LibpodInitContainerParams) (*LibpodInitContainerNoContent, error)
+	LibpodInitContainer(params *LibpodInitContainerParams, opts ...ClientOption) (*LibpodInitContainerNoContent, error)
 
-	LibpodKillContainer(params *LibpodKillContainerParams) (*LibpodKillContainerNoContent, error)
+	LibpodKillContainer(params *LibpodKillContainerParams, opts ...ClientOption) (*LibpodKillContainerNoContent, error)
 
-	LibpodListContainers(params *LibpodListContainersParams) (*LibpodListContainersOK, error)
+	LibpodListContainers(params *LibpodListContainersParams, opts ...ClientOption) (*LibpodListContainersOK, error)
 
-	LibpodLogsFromContainer(params *LibpodLogsFromContainerParams, writer io.Writer) (*LibpodLogsFromContainerOK, error)
+	LibpodLogsFromContainer(params *LibpodLogsFromContainerParams, writer io.Writer, opts ...ClientOption) (*LibpodLogsFromContainerOK, error)
 
-	LibpodMountContainer(params *LibpodMountContainerParams) (*LibpodMountContainerOK, error)
+	LibpodMountContainer(params *LibpodMountContainerParams, opts ...ClientOption) (*LibpodMountContainerOK, error)
 
-	LibpodPauseContainer(params *LibpodPauseContainerParams) (*LibpodPauseContainerNoContent, error)
+	LibpodPauseContainer(params *LibpodPauseContainerParams, opts ...ClientOption) (*LibpodPauseContainerNoContent, error)
 
-	LibpodPlayKube(params *LibpodPlayKubeParams) (*LibpodPlayKubeOK, error)
+	LibpodPlayKube(params *LibpodPlayKubeParams, opts ...ClientOption) (*LibpodPlayKubeOK, error)
 
-	LibpodPruneContainers(params *LibpodPruneContainersParams) (*LibpodPruneContainersOK, error)
+	LibpodPruneContainers(params *LibpodPruneContainersParams, opts ...ClientOption) (*LibpodPruneContainersOK, error)
 
-	LibpodPutArchive(params *LibpodPutArchiveParams) (*LibpodPutArchiveOK, error)
+	LibpodPutArchive(params *LibpodPutArchiveParams, opts ...ClientOption) (*LibpodPutArchiveOK, error)
 
-	LibpodRemoveContainer(params *LibpodRemoveContainerParams) (*LibpodRemoveContainerNoContent, error)
+	LibpodRemoveContainer(params *LibpodRemoveContainerParams, opts ...ClientOption) (*LibpodRemoveContainerNoContent, error)
 
-	LibpodResizeContainer(params *LibpodResizeContainerParams) (*LibpodResizeContainerOK, error)
+	LibpodResizeContainer(params *LibpodResizeContainerParams, opts ...ClientOption) (*LibpodResizeContainerOK, error)
 
-	LibpodRestartContainer(params *LibpodRestartContainerParams) (*LibpodRestartContainerNoContent, error)
+	LibpodRestartContainer(params *LibpodRestartContainerParams, opts ...ClientOption) (*LibpodRestartContainerNoContent, error)
 
-	LibpodRestoreContainer(params *LibpodRestoreContainerParams) (*LibpodRestoreContainerOK, error)
+	LibpodRestoreContainer(params *LibpodRestoreContainerParams, opts ...ClientOption) (*LibpodRestoreContainerOK, error)
 
-	LibpodRunHealthCheck(params *LibpodRunHealthCheckParams) (*LibpodRunHealthCheckOK, error)
+	LibpodRunHealthCheck(params *LibpodRunHealthCheckParams, opts ...ClientOption) (*LibpodRunHealthCheckOK, error)
 
-	LibpodShowMountedContainers(params *LibpodShowMountedContainersParams) (*LibpodShowMountedContainersOK, error)
+	LibpodShowMountedContainers(params *LibpodShowMountedContainersParams, opts ...ClientOption) (*LibpodShowMountedContainersOK, error)
 
-	LibpodStartContainer(params *LibpodStartContainerParams) (*LibpodStartContainerNoContent, error)
+	LibpodStartContainer(params *LibpodStartContainerParams, opts ...ClientOption) (*LibpodStartContainerNoContent, error)
 
-	LibpodStatsContainer(params *LibpodStatsContainerParams) (*LibpodStatsContainerOK, error)
+	LibpodStatsContainer(params *LibpodStatsContainerParams, opts ...ClientOption) (*LibpodStatsContainerOK, error)
 
-	LibpodStopContainer(params *LibpodStopContainerParams) (*LibpodStopContainerNoContent, error)
+	LibpodStopContainer(params *LibpodStopContainerParams, opts ...ClientOption) (*LibpodStopContainerNoContent, error)
 
-	LibpodTopContainer(params *LibpodTopContainerParams) (*LibpodTopContainerOK, error)
+	LibpodTopContainer(params *LibpodTopContainerParams, opts ...ClientOption) (*LibpodTopContainerOK, error)
 
-	LibpodUnmountContainer(params *LibpodUnmountContainerParams) (*LibpodUnmountContainerNoContent, error)
+	LibpodUnmountContainer(params *LibpodUnmountContainerParams, opts ...ClientOption) (*LibpodUnmountContainerNoContent, error)
 
-	LibpodUnpauseContainer(params *LibpodUnpauseContainerParams) (*LibpodUnpauseContainerNoContent, error)
+	LibpodUnpauseContainer(params *LibpodUnpauseContainerParams, opts ...ClientOption) (*LibpodUnpauseContainerNoContent, error)
 
-	LibpodWaitContainer(params *LibpodWaitContainerParams) (*LibpodWaitContainerOK, error)
+	LibpodWaitContainer(params *LibpodWaitContainerParams, opts ...ClientOption) (*LibpodWaitContainerOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
@@ -103,13 +106,12 @@ type ClientService interface {
 2: Deleted
 
 */
-func (a *Client) ChangesContainer(params *ChangesContainerParams) (*ChangesContainerOK, error) {
+func (a *Client) ChangesContainer(params *ChangesContainerParams, opts ...ClientOption) (*ChangesContainerOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewChangesContainerParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "changesContainer",
 		Method:             "GET",
 		PathPattern:        "/libpod/containers/{name}/changes",
@@ -120,7 +122,12 @@ func (a *Client) ChangesContainer(params *ChangesContainerParams) (*ChangesConta
 		Reader:             &ChangesContainerReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -139,13 +146,12 @@ func (a *Client) ChangesContainer(params *ChangesContainerParams) (*ChangesConta
 
   Hijacks the connection to forward the container's standard streams to the client.
 */
-func (a *Client) LibpodAttachContainer(params *LibpodAttachContainerParams) error {
+func (a *Client) LibpodAttachContainer(params *LibpodAttachContainerParams, opts ...ClientOption) error {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodAttachContainerParams()
 	}
-
-	_, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodAttachContainer",
 		Method:             "POST",
 		PathPattern:        "/libpod/containers/{name}/attach",
@@ -156,7 +162,12 @@ func (a *Client) LibpodAttachContainer(params *LibpodAttachContainerParams) erro
 		Reader:             &LibpodAttachContainerReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	_, err := a.transport.Submit(op)
 	if err != nil {
 		return err
 	}
@@ -166,13 +177,12 @@ func (a *Client) LibpodAttachContainer(params *LibpodAttachContainerParams) erro
 /*
   LibpodCheckpointContainer checkpoints a container
 */
-func (a *Client) LibpodCheckpointContainer(params *LibpodCheckpointContainerParams) (*LibpodCheckpointContainerOK, error) {
+func (a *Client) LibpodCheckpointContainer(params *LibpodCheckpointContainerParams, opts ...ClientOption) (*LibpodCheckpointContainerOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodCheckpointContainerParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodCheckpointContainer",
 		Method:             "POST",
 		PathPattern:        "/libpod/containers/{name}/checkpoint",
@@ -183,7 +193,12 @@ func (a *Client) LibpodCheckpointContainer(params *LibpodCheckpointContainerPara
 		Reader:             &LibpodCheckpointContainerReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -202,13 +217,12 @@ func (a *Client) LibpodCheckpointContainer(params *LibpodCheckpointContainerPara
 
   Create a new image from a container
 */
-func (a *Client) LibpodCommitContainer(params *LibpodCommitContainerParams) (*LibpodCommitContainerCreated, error) {
+func (a *Client) LibpodCommitContainer(params *LibpodCommitContainerParams, opts ...ClientOption) (*LibpodCommitContainerCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodCommitContainerParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodCommitContainer",
 		Method:             "POST",
 		PathPattern:        "/libpod/commit",
@@ -219,7 +233,12 @@ func (a *Client) LibpodCommitContainer(params *LibpodCommitContainerParams) (*Li
 		Reader:             &LibpodCommitContainerReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -238,13 +257,12 @@ func (a *Client) LibpodCommitContainer(params *LibpodCommitContainerParams) (*Li
 
   Quick way to determine if a container exists by name or ID
 */
-func (a *Client) LibpodContainerExists(params *LibpodContainerExistsParams) (*LibpodContainerExistsNoContent, error) {
+func (a *Client) LibpodContainerExists(params *LibpodContainerExistsParams, opts ...ClientOption) (*LibpodContainerExistsNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodContainerExistsParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodContainerExists",
 		Method:             "GET",
 		PathPattern:        "/libpod/containers/{name}/exists",
@@ -255,7 +273,12 @@ func (a *Client) LibpodContainerExists(params *LibpodContainerExistsParams) (*Li
 		Reader:             &LibpodContainerExistsReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -272,13 +295,12 @@ func (a *Client) LibpodContainerExists(params *LibpodContainerExistsParams) (*Li
 /*
   LibpodCreateContainer creates a container
 */
-func (a *Client) LibpodCreateContainer(params *LibpodCreateContainerParams) (*LibpodCreateContainerCreated, error) {
+func (a *Client) LibpodCreateContainer(params *LibpodCreateContainerParams, opts ...ClientOption) (*LibpodCreateContainerCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodCreateContainerParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodCreateContainer",
 		Method:             "POST",
 		PathPattern:        "/libpod/containers/create",
@@ -289,7 +311,12 @@ func (a *Client) LibpodCreateContainer(params *LibpodCreateContainerParams) (*Li
 		Reader:             &LibpodCreateContainerReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -308,13 +335,12 @@ func (a *Client) LibpodCreateContainer(params *LibpodCreateContainerParams) (*Li
 
   Export the contents of a container as a tarball.
 */
-func (a *Client) LibpodExportContainer(params *LibpodExportContainerParams) (*LibpodExportContainerOK, error) {
+func (a *Client) LibpodExportContainer(params *LibpodExportContainerParams, opts ...ClientOption) (*LibpodExportContainerOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodExportContainerParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodExportContainer",
 		Method:             "GET",
 		PathPattern:        "/libpod/containers/{name}/export",
@@ -325,7 +351,12 @@ func (a *Client) LibpodExportContainer(params *LibpodExportContainerParams) (*Li
 		Reader:             &LibpodExportContainerReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -344,13 +375,12 @@ func (a *Client) LibpodExportContainer(params *LibpodExportContainerParams) (*Li
 
   Generate Kubernetes YAML based on a pod or container.
 */
-func (a *Client) LibpodGenerateKube(params *LibpodGenerateKubeParams, writer io.Writer) (*LibpodGenerateKubeOK, error) {
+func (a *Client) LibpodGenerateKube(params *LibpodGenerateKubeParams, writer io.Writer, opts ...ClientOption) (*LibpodGenerateKubeOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodGenerateKubeParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodGenerateKube",
 		Method:             "GET",
 		PathPattern:        "/libpod/generate/{name:.*}/kube",
@@ -361,7 +391,12 @@ func (a *Client) LibpodGenerateKube(params *LibpodGenerateKubeParams, writer io.
 		Reader:             &LibpodGenerateKubeReader{formats: a.formats, writer: writer},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -380,13 +415,12 @@ func (a *Client) LibpodGenerateKube(params *LibpodGenerateKubeParams, writer io.
 
   Return low-level information about a container.
 */
-func (a *Client) LibpodGetContainer(params *LibpodGetContainerParams) (*LibpodGetContainerOK, error) {
+func (a *Client) LibpodGetContainer(params *LibpodGetContainerParams, opts ...ClientOption) (*LibpodGetContainerOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodGetContainerParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodGetContainer",
 		Method:             "GET",
 		PathPattern:        "/libpod/containers/{name}/json",
@@ -397,7 +431,12 @@ func (a *Client) LibpodGetContainer(params *LibpodGetContainerParams) (*LibpodGe
 		Reader:             &LibpodGetContainerReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -416,13 +455,12 @@ func (a *Client) LibpodGetContainer(params *LibpodGetContainerParams) (*LibpodGe
 
   Performs all tasks necessary for initializing the container but does not start the container.
 */
-func (a *Client) LibpodInitContainer(params *LibpodInitContainerParams) (*LibpodInitContainerNoContent, error) {
+func (a *Client) LibpodInitContainer(params *LibpodInitContainerParams, opts ...ClientOption) (*LibpodInitContainerNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodInitContainerParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodInitContainer",
 		Method:             "POST",
 		PathPattern:        "/libpod/containers/{name}/init",
@@ -433,7 +471,12 @@ func (a *Client) LibpodInitContainer(params *LibpodInitContainerParams) (*Libpod
 		Reader:             &LibpodInitContainerReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -452,13 +495,12 @@ func (a *Client) LibpodInitContainer(params *LibpodInitContainerParams) (*Libpod
 
   send a signal to a container, defaults to killing the container
 */
-func (a *Client) LibpodKillContainer(params *LibpodKillContainerParams) (*LibpodKillContainerNoContent, error) {
+func (a *Client) LibpodKillContainer(params *LibpodKillContainerParams, opts ...ClientOption) (*LibpodKillContainerNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodKillContainerParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodKillContainer",
 		Method:             "POST",
 		PathPattern:        "/libpod/containers/{name}/kill",
@@ -469,7 +511,12 @@ func (a *Client) LibpodKillContainer(params *LibpodKillContainerParams) (*Libpod
 		Reader:             &LibpodKillContainerReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -488,13 +535,12 @@ func (a *Client) LibpodKillContainer(params *LibpodKillContainerParams) (*Libpod
 
   Returns a list of containers
 */
-func (a *Client) LibpodListContainers(params *LibpodListContainersParams) (*LibpodListContainersOK, error) {
+func (a *Client) LibpodListContainers(params *LibpodListContainersParams, opts ...ClientOption) (*LibpodListContainersOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodListContainersParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodListContainers",
 		Method:             "GET",
 		PathPattern:        "/libpod/containers/json",
@@ -505,7 +551,12 @@ func (a *Client) LibpodListContainers(params *LibpodListContainersParams) (*Libp
 		Reader:             &LibpodListContainersReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -524,13 +575,12 @@ func (a *Client) LibpodListContainers(params *LibpodListContainersParams) (*Libp
 
   Get stdout and stderr logs from a container.
 */
-func (a *Client) LibpodLogsFromContainer(params *LibpodLogsFromContainerParams, writer io.Writer) (*LibpodLogsFromContainerOK, error) {
+func (a *Client) LibpodLogsFromContainer(params *LibpodLogsFromContainerParams, writer io.Writer, opts ...ClientOption) (*LibpodLogsFromContainerOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodLogsFromContainerParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodLogsFromContainer",
 		Method:             "GET",
 		PathPattern:        "/libpod/containers/{name}/logs",
@@ -541,7 +591,12 @@ func (a *Client) LibpodLogsFromContainer(params *LibpodLogsFromContainerParams, 
 		Reader:             &LibpodLogsFromContainerReader{formats: a.formats, writer: writer},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -560,13 +615,12 @@ func (a *Client) LibpodLogsFromContainer(params *LibpodLogsFromContainerParams, 
 
   Mount a container to the filesystem
 */
-func (a *Client) LibpodMountContainer(params *LibpodMountContainerParams) (*LibpodMountContainerOK, error) {
+func (a *Client) LibpodMountContainer(params *LibpodMountContainerParams, opts ...ClientOption) (*LibpodMountContainerOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodMountContainerParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodMountContainer",
 		Method:             "POST",
 		PathPattern:        "/libpod/containers/{name}/mount",
@@ -577,7 +631,12 @@ func (a *Client) LibpodMountContainer(params *LibpodMountContainerParams) (*Libp
 		Reader:             &LibpodMountContainerReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -596,13 +655,12 @@ func (a *Client) LibpodMountContainer(params *LibpodMountContainerParams) (*Libp
 
   Use the cgroups freezer to suspend all processes in a container.
 */
-func (a *Client) LibpodPauseContainer(params *LibpodPauseContainerParams) (*LibpodPauseContainerNoContent, error) {
+func (a *Client) LibpodPauseContainer(params *LibpodPauseContainerParams, opts ...ClientOption) (*LibpodPauseContainerNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodPauseContainerParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodPauseContainer",
 		Method:             "POST",
 		PathPattern:        "/libpod/containers/{name}/pause",
@@ -613,7 +671,12 @@ func (a *Client) LibpodPauseContainer(params *LibpodPauseContainerParams) (*Libp
 		Reader:             &LibpodPauseContainerReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -632,13 +695,12 @@ func (a *Client) LibpodPauseContainer(params *LibpodPauseContainerParams) (*Libp
 
   Create and run pods based on a Kubernetes YAML file (pod or service kind).
 */
-func (a *Client) LibpodPlayKube(params *LibpodPlayKubeParams) (*LibpodPlayKubeOK, error) {
+func (a *Client) LibpodPlayKube(params *LibpodPlayKubeParams, opts ...ClientOption) (*LibpodPlayKubeOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodPlayKubeParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodPlayKube",
 		Method:             "POST",
 		PathPattern:        "/libpod/play/kube",
@@ -649,7 +711,12 @@ func (a *Client) LibpodPlayKube(params *LibpodPlayKubeParams) (*LibpodPlayKubeOK
 		Reader:             &LibpodPlayKubeReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -668,13 +735,12 @@ func (a *Client) LibpodPlayKube(params *LibpodPlayKubeParams) (*LibpodPlayKubeOK
 
   Remove containers not in use
 */
-func (a *Client) LibpodPruneContainers(params *LibpodPruneContainersParams) (*LibpodPruneContainersOK, error) {
+func (a *Client) LibpodPruneContainers(params *LibpodPruneContainersParams, opts ...ClientOption) (*LibpodPruneContainersOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodPruneContainersParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodPruneContainers",
 		Method:             "POST",
 		PathPattern:        "/libpod/containers/prune",
@@ -685,7 +751,12 @@ func (a *Client) LibpodPruneContainers(params *LibpodPruneContainersParams) (*Li
 		Reader:             &LibpodPruneContainersReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -704,13 +775,12 @@ func (a *Client) LibpodPruneContainers(params *LibpodPruneContainersParams) (*Li
 
   Copy a tar archive of files into a container
 */
-func (a *Client) LibpodPutArchive(params *LibpodPutArchiveParams) (*LibpodPutArchiveOK, error) {
+func (a *Client) LibpodPutArchive(params *LibpodPutArchiveParams, opts ...ClientOption) (*LibpodPutArchiveOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodPutArchiveParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodPutArchive",
 		Method:             "POST",
 		PathPattern:        "/libpod/containers/{name}/copy",
@@ -721,7 +791,12 @@ func (a *Client) LibpodPutArchive(params *LibpodPutArchiveParams) (*LibpodPutArc
 		Reader:             &LibpodPutArchiveReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -740,13 +815,12 @@ func (a *Client) LibpodPutArchive(params *LibpodPutArchiveParams) (*LibpodPutArc
 
   Delete container
 */
-func (a *Client) LibpodRemoveContainer(params *LibpodRemoveContainerParams) (*LibpodRemoveContainerNoContent, error) {
+func (a *Client) LibpodRemoveContainer(params *LibpodRemoveContainerParams, opts ...ClientOption) (*LibpodRemoveContainerNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodRemoveContainerParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodRemoveContainer",
 		Method:             "DELETE",
 		PathPattern:        "/libpod/containers/{name}",
@@ -757,7 +831,12 @@ func (a *Client) LibpodRemoveContainer(params *LibpodRemoveContainerParams) (*Li
 		Reader:             &LibpodRemoveContainerReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -776,13 +855,12 @@ func (a *Client) LibpodRemoveContainer(params *LibpodRemoveContainerParams) (*Li
 
   Resize the terminal attached to a container (for use with Attach).
 */
-func (a *Client) LibpodResizeContainer(params *LibpodResizeContainerParams) (*LibpodResizeContainerOK, error) {
+func (a *Client) LibpodResizeContainer(params *LibpodResizeContainerParams, opts ...ClientOption) (*LibpodResizeContainerOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodResizeContainerParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodResizeContainer",
 		Method:             "POST",
 		PathPattern:        "/libpod/containers/{name}/resize",
@@ -793,7 +871,12 @@ func (a *Client) LibpodResizeContainer(params *LibpodResizeContainerParams) (*Li
 		Reader:             &LibpodResizeContainerReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -810,13 +893,12 @@ func (a *Client) LibpodResizeContainer(params *LibpodResizeContainerParams) (*Li
 /*
   LibpodRestartContainer restarts a container
 */
-func (a *Client) LibpodRestartContainer(params *LibpodRestartContainerParams) (*LibpodRestartContainerNoContent, error) {
+func (a *Client) LibpodRestartContainer(params *LibpodRestartContainerParams, opts ...ClientOption) (*LibpodRestartContainerNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodRestartContainerParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodRestartContainer",
 		Method:             "POST",
 		PathPattern:        "/libpod/containers/{name}/restart",
@@ -827,7 +909,12 @@ func (a *Client) LibpodRestartContainer(params *LibpodRestartContainerParams) (*
 		Reader:             &LibpodRestartContainerReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -846,13 +933,12 @@ func (a *Client) LibpodRestartContainer(params *LibpodRestartContainerParams) (*
 
   Restore a container from a checkpoint.
 */
-func (a *Client) LibpodRestoreContainer(params *LibpodRestoreContainerParams) (*LibpodRestoreContainerOK, error) {
+func (a *Client) LibpodRestoreContainer(params *LibpodRestoreContainerParams, opts ...ClientOption) (*LibpodRestoreContainerOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodRestoreContainerParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodRestoreContainer",
 		Method:             "POST",
 		PathPattern:        "/libpod/containers/{name}/restore",
@@ -863,7 +949,12 @@ func (a *Client) LibpodRestoreContainer(params *LibpodRestoreContainerParams) (*
 		Reader:             &LibpodRestoreContainerReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -882,13 +973,12 @@ func (a *Client) LibpodRestoreContainer(params *LibpodRestoreContainerParams) (*
 
   Execute the defined healthcheck and return information about the results
 */
-func (a *Client) LibpodRunHealthCheck(params *LibpodRunHealthCheckParams) (*LibpodRunHealthCheckOK, error) {
+func (a *Client) LibpodRunHealthCheck(params *LibpodRunHealthCheckParams, opts ...ClientOption) (*LibpodRunHealthCheckOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodRunHealthCheckParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodRunHealthCheck",
 		Method:             "GET",
 		PathPattern:        "/libpod/containers/{name:.*}/healthcheck",
@@ -899,7 +989,12 @@ func (a *Client) LibpodRunHealthCheck(params *LibpodRunHealthCheckParams) (*Libp
 		Reader:             &LibpodRunHealthCheckReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -918,13 +1013,12 @@ func (a *Client) LibpodRunHealthCheck(params *LibpodRunHealthCheckParams) (*Libp
 
   Lists all mounted containers mount points
 */
-func (a *Client) LibpodShowMountedContainers(params *LibpodShowMountedContainersParams) (*LibpodShowMountedContainersOK, error) {
+func (a *Client) LibpodShowMountedContainers(params *LibpodShowMountedContainersParams, opts ...ClientOption) (*LibpodShowMountedContainersOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodShowMountedContainersParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodShowMountedContainers",
 		Method:             "GET",
 		PathPattern:        "/libpod/containers/showmounted",
@@ -935,7 +1029,12 @@ func (a *Client) LibpodShowMountedContainers(params *LibpodShowMountedContainers
 		Reader:             &LibpodShowMountedContainersReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -952,13 +1051,12 @@ func (a *Client) LibpodShowMountedContainers(params *LibpodShowMountedContainers
 /*
   LibpodStartContainer starts a container
 */
-func (a *Client) LibpodStartContainer(params *LibpodStartContainerParams) (*LibpodStartContainerNoContent, error) {
+func (a *Client) LibpodStartContainer(params *LibpodStartContainerParams, opts ...ClientOption) (*LibpodStartContainerNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodStartContainerParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodStartContainer",
 		Method:             "POST",
 		PathPattern:        "/libpod/containers/{name}/start",
@@ -969,7 +1067,12 @@ func (a *Client) LibpodStartContainer(params *LibpodStartContainerParams) (*Libp
 		Reader:             &LibpodStartContainerReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -988,13 +1091,12 @@ func (a *Client) LibpodStartContainer(params *LibpodStartContainerParams) (*Libp
 
   This returns a live stream of a container’s resource usage statistics.
 */
-func (a *Client) LibpodStatsContainer(params *LibpodStatsContainerParams) (*LibpodStatsContainerOK, error) {
+func (a *Client) LibpodStatsContainer(params *LibpodStatsContainerParams, opts ...ClientOption) (*LibpodStatsContainerOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodStatsContainerParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodStatsContainer",
 		Method:             "GET",
 		PathPattern:        "/libpod/containers/{name}/stats",
@@ -1005,7 +1107,12 @@ func (a *Client) LibpodStatsContainer(params *LibpodStatsContainerParams) (*Libp
 		Reader:             &LibpodStatsContainerReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1022,13 +1129,12 @@ func (a *Client) LibpodStatsContainer(params *LibpodStatsContainerParams) (*Libp
 /*
   LibpodStopContainer stops a container
 */
-func (a *Client) LibpodStopContainer(params *LibpodStopContainerParams) (*LibpodStopContainerNoContent, error) {
+func (a *Client) LibpodStopContainer(params *LibpodStopContainerParams, opts ...ClientOption) (*LibpodStopContainerNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodStopContainerParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodStopContainer",
 		Method:             "POST",
 		PathPattern:        "/libpod/containers/{name}/stop",
@@ -1039,7 +1145,12 @@ func (a *Client) LibpodStopContainer(params *LibpodStopContainerParams) (*Libpod
 		Reader:             &LibpodStopContainerReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1058,13 +1169,12 @@ func (a *Client) LibpodStopContainer(params *LibpodStopContainerParams) (*Libpod
 
   List processes running inside a container
 */
-func (a *Client) LibpodTopContainer(params *LibpodTopContainerParams) (*LibpodTopContainerOK, error) {
+func (a *Client) LibpodTopContainer(params *LibpodTopContainerParams, opts ...ClientOption) (*LibpodTopContainerOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodTopContainerParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodTopContainer",
 		Method:             "GET",
 		PathPattern:        "/libpod/containers/{name}/top",
@@ -1075,7 +1185,12 @@ func (a *Client) LibpodTopContainer(params *LibpodTopContainerParams) (*LibpodTo
 		Reader:             &LibpodTopContainerReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1094,13 +1209,12 @@ func (a *Client) LibpodTopContainer(params *LibpodTopContainerParams) (*LibpodTo
 
   Unmount a container from the filesystem
 */
-func (a *Client) LibpodUnmountContainer(params *LibpodUnmountContainerParams) (*LibpodUnmountContainerNoContent, error) {
+func (a *Client) LibpodUnmountContainer(params *LibpodUnmountContainerParams, opts ...ClientOption) (*LibpodUnmountContainerNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodUnmountContainerParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodUnmountContainer",
 		Method:             "POST",
 		PathPattern:        "/libpod/containers/{name}/unmount",
@@ -1111,7 +1225,12 @@ func (a *Client) LibpodUnmountContainer(params *LibpodUnmountContainerParams) (*
 		Reader:             &LibpodUnmountContainerReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1128,13 +1247,12 @@ func (a *Client) LibpodUnmountContainer(params *LibpodUnmountContainerParams) (*
 /*
   LibpodUnpauseContainer unpauses container
 */
-func (a *Client) LibpodUnpauseContainer(params *LibpodUnpauseContainerParams) (*LibpodUnpauseContainerNoContent, error) {
+func (a *Client) LibpodUnpauseContainer(params *LibpodUnpauseContainerParams, opts ...ClientOption) (*LibpodUnpauseContainerNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodUnpauseContainerParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodUnpauseContainer",
 		Method:             "POST",
 		PathPattern:        "/libpod/containers/{name}/unpause",
@@ -1145,7 +1263,12 @@ func (a *Client) LibpodUnpauseContainer(params *LibpodUnpauseContainerParams) (*
 		Reader:             &LibpodUnpauseContainerReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}
@@ -1164,13 +1287,12 @@ func (a *Client) LibpodUnpauseContainer(params *LibpodUnpauseContainerParams) (*
 
   Wait on a container to met a given condition
 */
-func (a *Client) LibpodWaitContainer(params *LibpodWaitContainerParams) (*LibpodWaitContainerOK, error) {
+func (a *Client) LibpodWaitContainer(params *LibpodWaitContainerParams, opts ...ClientOption) (*LibpodWaitContainerOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewLibpodWaitContainerParams()
 	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
+	op := &runtime.ClientOperation{
 		ID:                 "libpodWaitContainer",
 		Method:             "POST",
 		PathPattern:        "/libpod/containers/{name}/wait",
@@ -1181,7 +1303,12 @@ func (a *Client) LibpodWaitContainer(params *LibpodWaitContainerParams) (*Libpod
 		Reader:             &LibpodWaitContainerReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
-	})
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
 	if err != nil {
 		return nil, err
 	}

@@ -16,52 +16,66 @@ import (
 	"github.com/go-openapi/strfmt"
 )
 
-// NewLibpodGetInfoParams creates a new LibpodGetInfoParams object
-// with the default values initialized.
+// NewLibpodGetInfoParams creates a new LibpodGetInfoParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewLibpodGetInfoParams() *LibpodGetInfoParams {
-
 	return &LibpodGetInfoParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewLibpodGetInfoParamsWithTimeout creates a new LibpodGetInfoParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewLibpodGetInfoParamsWithTimeout(timeout time.Duration) *LibpodGetInfoParams {
-
 	return &LibpodGetInfoParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewLibpodGetInfoParamsWithContext creates a new LibpodGetInfoParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewLibpodGetInfoParamsWithContext(ctx context.Context) *LibpodGetInfoParams {
-
 	return &LibpodGetInfoParams{
-
 		Context: ctx,
 	}
 }
 
 // NewLibpodGetInfoParamsWithHTTPClient creates a new LibpodGetInfoParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewLibpodGetInfoParamsWithHTTPClient(client *http.Client) *LibpodGetInfoParams {
-
 	return &LibpodGetInfoParams{
 		HTTPClient: client,
 	}
 }
 
-/*LibpodGetInfoParams contains all the parameters to send to the API endpoint
-for the libpod get info operation typically these are written to a http.Request
+/* LibpodGetInfoParams contains all the parameters to send to the API endpoint
+   for the libpod get info operation.
+
+   Typically these are written to a http.Request.
 */
 type LibpodGetInfoParams struct {
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the libpod get info params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodGetInfoParams) WithDefaults() *LibpodGetInfoParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the libpod get info params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *LibpodGetInfoParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the libpod get info params

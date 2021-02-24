@@ -6,6 +6,7 @@ package containers
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"fmt"
 	"io"
 
@@ -40,7 +41,6 @@ func (o *LibpodResizeContainerReader) ReadResponse(response runtime.ClientRespon
 			return nil, err
 		}
 		return nil, result
-
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
@@ -51,7 +51,7 @@ func NewLibpodResizeContainerOK() *LibpodResizeContainerOK {
 	return &LibpodResizeContainerOK{}
 }
 
-/*LibpodResizeContainerOK handles this case with default header values.
+/* LibpodResizeContainerOK describes a response with status code 200, with default header values.
 
 Success
 */
@@ -62,7 +62,6 @@ type LibpodResizeContainerOK struct {
 func (o *LibpodResizeContainerOK) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/resize][%d] libpodResizeContainerOK  %+v", 200, o.Payload)
 }
-
 func (o *LibpodResizeContainerOK) GetPayload() interface{} {
 	return o.Payload
 }
@@ -82,7 +81,7 @@ func NewLibpodResizeContainerNotFound() *LibpodResizeContainerNotFound {
 	return &LibpodResizeContainerNotFound{}
 }
 
-/*LibpodResizeContainerNotFound handles this case with default header values.
+/* LibpodResizeContainerNotFound describes a response with status code 404, with default header values.
 
 No such container
 */
@@ -93,7 +92,6 @@ type LibpodResizeContainerNotFound struct {
 func (o *LibpodResizeContainerNotFound) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/resize][%d] libpodResizeContainerNotFound  %+v", 404, o.Payload)
 }
-
 func (o *LibpodResizeContainerNotFound) GetPayload() *LibpodResizeContainerNotFoundBody {
 	return o.Payload
 }
@@ -115,7 +113,7 @@ func NewLibpodResizeContainerInternalServerError() *LibpodResizeContainerInterna
 	return &LibpodResizeContainerInternalServerError{}
 }
 
-/*LibpodResizeContainerInternalServerError handles this case with default header values.
+/* LibpodResizeContainerInternalServerError describes a response with status code 500, with default header values.
 
 Internal server error
 */
@@ -126,7 +124,6 @@ type LibpodResizeContainerInternalServerError struct {
 func (o *LibpodResizeContainerInternalServerError) Error() string {
 	return fmt.Sprintf("[POST /libpod/containers/{name}/resize][%d] libpodResizeContainerInternalServerError  %+v", 500, o.Payload)
 }
-
 func (o *LibpodResizeContainerInternalServerError) GetPayload() *LibpodResizeContainerInternalServerErrorBody {
 	return o.Payload
 }
@@ -149,9 +146,11 @@ swagger:model LibpodResizeContainerInternalServerErrorBody
 type LibpodResizeContainerInternalServerErrorBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -160,6 +159,11 @@ type LibpodResizeContainerInternalServerErrorBody struct {
 
 // Validate validates this libpod resize container internal server error body
 func (o *LibpodResizeContainerInternalServerErrorBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod resize container internal server error body based on context it is used
+func (o *LibpodResizeContainerInternalServerErrorBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -187,9 +191,11 @@ swagger:model LibpodResizeContainerNotFoundBody
 type LibpodResizeContainerNotFoundBody struct {
 
 	// API root cause formatted for automated parsing
+	// Example: API root cause
 	Because string `json:"cause,omitempty"`
 
 	// human error message, formatted for a human to read
+	// Example: human error message
 	Message string `json:"message,omitempty"`
 
 	// http response code
@@ -198,6 +204,11 @@ type LibpodResizeContainerNotFoundBody struct {
 
 // Validate validates this libpod resize container not found body
 func (o *LibpodResizeContainerNotFoundBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this libpod resize container not found body based on context it is used
+func (o *LibpodResizeContainerNotFoundBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
