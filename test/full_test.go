@@ -328,6 +328,29 @@ func TestRunWithDnsSettings(t *testing.T) {
 	})
 }
 
+func TestRunWithImagePull(t *testing.T) {
+	runOnAllProviders(t, 1 * time.Minute, func(ctx context.Context, provider containerapi.ContainerProvider, t *testing.T) {
+		failingConfig := containerapi.NewContainerConfig(containerName(t.Name()), "docker.io/alpine", nil)
+		id, err := provider.Create(ctx, failingConfig)
+		if !assert.Error(t, err) {
+			t.Cleanup(func() {
+				err := provider.Remove(ctx, id)
+				assert.NoError(t, err)
+			})
+
+			t.Skip("started pull test with local image present")
+		}
+
+		configWithPull := containerapi.NewContainerConfig(containerName(t.Name()), "docker.io/alpine", nil, containerapi.WithPullConfig(containerapi.PullIfNotExists))
+		id, err = provider.Create(ctx, configWithPull)
+		assert.NoError(t, err)
+		t.Cleanup(func() {
+			err := provider.Remove(ctx, id)
+			assert.NoError(t, err)
+		})
+	})
+}
+
 // Tries to run the test function on any provider, skipping those that are not available
 // If no provider is available, the whole test will fail
 func runOnAllProviders(t *testing.T, timeout time.Duration, lambda func(context.Context, containerapi.ContainerProvider, *testing.T)) {

@@ -92,15 +92,15 @@ type LibpodRestoreContainerParams struct {
 	*/
 	LeaveRunning *bool
 	/*Name
-	  the name of the container when restored from a tar. can only be used with import
-
-	*/
-	QueryName *string
-	/*Name
 	  the name or id of the container
 
 	*/
 	PathName string
+	/*Name
+	  the name of the container when restored from a tar. can only be used with import
+
+	*/
+	QueryName *string
 	/*TCPEstablished
 	  checkpoint a container with established TCP connections
 
@@ -211,17 +211,6 @@ func (o *LibpodRestoreContainerParams) SetLeaveRunning(leaveRunning *bool) {
 	o.LeaveRunning = leaveRunning
 }
 
-// WithQueryName adds the name to the libpod restore container params
-func (o *LibpodRestoreContainerParams) WithQueryName(name *string) *LibpodRestoreContainerParams {
-	o.SetQueryName(name)
-	return o
-}
-
-// SetQueryName adds the name to the libpod restore container params
-func (o *LibpodRestoreContainerParams) SetQueryName(name *string) {
-	o.QueryName = name
-}
-
 // WithPathName adds the name to the libpod restore container params
 func (o *LibpodRestoreContainerParams) WithPathName(name string) *LibpodRestoreContainerParams {
 	o.SetPathName(name)
@@ -231,6 +220,17 @@ func (o *LibpodRestoreContainerParams) WithPathName(name string) *LibpodRestoreC
 // SetPathName adds the name to the libpod restore container params
 func (o *LibpodRestoreContainerParams) SetPathName(name string) {
 	o.PathName = name
+}
+
+// WithQueryName adds the name to the libpod restore container params
+func (o *LibpodRestoreContainerParams) WithQueryName(name *string) *LibpodRestoreContainerParams {
+	o.SetQueryName(name)
+	return o
+}
+
+// SetQueryName adds the name to the libpod restore container params
+func (o *LibpodRestoreContainerParams) SetQueryName(name *string) {
+	o.QueryName = name
 }
 
 // WithTCPEstablished adds the tCPEstablished to the libpod restore container params
@@ -348,6 +348,11 @@ func (o *LibpodRestoreContainerParams) WriteToRequest(r runtime.ClientRequest, r
 
 	}
 
+	// path param name
+	if err := r.SetPathParam("name", o.PathName); err != nil {
+		return err
+	}
+
 	if o.QueryName != nil {
 
 		// query param name
@@ -362,11 +367,6 @@ func (o *LibpodRestoreContainerParams) WriteToRequest(r runtime.ClientRequest, r
 			}
 		}
 
-	}
-
-	// path param name
-	if err := r.SetPathParam("name", o.PathName); err != nil {
-		return err
 	}
 
 	if o.TCPEstablished != nil {

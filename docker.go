@@ -26,6 +26,8 @@ func (d DockerProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 		dockerEnv = append(dockerEnv, fmt.Sprintf("%s=%s", k, v))
 	}
 
+	d.client.ImagePull(ctx, cfg.image, types.ImagePullOptions{})
+
 	mounts := make([]mount.Mount, len(cfg.mounts))
 	for i, b := range cfg.mounts {
 		mounts[i] = mount.Mount{
@@ -58,7 +60,7 @@ func (d DockerProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 		DNSSearch:   cfg.dnsSearchDomains,
 	}
 
-	resp, err := d.client.ContainerCreate(ctx, config, hostConfig, nil, cfg.name)
+	resp, err := d.client.ContainerCreate(ctx, config, hostConfig, nil, nil, cfg.name)
 	if err != nil {
 		return "", fmt.Errorf("failed to create docker container: %w", err)
 	}

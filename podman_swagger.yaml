@@ -10003,7 +10003,9 @@ paths:
       - application/json
       responses:
         "200":
-          $ref: '#/responses/DocsLibpodImagesPullResponse'
+          schema:
+            type: file
+          description: JSON lines holding progress information on the pull process
         "400":
           $ref: '#/responses/BadParamError'
         "500":

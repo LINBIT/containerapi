@@ -1,7 +1,9 @@
 package containerapi
 
 import (
+	"bufio"
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net"
@@ -15,6 +17,7 @@ import (
 	"github.com/LINBIT/containerapi/internal/podmanapi"
 	"github.com/LINBIT/containerapi/internal/podmanapi/containers"
 	"github.com/LINBIT/containerapi/internal/podmanapi/system"
+	"github.com/LINBIT/containerapi/internal/podmanapi/images"
 
 	"github.com/docker/docker/pkg/stdcopy"
 	httptransport "github.com/go-openapi/runtime/client"
@@ -25,7 +28,7 @@ import (
 // swagger command from https://github.com/go-swagger/go-swagger/releases/
 // swagger file from https://storage.googleapis.com/libpod-master-releases/swagger-latest-master.yaml
 // with slight modifications, see ./swagger-2020-09-02.yaml.patch
-//go:generate go run github.com/go-swagger/go-swagger/cmd/swagger generate client -f ./podman_swagger.yaml --with-flatten expand --tags=containers --tags=system --skip-models -t ./internal -c podmanapi --keep-spec-order
+//go:generate go run github.com/go-swagger/go-swagger/cmd/swagger generate client -f ./podman_swagger.yaml --with-flatten expand --tags=containers --tags=system --tags=images --skip-models -t ./internal -c podmanapi --keep-spec-order
 
 type PodmanProvider struct {
 	client *podmanapi.ProvidesaContainerCompatibleInterface
@@ -36,6 +39,47 @@ func (d PodmanProvider) Close() error {
 }
 
 func (d PodmanProvider) Create(ctx context.Context, cfg *ContainerConfig) (string, error) {
+	existsParams := images.NewLibpodImageExistsParamsWithContext(ctx)
+	existsParams.Name = cfg.image
+	_, err := d.client.Images.LibpodImageExists(existsParams)
+	if cfg.pullConfig != nil && cfg.pullConfig(cfg.image, err == nil) {
+		pullParams := images.NewLibpodImagesPullParamsWithContext(ctx)
+		pullParams.Reference = &cfg.image
+		log.WithField("image", cfg.image).Info("pulling...")
+
+		read, write, err := os.Pipe()
+		if err != nil {
+			return "", err
+		}
+		defer write.Close()
+
+		go func() {
+			defer read.Close()
+			scan := bufio.NewScanner(read)
+			for scan.Scan() {
+				line := scan.Text()
+				type item struct {
+					Stream string `json:"stream,omitempty"`
+				}
+				data := item{}
+				err := json.Unmarshal([]byte(line), &data)
+				if err != nil {
+					log.WithError(err).WithField("line", line).Error("Unexpected return value from pull stream")
+				}
+
+				if data.Stream != "" {
+					log.Info(data.Stream)
+				}
+			}
+		}()
+
+		_, err = d.client.Images.LibpodImagesPull(pullParams, write)
+		if err != nil {
+			return "", err
+		}
+		log.WithField("image", cfg.image).Infof("pull complete")
+	}
+
 	params := containers.NewLibpodCreateContainerParamsWithContext(ctx)
 	timeout := uint64(0)
 
@@ -242,6 +286,7 @@ func NewPodmanProvider(ctx context.Context) (ContainerProvider, error) {
 	}
 
 	transport := httptransport.NewWithClient(socket, "v1.0.0/", []string{"http"}, httpClient)
+	transport.Debug = true
 	client := podmanapi.New(transport, strfmt.Default)
 
 	_, err := client.System.SystemVersion(system.NewSystemVersionParamsWithContext(ctx))
