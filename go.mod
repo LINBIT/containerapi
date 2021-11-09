@@ -17,6 +17,7 @@ require (
 	github.com/gogo/protobuf v1.3.1 // indirect
 	github.com/google/uuid v1.1.2 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect
+	github.com/jstemmer/go-junit-report v0.9.1 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/moby/term v0.0.0-20200915141129-7f0af18e79f2 // indirect
 	github.com/morikuni/aec v1.0.0 // indirect
