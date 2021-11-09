@@ -122,11 +122,17 @@ func (d PodmanProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 		servers[i] = server.String()
 	}
 
+	extraHosts := make([]string, len(cfg.extraHosts))
+	for i := range extraHosts {
+		extraHosts[i] = fmt.Sprintf("%s:%s", cfg.extraHosts[i].HostName, cfg.extraHosts[i].IP)
+	}
+
 	params.WithCreate(containers.LibpodCreateContainerBody{
 		Image: cfg.image,
 		Netns: &containers.LibpodCreateContainerParamsBodyNetns{
 			Nsmode: "host",
 		},
+		HostAdd:    extraHosts,
 		DNSServers: servers,
 		DNSSearch:  cfg.dnsSearchDomains,
 		Command:    cfg.command,
@@ -283,6 +289,10 @@ func (d PodmanProvider) CopyFrom(ctx context.Context, container, source, dest st
 	}
 
 	return nil
+}
+
+func (d PodmanProvider) Command() string {
+	return "podman"
 }
 
 func NewPodmanProvider(ctx context.Context) (ContainerProvider, error) {

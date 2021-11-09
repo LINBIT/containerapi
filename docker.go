@@ -27,7 +27,6 @@ func (d DockerProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 		dockerEnv = append(dockerEnv, fmt.Sprintf("%s=%s", k, v))
 	}
 
-
 	_, _, err := d.client.ImageInspectWithRaw(ctx, cfg.image)
 	if cfg.pullConfig != nil && cfg.pullConfig(cfg.image, err == nil) {
 		log.WithField("image", cfg.image).Info("pulling...")
@@ -69,11 +68,17 @@ func (d DockerProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 		servers[i] = server.String()
 	}
 
+	extraHosts := make([]string, len(cfg.extraHosts))
+	for i := range extraHosts {
+		extraHosts[i] = fmt.Sprintf("%s:%s", cfg.extraHosts[i].HostName, cfg.extraHosts[i].IP)
+	}
+
 	hostConfig := &container.HostConfig{
 		NetworkMode: "host",
 		Mounts:      mounts,
 		DNS:         servers,
 		DNSSearch:   cfg.dnsSearchDomains,
+		ExtraHosts:  extraHosts,
 	}
 
 	resp, err := d.client.ContainerCreate(ctx, config, hostConfig, nil, nil, cfg.name)
@@ -105,9 +110,9 @@ func (d DockerProvider) Wait(ctx context.Context, containerID string) (<-chan in
 		defer close(errChan)
 
 		select {
-		case <- ctx.Done():
+		case <-ctx.Done():
 			errChan <- ctx.Err()
-		case e := <- err:
+		case e := <-err:
 			errChan <- e
 		case msg := <-message:
 			if msg.Error != nil {
@@ -173,6 +178,10 @@ func (d DockerProvider) CopyFrom(ctx context.Context, container, source, dest st
 		return fmt.Errorf("failed to extract tar archive: %w", err)
 	}
 	return nil
+}
+
+func (d DockerProvider) Command() string {
+	return "docker"
 }
 
 func (d DockerProvider) Close() error {

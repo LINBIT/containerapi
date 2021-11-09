@@ -7,13 +7,15 @@ import (
 	"io/ioutil"
 	"net"
 	"os"
+	"os/exec"
 	"strings"
 	"sync"
 	"testing"
 	"time"
 
-	"github.com/LINBIT/containerapi"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/LINBIT/containerapi"
 )
 
 func containerName(name string) string {
@@ -328,8 +330,44 @@ func TestRunWithDnsSettings(t *testing.T) {
 	})
 }
 
+func TestRunWithExtraHosts(t *testing.T) {
+	runOnAllProviders(t, 30*time.Second, func(ctx context.Context, provider containerapi.ContainerProvider, t *testing.T) {
+		testConfig := containerapi.NewContainerConfig(containerName(t.Name()), "docker.io/alpine", nil,
+			containerapi.WithCommand("getent", "hosts", "extra.example.com"),
+			containerapi.WithPullConfig(containerapi.PullIfNotExists),
+			containerapi.WithExtraHosts(containerapi.ExtraHost{HostName: "extra.example.com", IP: "1.0.0.1"}),
+		)
+		id, err := provider.Create(ctx, testConfig)
+		assert.NoError(t, err)
+		t.Cleanup(func() {
+			err := provider.Remove(ctx, id)
+			assert.NoError(t, err)
+		})
+
+		returnCodeChan, errChan := provider.Wait(ctx, id)
+
+		err = provider.Start(ctx, id)
+		assert.NoError(t, err)
+
+		stdout, stderr, err := provider.Logs(ctx, id)
+		assert.NoError(t, err)
+
+		const expectedOut = "1.0.0.1           extra.example.com  extra.example.com\n"
+		assertIOEquals(t, []byte(expectedOut), stdout, []byte(""), stderr)
+
+		select {
+		case r := <-returnCodeChan:
+			assert.Equal(t, int64(0), r)
+		case err := <-errChan:
+			assert.FailNow(t, err.Error())
+		}
+	})
+}
+
 func TestRunWithImagePull(t *testing.T) {
 	runOnAllProviders(t, 1 * time.Minute, func(ctx context.Context, provider containerapi.ContainerProvider, t *testing.T) {
+		_ = exec.CommandContext(ctx, provider.Command(), "image", "rm", "docker.io/alpine").Run()
+
 		failingConfig := containerapi.NewContainerConfig(containerName(t.Name()), "docker.io/alpine", nil)
 		id, err := provider.Create(ctx, failingConfig)
 		if !assert.Error(t, err) {
@@ -337,8 +375,6 @@ func TestRunWithImagePull(t *testing.T) {
 				err := provider.Remove(ctx, id)
 				assert.NoError(t, err)
 			})
-
-			t.Skip("started pull test with local image present")
 		}
 
 		configWithPull := containerapi.NewContainerConfig(containerName(t.Name()), "docker.io/alpine", nil, containerapi.WithPullConfig(containerapi.PullIfNotExists))

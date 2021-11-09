@@ -17,7 +17,8 @@ type ContainerConfig struct {
 	mounts           []Mount
 	dnsServers       []net.IP
 	dnsSearchDomains []string
-	pullConfig		 ShouldPull
+	extraHosts       []ExtraHost
+	pullConfig       ShouldPull
 }
 
 type ShouldPull func(img string, exists bool) bool
@@ -27,6 +28,11 @@ type Mount struct {
 	HostPath      string
 	ContainerPath string
 	ReadOnly      bool
+}
+
+type ExtraHost struct {
+	HostName string
+	IP       string
 }
 
 // Set the container name, the image to use, and the environment to pass to the container.
@@ -68,6 +74,11 @@ func (cfg *ContainerConfig) AddDNSSearchDomain(domain string) {
 	cfg.dnsSearchDomains = append(cfg.dnsSearchDomains, domain)
 }
 
+// AddExtraHost adds an additional host that should be resolvable in the container.
+func (cfg *ContainerConfig) AddExtraHost(host ExtraHost) {
+	cfg.extraHosts = append(cfg.extraHosts, host)
+}
+
 type ConfigOption func(config *ContainerConfig)
 
 // Sets the command to execute in the container
@@ -86,15 +97,22 @@ func WithMounts(mounts ...Mount) ConfigOption {
 
 // Sets the DNS servers to use.
 func WithDNSServers(servers ...net.IP) ConfigOption {
-	return func (config *ContainerConfig) {
+	return func(config *ContainerConfig) {
 		config.dnsServers = servers
 	}
 }
 
 // Sets the DNS search domains to use.
 func WithDNSSearchDomains(domains ...string) ConfigOption {
-	return func (config *ContainerConfig) {
+	return func(config *ContainerConfig) {
 		config.dnsSearchDomains = domains
+	}
+}
+
+// WithExtraHosts sets additional hosts that should resolve in the container.
+func WithExtraHosts(hosts ...ExtraHost) ConfigOption {
+	return func(config *ContainerConfig) {
+		config.extraHosts = hosts
 	}
 }
 
@@ -152,6 +170,8 @@ type ContainerProvider interface {
 	CopyFrom(ctx context.Context, container, sourcePath, destPath string) error
 	// Close should be called once this provider is no longer needed.
 	Close() error
+	// Command returns the command line utility used to control this container provider.
+	Command() string
 }
 
 var providers = map[string]func(context.Context) (ContainerProvider, error){
