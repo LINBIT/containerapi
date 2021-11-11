@@ -1,0 +1,14 @@
+[[steps]]
+[steps.shell]
+script = '''
+dnf install -y podman gcc
+
+curl -fsSL https://golang.org/dl/go1.17.3.linux-amd64.tar.gz | tar -C /usr/local -xzf -
+echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
+
+systemctl --user enable --now podman.socket
+
+podman --url unix:/run/user/0/podman/podman.sock image pull docker.io/hello-world
+podman --url unix:/run/user/0/podman/podman.sock image pull docker.io/alpine
+podman --url unix:/run/user/0/podman/podman.sock image pull docker.io/busybox
+'''

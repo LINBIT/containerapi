@@ -1,0 +1,11 @@
+[[steps]]
+[steps.rsync]
+source = "."
+dest = "/opt/containerapi"
+
+[[steps]]
+[steps.shell]
+script = '''
+cd /opt/containerapi
+go test -count=1 ./...
+'''

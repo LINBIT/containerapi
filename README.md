@@ -28,3 +28,10 @@ go generate ./...
 ```
 go test ./...
 ```
+
+Run podman tests in a VM:
+
+```
+virter vm run --name containerapi-test --id 101 --provision virter/provision-podman.toml alma-8
+virter vm exec --provision virter/exec-test.toml containerapi-test
+```
