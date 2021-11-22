@@ -163,7 +163,7 @@ func (d DockerProvider) Logs(ctx context.Context, containerID string) (io.ReadCl
 func (d DockerProvider) CopyFrom(ctx context.Context, container, source, dest string) error {
 	readTar, _, err := d.client.CopyFromContainer(ctx, container, source)
 	if err != nil {
-		return fmt.Errorf("failed to copy localpkgs from container: %w", err)
+		return fmt.Errorf("failed to copy files from container: %w", err)
 	}
 
 	tar := exec.CommandContext(ctx, "tar", "-x", "-C", dest, "-f", "-")
