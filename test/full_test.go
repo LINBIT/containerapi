@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"io"
-	"io/ioutil"
 	"net"
 	"os"
 	"os/exec"
@@ -113,7 +112,7 @@ func TestContainerLifecycle(t *testing.T) {
 
 func TestCopyFrom(t *testing.T) {
 	runOnAllProviders(t, 30*time.Second, func(ctx context.Context, provider containerapi.ContainerProvider, t *testing.T) {
-		tmp, err := ioutil.TempDir("", "*")
+		tmp, err := os.MkdirTemp("", "*")
 		assert.NoError(t, err)
 		t.Cleanup(func() {
 			err := os.RemoveAll(tmp)
@@ -131,7 +130,7 @@ func TestCopyFrom(t *testing.T) {
 		err = provider.CopyFrom(ctx, id, "/bin/busybox", tmp)
 		assert.NoError(t, err)
 
-		assert.FileExists(t, tmp + "/busybox")
+		assert.FileExists(t, tmp+"/busybox")
 	})
 }
 
@@ -222,7 +221,7 @@ var testSourceContent = []byte("foobar")
 
 func TestRunWithVolumes(t *testing.T) {
 	runOnAllProviders(t, 30*time.Second, func(ctx context.Context, provider containerapi.ContainerProvider, t *testing.T) {
-		tempDir, err := ioutil.TempDir("", containerName(t.Name()) + "-*")
+		tempDir, err := os.MkdirTemp("", containerName(t.Name())+"-*")
 		if !assert.NoError(t, err) {
 			t.Fatal("failed to create tempdir")
 		}
@@ -242,7 +241,7 @@ func TestRunWithVolumes(t *testing.T) {
 		err = os.Mkdir(rwDir, 0o755)
 		assert.NoError(t, err)
 
-		err = ioutil.WriteFile(source, testSourceContent, 0o644)
+		err = os.WriteFile(source, testSourceContent, 0o644)
 		assert.NoError(t, err)
 
 		roBind := containerapi.Mount{
@@ -268,10 +267,10 @@ func TestRunWithVolumes(t *testing.T) {
 			assert.NoError(t, err)
 		})
 
+		returnCodeChan, errChan := provider.Wait(ctx, id)
+
 		err = provider.Start(ctx, id)
 		assert.NoError(t, err)
-
-		returnCodeChan, errChan := provider.Wait(ctx, id)
 
 		select {
 		case r := <-returnCodeChan:
@@ -283,11 +282,11 @@ func TestRunWithVolumes(t *testing.T) {
 		assert.FileExists(t, dest)
 		assert.NoFileExists(t, roDir+"/invalid")
 
-		actualSrc, err := ioutil.ReadFile(source)
+		actualSrc, err := os.ReadFile(source)
 		assert.NoError(t, err)
 		assert.Equal(t, testSourceContent, actualSrc, "readonly data changed")
 
-		actualDest, err := ioutil.ReadFile(dest)
+		actualDest, err := os.ReadFile(dest)
 		assert.NoError(t, err)
 		assert.Equal(t, testSourceContent, actualDest)
 	})
@@ -365,7 +364,7 @@ func TestRunWithExtraHosts(t *testing.T) {
 }
 
 func TestRunWithImagePull(t *testing.T) {
-	runOnAllProviders(t, 1 * time.Minute, func(ctx context.Context, provider containerapi.ContainerProvider, t *testing.T) {
+	runOnAllProviders(t, 1*time.Minute, func(ctx context.Context, provider containerapi.ContainerProvider, t *testing.T) {
 		_ = exec.CommandContext(ctx, provider.Command(), "image", "rm", "docker.io/alpine").Run()
 
 		failingConfig := containerapi.NewContainerConfig(containerName(t.Name()), "docker.io/alpine", nil)

@@ -1,34 +1,34 @@
 module github.com/LINBIT/containerapi
 
-go 1.14
+go 1.18
 
 require (
-	github.com/Microsoft/go-winio v0.4.15 // indirect
-	github.com/containerd/containerd v1.4.1 // indirect
-	github.com/docker/distribution v2.7.1+incompatible // indirect
-	github.com/docker/docker v17.12.0-ce-rc1.0.20201020191947-73dc6a680cdd+incompatible
-	github.com/docker/go-connections v0.4.0 // indirect
-	github.com/go-openapi/errors v0.20.0
-	github.com/go-openapi/runtime v0.19.26
-	github.com/go-openapi/strfmt v0.20.0
-	github.com/go-openapi/swag v0.19.14
-	github.com/go-openapi/validate v0.20.2
-	github.com/go-swagger/go-swagger v0.26.1
-	github.com/gogo/protobuf v1.3.1 // indirect
-	github.com/google/uuid v1.1.2 // indirect
-	github.com/gorilla/mux v1.8.0 // indirect
-	github.com/jstemmer/go-junit-report v0.9.1 // indirect
-	github.com/mailru/easyjson v0.7.7 // indirect
-	github.com/moby/term v0.0.0-20200915141129-7f0af18e79f2 // indirect
-	github.com/morikuni/aec v1.0.0 // indirect
-	github.com/opencontainers/go-digest v1.0.0 // indirect
-	github.com/opencontainers/image-spec v1.0.2-0.20190823105129-775207bd45b6 // indirect
-	github.com/sirupsen/logrus v1.7.0
-	github.com/stretchr/testify v1.7.0
-	golang.org/x/net v0.0.0-20210226172049-e18ecbb05110 // indirect
-	gotest.tools/v3 v3.0.3 // indirect
+	github.com/docker/docker v23.0.1+incompatible
+	github.com/sirupsen/logrus v1.9.0
+	github.com/stretchr/testify v1.8.2
 )
 
-// We need a new go-swagger version, but this dependency breaks definition expansion, so we must replace it with an
-// older version.
-replace github.com/go-openapi/loads v0.20.2 => github.com/go-openapi/loads v0.19.0
+require (
+	github.com/Microsoft/go-winio v0.6.0 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/docker/distribution v2.8.1+incompatible // indirect
+	github.com/docker/go-connections v0.4.0 // indirect
+	github.com/docker/go-units v0.5.0 // indirect
+	github.com/gogo/protobuf v1.3.2 // indirect
+	github.com/google/go-cmp v0.5.9 // indirect
+	github.com/kr/text v0.2.0 // indirect
+	github.com/moby/term v0.0.0-20221205130635-1aeaba878587 // indirect
+	github.com/morikuni/aec v1.0.0 // indirect
+	github.com/opencontainers/go-digest v1.0.0 // indirect
+	github.com/opencontainers/image-spec v1.1.0-rc2.0.20221005185240-3a7f492d3f1b // indirect
+	github.com/pkg/errors v0.9.1 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
+	golang.org/x/mod v0.9.0 // indirect
+	golang.org/x/net v0.8.0 // indirect
+	golang.org/x/sys v0.6.0 // indirect
+	golang.org/x/time v0.0.0-20220210224613-90d013bbcef8 // indirect
+	golang.org/x/tools v0.7.0 // indirect
+	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
+	gotest.tools/v3 v3.0.3 // indirect
+)

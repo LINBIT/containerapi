@@ -1,18 +1,49 @@
+variables:
+  GO_VERSION: "1.18"
+  GO_JUNIT_REPORTER_VERSION: v2.0.0
+
+workflow:
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+
 stages:
+  - build
   - test
+
+download-junit-report:
+  image: ${LINBIT_DOCKER_REGISTRY}/build-helpers:latest
+  stage: build
+  script:
+    - . /usr/local/bin/gitlab-utils.sh
+    - ci_prepare_tools
+    - ci_fetch_tar go-junit-report-$GO_JUNIT_REPORTER_VERSION "https://github.com/jstemmer/go-junit-report/releases/download/$GO_JUNIT_REPORTER_VERSION/go-junit-report-$GO_JUNIT_REPORTER_VERSION-linux-amd64.tar.gz" -z
+  artifacts:
+    paths:
+      - bin
+      - download
+  cache:
+    key: bin-$GO_JUNIT_REPORTER_VERSION
+    paths:
+      - download
+
+build-test:
+  stage: build
+  image: golang:$GO_VERSION
+  variables:
+    CGO_ENABLED: 0
+  script:
+    - go test -x -c ./test -coverprofile /dev/null
+  artifacts:
+    paths:
+      - test.test
 
 .test:
   stage: test
-  cache:
-    paths:
-      - .mygo/pkg/mod
   script:
-    - GOPATH=$(pwd)/.mygo go test -v -coverprofile .testCoverage.txt ./... 2>&1 | go run github.com/jstemmer/go-junit-report -set-exit-code > test.xml
-    - GOPATH=$(pwd)/.mygo go tool cover -func=.testCoverage.txt
-  after_script:
-    # GOPROXY packages are not deletable by default
-    - chmod -R u+w .mygo/pkg/mod
+    - ./test.test -test.v -test.coverprofile .testCoverage.txt 2>&1 | ./bin/go-junit-report -set-exit-code > test.xml
+    - go tool cover -func=.testCoverage.txt
   artifacts:
+    when: always
     reports:
       junit: test.xml
 

@@ -97,7 +97,12 @@ func (d DockerProvider) Start(ctx context.Context, containerID string) error {
 }
 
 func (d DockerProvider) Stop(ctx context.Context, containerID string, timeout *time.Duration) error {
-	return d.client.ContainerStop(ctx, containerID, timeout)
+	var t *int
+	if timeout != nil {
+		intTimeout := int(timeout.Seconds())
+		t = &intTimeout
+	}
+	return d.client.ContainerStop(ctx, containerID, container.StopOptions{Timeout: t})
 }
 
 func (d DockerProvider) Wait(ctx context.Context, containerID string) (<-chan int64, <-chan error) {
