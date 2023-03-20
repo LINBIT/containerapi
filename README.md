@@ -2,18 +2,16 @@
 
 Go bindings to manage containers in a runtime agnostic way.
 
-Current plan is to support:
+Currently supports:
 
 * Docker
-* podman
+* Podman >= 4.0.0.
 
 ## Why?
 
-While podman claims to provide an API that is compatible with Docker, in our experience this is not always the case.
-
-Edge cases include:
-* Diverging container states (podman does not recongize the "removed" state)
-* podman fails to remove containers that are marked as "autoremove" via Docker compatible API.
+While Podman and Docker API is mostly compatible, we noticed instances where the exact behaviour was slightly different.
+Having a small set of primitives to cover the most basic container use cases, we can check for divergent behaviour
+in CI and ensure we offer a consistent API for both.
 
 ## Development
 
