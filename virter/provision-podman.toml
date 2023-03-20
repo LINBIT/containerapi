@@ -1,10 +1,16 @@
 [[steps]]
 [steps.shell]
 script = '''
+set -ex
 dnf install -y podman gcc
 
-curl -fsSL https://golang.org/dl/go1.17.3.linux-amd64.tar.gz | tar -C /usr/local -xzf -
+curl -fsSL https://golang.org/dl/go1.18.10.linux-amd64.tar.gz | tar -C /usr/local -xzf -
 echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
+
+cat <<EOF > /root/.config/containers/containers.conf
+[containers]
+label=false
+EOF
 
 systemctl --user enable --now podman.socket
 

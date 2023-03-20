@@ -31,10 +31,10 @@ func TestRun(t *testing.T) {
 			assert.NoError(t, err)
 		})
 
+		returnCodeChan, errChan := provider.Wait(ctx, id)
+
 		err = provider.Start(ctx, id)
 		assert.NoError(t, err)
-
-		returnCodeChan, errChan := provider.Wait(ctx, id)
 
 		select {
 		case r := <-returnCodeChan:
@@ -194,11 +194,11 @@ func TestRunWithCancel(t *testing.T) {
 			assert.NoError(t, err)
 		})
 
-		err = provider.Start(ctx, id)
-		assert.NoError(t, err)
-
 		waitCtx, cancel := context.WithCancel(ctx)
 		returnCodeChan, errChan := provider.Wait(waitCtx, id)
+
+		err = provider.Start(ctx, id)
+		assert.NoError(t, err)
 
 		cancel()
 

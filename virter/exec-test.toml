@@ -6,6 +6,16 @@ dest = "/opt/containerapi"
 [[steps]]
 [steps.shell]
 script = '''
+set -ex
+
+if command -v docker; then
+    docker container prune -f
+fi
+
+if command -v podman; then
+    podman rm -af
+fi
+
 cd /opt/containerapi
 go test -count=1 ./...
 '''
