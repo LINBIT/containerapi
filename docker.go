@@ -73,12 +73,18 @@ func (d DockerProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 		extraHosts[i] = fmt.Sprintf("%s:%s", cfg.extraHosts[i].HostName, cfg.extraHosts[i].IP)
 	}
 
+	
+	// Disables SELinux label confinement
+	// Otherwise, systems using it might have permission issues with bind mounts
+	securityOpt := []string{"label=disable"}
+
 	hostConfig := &container.HostConfig{
 		NetworkMode: "host",
 		Mounts:      mounts,
 		DNS:         servers,
 		DNSSearch:   cfg.dnsSearchDomains,
 		ExtraHosts:  extraHosts,
+		SecurityOpt: securityOpt,
 	}
 
 	resp, err := d.client.ContainerCreate(ctx, config, hostConfig, nil, nil, cfg.name)
