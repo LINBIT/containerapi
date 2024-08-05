@@ -9,8 +9,8 @@ import (
 	"os/exec"
 	"time"
 
-	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
+	"github.com/docker/docker/api/types/image"
 	"github.com/docker/docker/api/types/mount"
 	"github.com/docker/docker/client"
 	"github.com/docker/docker/pkg/stdcopy"
@@ -30,7 +30,7 @@ func (d DockerProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 	_, _, err := d.client.ImageInspectWithRaw(ctx, cfg.image)
 	if cfg.pullConfig != nil && cfg.pullConfig(cfg.image, err == nil) {
 		log.WithField("image", cfg.image).Info("pulling...")
-		reader, err := d.client.ImagePull(ctx, cfg.image, types.ImagePullOptions{})
+		reader, err := d.client.ImagePull(ctx, cfg.image, image.PullOptions{})
 		if err != nil {
 			return "", fmt.Errorf("failed to pull image: %w", err)
 		}
@@ -95,11 +95,11 @@ func (d DockerProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 }
 
 func (d DockerProvider) Remove(ctx context.Context, containerID string) error {
-	return d.client.ContainerRemove(ctx, containerID, types.ContainerRemoveOptions{})
+	return d.client.ContainerRemove(ctx, containerID, container.RemoveOptions{})
 }
 
 func (d DockerProvider) Start(ctx context.Context, containerID string) error {
-	return d.client.ContainerStart(ctx, containerID, types.ContainerStartOptions{})
+	return d.client.ContainerStart(ctx, containerID, container.StartOptions{})
 }
 
 func (d DockerProvider) Stop(ctx context.Context, containerID string, timeout *time.Duration) error {
@@ -138,7 +138,7 @@ func (d DockerProvider) Wait(ctx context.Context, containerID string) (<-chan in
 }
 
 func (d DockerProvider) Logs(ctx context.Context, containerID string) (io.ReadCloser, io.ReadCloser, error) {
-	options := types.ContainerLogsOptions{
+	options := container.LogsOptions{
 		Follow:     true,
 		ShowStdout: true,
 		ShowStderr: true,
