@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"time"
@@ -36,7 +35,7 @@ func (d DockerProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 		}
 		defer reader.Close()
 
-		_, err = ioutil.ReadAll(reader)
+		_, err = io.ReadAll(reader)
 		if err != nil {
 			return "", fmt.Errorf("failed to pull image: %w", err)
 		}
@@ -73,7 +72,6 @@ func (d DockerProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 		extraHosts[i] = fmt.Sprintf("%s:%s", cfg.extraHosts[i].HostName, cfg.extraHosts[i].IP)
 	}
 
-	
 	// Disables SELinux label confinement
 	// Otherwise, systems using it might have permission issues with bind mounts
 	securityOpt := []string{"label=disable"}

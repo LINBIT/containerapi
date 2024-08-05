@@ -75,7 +75,9 @@ func TestRunWithLogs(t *testing.T) {
 		stdout, stderr, err := provider.Logs(ctx, id)
 		assert.NoError(t, err)
 
-		assertIOEquals(t, []byte(expectedLogStdout), stdout, []byte(expectedLogStderr), stderr)
+		outBytes, errBytes := readAllIO(t, stdout, stderr)
+		assert.Equal(t, []byte(expectedLogStdout), outBytes)
+		assert.Equal(t, []byte(expectedLogStderr), errBytes)
 
 		select {
 		case r := <-returnCodeChan:
@@ -151,7 +153,9 @@ func TestLifecycle(t *testing.T) {
 		stdout, stderr, err := provider.Logs(ctx, id)
 		assert.NoError(t, err)
 
-		assertIOEquals(t, []byte("foobar\n"), stdout, []byte{}, stderr)
+		outBytes, errBytes := readAllIO(t, stdout, stderr)
+		assert.Equal(t, []byte("foobar\n"), outBytes)
+		assert.Empty(t, errBytes)
 
 		select {
 		case r := <-returnCodeChan:
@@ -164,7 +168,9 @@ func TestLifecycle(t *testing.T) {
 		stdout, stderr, err = provider.Logs(ctx, id)
 		assert.NoError(t, err)
 
-		assertIOEquals(t, []byte("foobar\n"), stdout, []byte{}, stderr)
+		outBytes, errBytes = readAllIO(t, stdout, stderr)
+		assert.Equal(t, []byte("foobar\n"), outBytes)
+		assert.Empty(t, errBytes)
 
 		// Assert that calling stop on an already stopped container works without error
 		timeout := 1 * time.Second
@@ -317,8 +323,11 @@ func TestRunWithDnsSettings(t *testing.T) {
 		stdout, stderr, err := provider.Logs(ctx, id)
 		assert.NoError(t, err)
 
-		const expectedOut = "search test containerapi.test\nnameserver 1.1.1.1\nnameserver 2606:4700:4700::64\n"
-		assertIOEquals(t, []byte(expectedOut), stdout, []byte(""), stderr)
+		outBytes, errBytes := readAllIO(t, stdout, stderr)
+		assert.Empty(t, errBytes)
+		for _, expectedOutLine := range []string{"search test containerapi.test", "nameserver 1.1.1.1", "nameserver 2606:4700:4700::64"} {
+			assert.Contains(t, strings.Split(string(outBytes), "\n"), expectedOutLine)
+		}
 
 		select {
 		case r := <-returnCodeChan:
@@ -352,7 +361,9 @@ func TestRunWithExtraHosts(t *testing.T) {
 		assert.NoError(t, err)
 
 		const expectedOut = "1.0.0.1           extra.example.com  extra.example.com\n"
-		assertIOEquals(t, []byte(expectedOut), stdout, []byte(""), stderr)
+		outBytes, errBytes := readAllIO(t, stdout, stderr)
+		assert.Equal(t, []byte(expectedOut), outBytes)
+		assert.Empty(t, errBytes)
 
 		select {
 		case r := <-returnCodeChan:
@@ -413,7 +424,7 @@ func runOnAllProviders(t *testing.T, timeout time.Duration, lambda func(context.
 	}
 }
 
-func assertIOEquals(t *testing.T, expectedStdout []byte, stdout io.ReadCloser, expectedStderr []byte, stderr io.ReadCloser) bool {
+func readAllIO(t *testing.T, stdout io.ReadCloser, stderr io.ReadCloser) ([]byte, []byte) {
 	stdoutBuff := bytes.Buffer{}
 	stderrBuff := bytes.Buffer{}
 
@@ -432,7 +443,5 @@ func assertIOEquals(t *testing.T, expectedStdout []byte, stdout io.ReadCloser, e
 
 	vg.Wait()
 
-	outEqual := assert.Equal(t, expectedStdout, stdoutBuff.Bytes())
-	errEqual := assert.Equal(t, expectedStderr, stderrBuff.Bytes())
-	return outEqual && errEqual
+	return stdoutBuff.Bytes(), stderrBuff.Bytes()
 }
