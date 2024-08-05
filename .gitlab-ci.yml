@@ -1,6 +1,6 @@
 variables:
-  GO_VERSION: "1.18"
-  GO_JUNIT_REPORTER_VERSION: v2.0.0
+  GO_VERSION: "1.21"
+  GO_JUNIT_REPORTER_VERSION: v2.1.0
 
 workflow:
   rules:
