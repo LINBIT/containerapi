@@ -1,0 +1,55 @@
+version = 1
+
+[values]
+GoVersion = "1.21.12"
+
+[[steps]]
+[steps.shell]
+script = '''
+set -ex
+curl -fsSL https://golang.org/dl/go${GOVERSION}.linux-amd64.tar.gz | tar -C /opt -xzf -
+'''
+[steps.shell.env]
+GOVERSION = "{{ .GoVersion }}"
+
+[[steps]]
+[steps.shell]
+script = '''
+set -ex
+[ $TEST_NAME == "podman" ] || exit 0
+
+dnf install -y podman
+systemctl --user enable --now podman.socket
+podman --url unix:/run/user/0/podman/podman.sock image pull docker.io/hello-world
+podman --url unix:/run/user/0/podman/podman.sock image pull docker.io/alpine
+podman --url unix:/run/user/0/podman/podman.sock image pull docker.io/busybox
+'''
+
+[[steps]]
+[steps.shell]
+script = '''
+set -ex
+[ $TEST_NAME == "docker" ] || exit 0
+
+curl -fsSL https://download.docker.com/linux/centos/docker-ce.repo -o /etc/yum.repos.d/docker-ce.repo
+dnf install -y docker-ce
+systemctl enable --now docker.socket
+
+docker pull docker.io/hello-world
+docker pull docker.io/alpine
+docker pull docker.io/busybox
+'''
+
+[[steps]]
+[steps.rsync]
+source = "."
+dest = "/opt/containerapi"
+
+[[steps]]
+[steps.shell]
+script = '''
+set -ex
+
+cd /opt/containerapi
+/opt/go/bin/go test ./... -run "/$TEST_NAME"
+'''

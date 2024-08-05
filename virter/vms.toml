@@ -1,0 +1,4 @@
+[[vms]]
+name = "alma-9"
+base_image = "alma-9"
+memory = "4G"

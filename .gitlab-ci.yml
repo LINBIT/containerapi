@@ -1,6 +1,7 @@
 variables:
-  GO_VERSION: "1.21"
-  GO_JUNIT_REPORTER_VERSION: v2.1.0
+  VIRTER_VERSION: v0.27.0
+  VMSHED_VERSION: v0.22.1
+
 
 workflow:
   rules:
@@ -10,55 +11,42 @@ stages:
   - build
   - test
 
-download-junit-report:
-  image: ${LINBIT_DOCKER_REGISTRY}/build-helpers:latest
+prepare-bins:
+  image:
+    name: ${LINBIT_DOCKER_REGISTRY}/build-helpers:latest
   stage: build
   script:
-    - . /usr/local/bin/gitlab-utils.sh
-    - ci_prepare_tools
-    - ci_fetch_tar go-junit-report-$GO_JUNIT_REPORTER_VERSION "https://github.com/jstemmer/go-junit-report/releases/download/$GO_JUNIT_REPORTER_VERSION/go-junit-report-$GO_JUNIT_REPORTER_VERSION-linux-amd64.tar.gz" -z
-  artifacts:
-    paths:
-      - bin
-      - download
+  - . /usr/local/bin/gitlab-utils.sh
+  - ci_prepare_tools
+  - ci_fetch_binary virter virter-$VIRTER_VERSION https://github.com/LINBIT/virter/releases/download/$VIRTER_VERSION/virter-linux-amd64
+  - ci_fetch_binary vmshed vmshed-$VMSHED_VERSION https://github.com/LINBIT/vmshed/releases/download/$VMSHED_VERSION/vmshed-linux-amd64
   cache:
-    key: bin-$GO_JUNIT_REPORTER_VERSION
+    key: bin-$VIRTER_VERSION-$VMSHED_VERSION
     paths:
-      - download
-
-build-test:
-  stage: build
-  image: golang:$GO_VERSION
-  variables:
-    CGO_ENABLED: 0
-  script:
-    - go test -x -c ./test -coverprofile /dev/null
+    - download
   artifacts:
     paths:
-      - test.test
+    - download
+    - bin
 
-.test:
+test:
   stage: test
+  tags:
+    - libvirt-xs
   script:
-    - ./test.test -test.v -test.coverprofile .testCoverage.txt 2>&1 | ./bin/go-junit-report -set-exit-code > test.xml
-    - go tool cover -func=.testCoverage.txt
+    - set -ex
+    - export PATH=$CI_PROJECT_DIR/bin:$PATH
+    - >
+      vmshed
+      --nvms ${LINBIT_CI_MAX_CPUS:-20}
+      --pull-template "${LINBIT_DOCKER_REGISTRY}/vm/{{ .Image }}:latest"
+      --vms virter/vms.toml
+      --tests virter/tests.toml
   artifacts:
     when: always
+    paths:
+    - tests-out/
     reports:
-      junit: test.xml
-
-test-podman:
-  extends: .test
-  before_script:
-    - podman pull docker.io/hello-world
-    - podman pull docker.io/busybox
-  tags:
-    - podman
-
-test-docker:
-  extends: .test
-  before_script:
-    - docker pull docker.io/hello-world
-    - docker pull docker.io/busybox
-  tags:
-    - docker
+      junit:
+      # These reports are created by vmshed, reporting if the test command itself succeeded.
+      - tests-out/test-results/*.xml

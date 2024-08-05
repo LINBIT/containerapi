@@ -1,0 +1,8 @@
+test_suite_file = "run.toml"
+
+[tests]
+[tests.podman]
+vms = [1]
+
+[tests.docker]
+vms = [1]
