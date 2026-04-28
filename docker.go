@@ -2,10 +2,13 @@ package containerapi
 
 import (
 	"context"
+	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"os"
 	"os/exec"
+	"strings"
 	"time"
 
 	"github.com/docker/docker/api/types/container"
@@ -28,18 +31,22 @@ func (d DockerProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 
 	_, _, err := d.client.ImageInspectWithRaw(ctx, cfg.image)
 	if cfg.pullConfig != nil && cfg.pullConfig(cfg.image, err == nil) {
-		log.WithField("image", cfg.image).Info("pulling...")
+		log.WithField("image", cfg.image).Debug("checking image registry")
 		reader, err := d.client.ImagePull(ctx, cfg.image, image.PullOptions{})
 		if err != nil {
 			return "", fmt.Errorf("failed to pull image: %w", err)
 		}
 		defer reader.Close()
 
-		_, err = io.ReadAll(reader)
+		downloaded, err := consumePullStream(reader)
 		if err != nil {
 			return "", fmt.Errorf("failed to pull image: %w", err)
 		}
-		log.WithField("image", cfg.image).Infof("pull complete")
+		if downloaded {
+			log.WithField("image", cfg.image).Info("pulled image")
+		} else {
+			log.WithField("image", cfg.image).Debug("image already up to date")
+		}
 	}
 
 	mounts := make([]mount.Mount, len(cfg.mounts))
@@ -90,6 +97,39 @@ func (d DockerProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 		return "", fmt.Errorf("failed to create docker container: %w", err)
 	}
 	return resp.ID, nil
+}
+
+// consumePullStream drains the JSON event stream returned by ImagePull and reports
+// whether new layers were actually downloaded. The Docker engine emits a terminal
+// "Status:" message of the form "Downloaded newer image for X" when layers were
+// fetched, or "Image is up to date for X" when the local cache was already current.
+func consumePullStream(reader io.Reader) (bool, error) {
+	decoder := json.NewDecoder(reader)
+	downloaded := false
+	for {
+		var msg struct {
+			Status      string `json:"status"`
+			Error       string `json:"error"`
+			ErrorDetail struct {
+				Message string `json:"message"`
+			} `json:"errorDetail"`
+		}
+		if err := decoder.Decode(&msg); err != nil {
+			if errors.Is(err, io.EOF) {
+				return downloaded, nil
+			}
+			return downloaded, err
+		}
+		if msg.Error != "" {
+			return downloaded, errors.New(msg.Error)
+		}
+		if msg.ErrorDetail.Message != "" {
+			return downloaded, errors.New(msg.ErrorDetail.Message)
+		}
+		if strings.HasPrefix(msg.Status, "Status: Downloaded ") {
+			downloaded = true
+		}
+	}
 }
 
 func (d DockerProvider) Remove(ctx context.Context, containerID string) error {
