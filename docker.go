@@ -64,6 +64,7 @@ func (d DockerProvider) Create(ctx context.Context, cfg *ContainerConfig) (strin
 		Image: cfg.image,
 		Env:   dockerEnv,
 		Cmd:   cfg.command,
+		User:  cfg.user,
 		// In case we pass a 0 value to the stop API, this timeout will be used.
 		// Setting this to 0 means: send SIGKILL immediately
 		StopTimeout: &timeout,

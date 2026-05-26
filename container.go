@@ -14,6 +14,7 @@ type ContainerConfig struct {
 	image            string
 	env              map[string]string
 	command          []string
+	user             string
 	mounts           []Mount
 	dnsServers       []net.IP
 	dnsSearchDomains []string
@@ -85,6 +86,15 @@ type ConfigOption func(config *ContainerConfig)
 func WithCommand(cmd ...string) ConfigOption {
 	return func(config *ContainerConfig) {
 		config.command = cmd
+	}
+}
+
+// WithUser sets the user the container's command should run as. Accepts the
+// same forms as `docker run --user`: a numeric uid, "uid:gid", or a name
+// from the image's /etc/passwd. An empty string keeps the image default.
+func WithUser(user string) ConfigOption {
+	return func(config *ContainerConfig) {
+		config.user = user
 	}
 }
 
